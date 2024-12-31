@@ -23,7 +23,13 @@ InvtationStatus = {
     'Declined':'Declined'
 }
 
+class WorkSpace(models.Model):
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
+    space_id = models.PositiveIntegerField()
+    
+
 class Team(models.Model):
+    workspace = models.OneToOneField(WorkSpace, on_delete=models.CASCADE,null=True,blank=True)
     leader = models.OneToOneField(User,on_delete=models.CASCADE,related_name='team_leader')
     members = models.ManyToManyField(User)
 
@@ -109,6 +115,7 @@ class Notification(models.Model):
     message  = models.CharField(max_length=100)
     read =  models.BooleanField(default=False)
     date_created = models.DateField(auto_now=True)
+    starred = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

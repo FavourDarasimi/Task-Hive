@@ -43,10 +43,15 @@ class CreateProjectView(APIView):
 
 class ListProjectView(APIView):
     def get(self,request:Request):
-        team = Team.objects.get(members=request.user)
-        projects = Project.objects.filter( Q(assigned_members=request.user) | Q(user=request.user) ).distinct()
-        serializer = ProjectSerializer(projects,many=True)
-        return Response(data=serializer.data,status=status.HTTP_200_OK)
+        try:
+            team = Team.objects.get(members=request.user)
+            projects = Project.objects.filter( Q(assigned_members=request.user) | Q(user=request.user) ).distinct()
+            serializer = ProjectSerializer(projects,many=True)
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
+        except Team.DoesNotExist:
+            projects = Project.objects.filter( user=request.user ).distinct()
+            serializer = ProjectSerializer(projects,many=True)
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
 
 class DetailProjectView(APIView):
     def get(self,request:Request,pk):
@@ -67,12 +72,12 @@ class CreateTaskView(APIView):
         projectId = data.get('project')
         members_id = data.get('assigned_members')
         checked = data.get('checked')
-        personalProject = Project.objects.get(id=projectId)
+        
         members = []
         for id in members_id:
             user = User.objects.get(**id)
             members.append(user)
-        if projectId is None or personalProject.name == "Personal Tasks":
+        if projectId is None :
            
             project,created = Project.objects.get_or_create(name='Personal Tasks',status="In Progress",user=request.user)
             serializer = TaskSerializer(data=data)
@@ -212,21 +217,37 @@ class SendInvitationView(APIView):
         email = data.get('email')
         try:
             receiver = User.objects.get(email=email)
-            sender = request.user
-            serializer = InvitationSerializer(data=data)
-            if serializer.is_valid():
-                serializer.validated_data['sender'] = sender
-                serializer.validated_data['receiver'] = receiver
-                serializer.save()
-                notification = Notification.objects.create(user=receiver,message=f'{sender.username} invited you to join his Team(Workspace)')
-                notification.save()
-                response = {
-                    'success':'Invitation sent Successfully'
-                }
+            try:
+                team = Team.objects.get(members=receiver)
+                try:
+                    team  = Team.objects.get(Q(leader=request.user) | Q(members=receiver))
+                    
+                    response = {
+                            'message':'User is in your team'
+                        }
+                    return Response(data=response,status=status.HTTP_200_OK)
+                except Team.DoesNotExist:
+                    response = {
+                            'message':'User is in another team'
+                        }
+                    return Response(data=response,status=status.HTTP_200_OK)
+                
+            except Team.DoesNotExist:
+                sender = request.user
+                serializer = InvitationSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.validated_data['sender'] = sender
+                    serializer.validated_data['receiver'] = receiver
+                    serializer.save()
+                    notification = Notification.objects.create(user=receiver,message=f'{sender.username} invited you to join his Team(Workspace)')
+                    notification.save()
+                    response = {
+                        'message':'Invitation sent Successfully'
+                    }
                 return Response(data=response,status=status.HTTP_201_CREATED)
         except User.DoesNotExist:
             response = {
-                'error':'User wih ths Email Address does not exist'
+                'message':'User wih ths Email Address does not exist'
             } 
             return Response(data=response,status=status.HTTP_200_OK)
 
@@ -240,7 +261,7 @@ class ResponseToInvitationView(APIView):
         if accepted is True:
             serializer = InvitationSerializer(instance=invitation,data=data,partial=True)
             if serializer.is_valid():        
-                team = Team.objects.get(leader=sender)
+                team = Team.objects.get(Q(leader=sender) | Q(members=sender))
                 team.members.add(request.user)
                 team.save()
                 serializer.validated_data['responded'] = True
@@ -312,6 +333,8 @@ class MarkAllAsReadView(APIView):
             'Read':'All Notification Read'
         }
         return Response(data=response,status=status.HTTP_200_OK, )
+    
+ 
 
 class Profile(APIView):
     pass                  

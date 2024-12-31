@@ -38,7 +38,7 @@ const Team = () => {
   const onSubmit = async () => {
     try {
       const response = await sendInvite(email);
-      alert(response.success);
+      alert(response.message);
     } catch (error) {
       console.log(error);
     }

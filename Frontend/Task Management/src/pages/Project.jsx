@@ -91,8 +91,8 @@ const Project = () => {
               </div>
             ))
           ) : (
-            <div className="flex justify-center items-center bg-anti-flash-white bg-blend-screen">
-              <img src={Spinner} />
+            <div className="text-4xl font-semibold">
+              <h1>No Projects Yet.....</h1>
             </div>
           )}
         </div>

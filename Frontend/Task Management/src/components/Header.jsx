@@ -8,7 +8,7 @@ import { GoInbox } from "react-icons/go";
 import { Switch } from "@headlessui/react";
 import Invitations from "./Invitations";
 
-const Header = ({ setShowInvites }) => {
+const Header = ({ setShowInvites, setShowInbox }) => {
   const {
     getTaskDueToday,
     user_is_authenticated,
@@ -27,6 +27,7 @@ const Header = ({ setShowInvites }) => {
   const [read, setRead] = useState();
   const [notifications, setNotifications] = useState([]);
   const [showNotification, setShowNotification] = useState(false);
+
   const getTodaysDate = () => {
     const options = {
       day: "numeric",
@@ -87,6 +88,8 @@ const Header = ({ setShowInvites }) => {
       }
     };
     fetchNotifications();
+    const interval = setInterval(fetchNotifications, 5000);
+    return () => clearInterval(interval);
   }, [read]);
 
   const handleClick = async () => {
@@ -214,7 +217,10 @@ const Header = ({ setShowInvites }) => {
                 <FaRegUserCircle />
                 <h1 className="text-14">Profile</h1>
               </div>
-              <div className="flex gap-x-2 items-center">
+              <div
+                className="flex gap-x-2 items-center cursor-pointer"
+                onClick={() => setShowInbox(true)}
+              >
                 <GoInbox />
                 <h1 className="text-14">Inbox</h1>
               </div>

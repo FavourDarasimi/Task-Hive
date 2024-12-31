@@ -7,7 +7,7 @@ const Invitations = ({ setShowInvites }) => {
   const { getUserInvites, darkMode, responseToInvite, getFirstLetter } = useContext(Context);
   const [invites, setInvites] = useState([]);
   const [showResponse, setShowResponse] = useState(false);
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState(true);
   useEffect(() => {
     const fetchUserInvites = async () => {
       try {
@@ -70,7 +70,7 @@ const Invitations = ({ setShowInvites }) => {
                             <button
                               className="bg-blue-600 text-white py-1 px-3 rounded-md text-13"
                               onClick={() => {
-                                setStatus(true);
+                                setStatus(!status);
                                 handleClick(invite.sender.id, true, invite.id);
                               }}
                             >
@@ -79,7 +79,7 @@ const Invitations = ({ setShowInvites }) => {
                             <button
                               className="border-1 border-mygrey2 py-1 px-3 rounded-md text-13"
                               onClick={() => {
-                                setStatus(false);
+                                setStatus(!status);
                                 handleClick(invite.sender.id, false, invite.id);
                               }}
                             >
