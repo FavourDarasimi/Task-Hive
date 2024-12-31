@@ -1,0 +1,121 @@
+import Header from "./components/Header";
+import Navbar from "./components/navbar";
+import Invitations from "./components/Invitations";
+import Account from "./pages/Account";
+import DashBoard from "./pages/DashBoard";
+import Task from "./pages/Task";
+import TaskDetail from "./pages/TaskDetail";
+import Team from "./pages/Team";
+import { Routes, Route, useLocation } from "react-router-dom";
+import PrivateRoute from "./utils/PrivateRoute";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "./context/Context";
+import LandingPage from "./pages/LandingPage";
+import Project from "./pages/Project";
+import ProjectsDetail from "./pages/ProjectsDetail";
+
+function App() {
+  const { token, user_is_authenticated, isLoggedIn, darkMode, setDarkMode } = useContext(Context);
+  const [authenticated, setAuthenticated] = useState();
+  const [showInvites, setShowInvites] = useState(false);
+  useEffect(() => {
+    const toggleDarkMode = () => {
+      const dark_mode = localStorage.getItem("toggle_Dark_mode");
+      setDarkMode(dark_mode);
+    };
+
+    const handleIsAuthenticated = async () => {
+      try {
+        const response = await user_is_authenticated();
+        setAuthenticated(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    toggleDarkMode();
+    handleIsAuthenticated();
+  }, []);
+
+  return (
+    <div className="flex  overflow-y-hidden ">
+      {showInvites ? <Invitations setShowInvites={setShowInvites} /> : ""}
+      {!isLoggedIn ? (
+        ""
+      ) : (
+        <div>
+          <div
+            className={`lg:w-15% ${
+              darkMode == "dark" ? "bg-myblack" : ""
+            }  left-0 top-0 z-10 h-full  sm:w-fit fixed sm:px-1`}
+          >
+            <Navbar />
+          </div>
+          <div className="lg:w-85% sm:w-100% lg:ml-15% sm:ml-10 fixed z-1 top-0 ">
+            <Header setShowInvites={setShowInvites} />
+          </div>
+        </div>
+      )}
+
+      <div
+        className={`${
+          darkMode == "dark" ? "bg-myblack min-h-screen" : "bg-anti-flash-white min-h-screen"
+        }  ${isLoggedIn ? "lg:ml-15% sm:pl-4 pt-24" : "w-85% "}  sm:w-full`}
+      >
+        <Routes>
+          <Route path="/" element={<LandingPage />} exact />
+          <Route
+            path="/task/"
+            element={
+              <PrivateRoute>
+                <Task />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/team/"
+            element={
+              <PrivateRoute>
+                <Team />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/detail/:taskId"
+            element={
+              <PrivateRoute>
+                <TaskDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/account/" element={<Account />} />
+          <Route
+            path="/dashboard/"
+            element={
+              <PrivateRoute>
+                <DashBoard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/projects/"
+            element={
+              <PrivateRoute>
+                <Project />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/project/:projectId"
+            element={
+              <PrivateRoute>
+                <ProjectsDetail />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </div>
+    </div>
+  );
+}
+
+export default App;

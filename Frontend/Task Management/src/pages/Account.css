@@ -1,0 +1,7 @@
+.peer-focus ~ label,
+.peer:not(:placeholder-shown) ~ label {
+  top: -0.875rem;
+  font-size: 1rem;
+  color: #4b5563;
+  font-weight: 500;
+}
