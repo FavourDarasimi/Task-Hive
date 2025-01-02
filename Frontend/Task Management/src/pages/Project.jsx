@@ -78,7 +78,7 @@ const Project = () => {
           </div>
         </div>
         <div className="grid lg:grid-cols-4 sm:grid-cols-1 lg:gap-x-10 sm:gap-x-5 gap-y-5 pt-5">
-          {projects ? (
+          {projects && projects.length ? (
             projects.map((project) => (
               <div>
                 <ProjectList
@@ -91,8 +91,8 @@ const Project = () => {
               </div>
             ))
           ) : (
-            <div className="text-4xl font-semibold">
-              <h1>No Projects Yet.....</h1>
+            <div className="text-2xl font-semibold animate-bounce h-24 mt-5 whitespace-nowrap">
+              <h1 className="text-center">No Projects found. Time to start something new!</h1>
             </div>
           )}
         </div>

@@ -51,7 +51,6 @@ const AddTask = ({ setShow, projectid, projectName, projectMembers }) => {
         height: "44px",
       },
       backgroundColor: darkMode == "dark" ? "#181818" : "white",
-      border: "none",
     }),
     multiValueRemove: (provided) => ({
       ...provided,

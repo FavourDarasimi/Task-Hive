@@ -287,7 +287,7 @@ const ContextProvider = (props) => {
     }
   };
 
-  const responseToInvite = async (id, res, pk) => {
+  const responseToInvite = async (id, res, pk, workspace) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
     try {
       const response = await axios.put(
@@ -295,6 +295,7 @@ const ContextProvider = (props) => {
         {
           sender: id,
           accepted: res,
+          workspace: workspace,
         },
         {
           headers: { Authorization: `Bearer ${token.access}` },
@@ -386,6 +387,59 @@ const ContextProvider = (props) => {
     }
   };
 
+  const getUserWorkspaces = async () => {
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.get(
+        "http://localhost:8000/list/user/workspace",
+
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const createWorkspace = async (name) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/create/workspace",
+        {
+          name: name,
+        },
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const switchWorkspace = async (last_workspace, new_workspace) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/switch/workspace",
+        {
+          last_workspace: last_workspace,
+          new_workspace: new_workspace,
+        },
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
   const getDate = (dateTime) => {
     const options = {
       day: "numeric",
@@ -462,6 +516,9 @@ const ContextProvider = (props) => {
     getUserNotification,
     getUserUnreadNotification,
     markAllAsRead,
+    getUserWorkspaces,
+    createWorkspace,
+    switchWorkspace,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;

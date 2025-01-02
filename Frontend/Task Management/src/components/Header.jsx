@@ -3,12 +3,18 @@ import { Context } from "../context/Context";
 import { IoIosNotifications, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import { FcInvite } from "react-icons/fc";
-import { FaRegUserCircle } from "react-icons/fa";
-import { GoInbox } from "react-icons/go";
+import { FaRegUserCircle, FaPlus } from "react-icons/fa";
+import { GoInbox, GoPlus } from "react-icons/go";
 import { Switch } from "@headlessui/react";
 import Invitations from "./Invitations";
 
-const Header = ({ setShowInvites, setShowInbox }) => {
+const Header = ({
+  setShowInvites,
+  setShowInbox,
+  setShowCreateWorkspace,
+  showCreateWorkspace,
+  status,
+}) => {
   const {
     getTaskDueToday,
     user_is_authenticated,
@@ -21,12 +27,18 @@ const Header = ({ setShowInvites, setShowInbox }) => {
     getUserUnreadNotification,
     markAsRead,
     markAllAsRead,
+    getUserWorkspaces,
+    switchWorkspace,
+    user,
   } = useContext(Context);
 
   const [showMenu, setShowMenu] = useState(false);
   const [read, setRead] = useState();
   const [notifications, setNotifications] = useState([]);
+  const [workspaces, setWorkspaces] = useState([]);
+  const [activeWorkspace, setActiveWorkspace] = useState();
   const [showNotification, setShowNotification] = useState(false);
+  const [switched, setSwitched] = useState();
 
   const getTodaysDate = () => {
     const options = {
@@ -60,6 +72,26 @@ const Header = ({ setShowInvites, setShowInbox }) => {
     const newName = name.charAt(0).toUpperCase() + name.slice(1);
     return newName;
   };
+
+  const switchWorkspaceFunction = async (last_id, new_id) => {
+    const response = await switchWorkspace(last_id, new_id);
+    setSwitched(new_id);
+  };
+
+  useEffect(() => {
+    const getWorkspaces = async () => {
+      try {
+        const response = await getUserWorkspaces();
+        console.table(response.workspaces);
+        console.table(response.active);
+        setWorkspaces(response.workspaces);
+        setActiveWorkspace(response.active);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getWorkspaces();
+  }, [showCreateWorkspace, switched, status]);
 
   useEffect(() => {
     const handleUser = async () => {
@@ -114,6 +146,14 @@ const Header = ({ setShowInvites, setShowInbox }) => {
     }
   };
 
+  const getTrue = (data) => {
+    let result = false;
+    if (data.includes(JSON.stringify(user))) {
+      result = true;
+    }
+    return result;
+  };
+
   return (
     <div className="">
       <div
@@ -121,7 +161,9 @@ const Header = ({ setShowInvites, setShowInbox }) => {
           darkMode == "dark" ? "bg-myblack text-anti-flash-white" : "bg-white"
         } lg:px-10 sm:pl-3 sm:pr-10 py-4 `}
       >
-        <h1 className="lg:text-18 sm:text-14 font-bold ">Hello {getNewName(username)} &#128512;</h1>
+        <h1 className="lg:text-18 sm:text-14 font-bold ">
+          Hello {getNewName(username)} &#128512; ({activeWorkspace ? activeWorkspace.name : ""})
+        </h1>
         <h1 className="lg:text-18 font-bold sm:text-14">{getTodaysDate()}</h1>
         <div className="flex space-x-5">
           <div className="relative">
@@ -207,33 +249,56 @@ const Header = ({ setShowInvites, setShowInbox }) => {
             <div
               className={`${
                 showMenu
-                  ? `flex flex-col gap-y-5 absolute ${
+                  ? `flex flex-col gap-y-4 absolute ${
                       darkMode == "dark" ? "bg-myblack2" : "bg-white"
-                    } mt-6 w-32 right-0 p-3 rounded-lg shadow-2xl`
+                    } mt-6 w-fit right-0 p-5 rounded-lg shadow-2xl`
                   : "hidden "
               } `}
             >
-              <div className="flex gap-x-2 items-center">
-                <FaRegUserCircle />
-                <h1 className="text-14">Profile</h1>
+              {activeWorkspace && workspaces ? (
+                <div className="flex items-center whitespace-nowrap gap-x-3">
+                  <div className="h-11 w-11 text-17 font-semibold rounded-full text-white flex justify-center items-center bg-purple-700">
+                    {getFirstLetter(activeWorkspace.name)}
+                  </div>
+                  <div>
+                    <h1 className="text-14 font-semibold">{activeWorkspace.name}</h1>
+                    <div className="flex gap-x-2 items-center">
+                      <h1 className="text-14 text-gray-500 font-semibold">
+                        #{activeWorkspace.space_id}
+                      </h1>
+                      <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
+                      <h1 className="text-14 text-gray-500 font-semibold">
+                        {activeWorkspace.team.members.length}{" "}
+                        {activeWorkspace.team.members.length > 1 ? "Members" : "Member"}
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+
+              <div className="flex gap-x-2 items-center mt-3">
+                <FaRegUserCircle className="w-5 h-5" />
+                <h1 className="text-16">Profile</h1>
               </div>
               <div
                 className="flex gap-x-2 items-center cursor-pointer"
                 onClick={() => setShowInbox(true)}
               >
-                <GoInbox />
-                <h1 className="text-14">Inbox</h1>
+                <GoInbox className="w-5 h-5" />
+                <h1 className="text-16">Inbox</h1>
               </div>
               <div
                 className="flex gap-x-2 items-center cursor-pointer"
                 onClick={() => setShowInvites(true)}
               >
-                <FcInvite />
-                <h1 className="text-14">Invites</h1>
+                <FcInvite className="w-5 h-5" />
+                <h1 className="text-16">Invites</h1>
               </div>
 
               <div className="flex gap-x-2">
-                <h1 className="text-14">Dark</h1>
+                <h1 className="text-16">Dark</h1>
                 <Switch
                   checked={darkMode == "dark" ? true : false}
                   onChange={(e) => {
@@ -250,6 +315,56 @@ const Header = ({ setShowInvites, setShowInbox }) => {
                     } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
                   />
                 </Switch>
+              </div>
+
+              <div className="mt-2 border-t-1 border-gray-200 -mx-5"></div>
+              <div className="pt-2">
+                <h1 className="text-16 pb-3 font-semibold">Switch Workspace</h1>
+                <div className="flex flex-col gap-y-4">
+                  {workspaces && workspaces.length > 1 ? (
+                    workspaces.map((workspace) =>
+                      getTrue(JSON.stringify(workspace.active)) ? (
+                        ""
+                      ) : (
+                        <div
+                          className="flex items-center whitespace-nowrap gap-x-3 hover:bg-gray-300 rounded-xl p-2 cursor-pointer"
+                          onClick={() => {
+                            switchWorkspaceFunction(activeWorkspace.id, workspace.id);
+                            window.location.reload();
+                          }}
+                        >
+                          <div className="h-11 w-11 text-17 font-semibold rounded-full text-white flex justify-center items-center bg-purple-700">
+                            {getFirstLetter(workspace.name)}
+                          </div>
+                          <div>
+                            <h1 className="text-14 font-semibold">{workspace.name}</h1>
+                            <div className="flex gap-x-2 items-center">
+                              <h1 className="text-14 text-gray-500 font-semibold">
+                                #{workspace.space_id}
+                              </h1>
+                              <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
+                              <h1 className="text-14 text-gray-500 font-semibold">
+                                {workspace.team.members.length}{" "}
+                                {workspace.team.members.length > 1 ? "Members" : "Member"}
+                              </h1>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )
+                  ) : (
+                    <h1 className="text-14 whitespace-nowrap">
+                      Create a new workspace to get started
+                    </h1>
+                  )}
+                </div>
+              </div>
+              <div
+                className="flex gap-x-2 items-center pt-5 cursor-pointer"
+                onClick={() => setShowCreateWorkspace(true)}
+              >
+                <GoPlus />
+                <h1>New Workspace</h1>
               </div>
             </div>
           </div>

@@ -14,12 +14,16 @@ import LandingPage from "./pages/LandingPage";
 import Project from "./pages/Project";
 import ProjectsDetail from "./pages/ProjectsDetail";
 import Inbox from "./components/Inbox";
+import CreateWorkspace from "./components/createWorkspace";
 
 function App() {
   const { token, user_is_authenticated, isLoggedIn, darkMode, setDarkMode } = useContext(Context);
   const [authenticated, setAuthenticated] = useState();
   const [showInvites, setShowInvites] = useState(false);
   const [showInbox, setShowInbox] = useState(false);
+  const [showCreateWorkspace, setShowCreateWorkspace] = useState(false);
+  const [status, setStatus] = useState(true);
+
   useEffect(() => {
     const toggleDarkMode = () => {
       const dark_mode = localStorage.getItem("toggle_Dark_mode");
@@ -40,7 +44,12 @@ function App() {
 
   return (
     <div className="flex  overflow-y-hidden ">
-      {showInvites ? <Invitations setShowInvites={setShowInvites} /> : ""}
+      {showCreateWorkspace ? (
+        <CreateWorkspace setShowCreateWorkspace={setShowCreateWorkspace} />
+      ) : (
+        ""
+      )}
+      {showInvites ? <Invitations setShowInvites={setShowInvites} setStatus={setStatus} /> : ""}
       {showInbox ? <Inbox setShowInbox={setShowInbox} /> : ""}
       {!isLoggedIn ? (
         ""
@@ -54,7 +63,13 @@ function App() {
             <Navbar />
           </div>
           <div className="lg:w-85% sm:w-100% lg:ml-15% sm:ml-10 fixed z-1 top-0 ">
-            <Header setShowInvites={setShowInvites} setShowInbox={setShowInbox} />
+            <Header
+              setShowInvites={setShowInvites}
+              setShowInbox={setShowInbox}
+              setShowCreateWorkspace={setShowCreateWorkspace}
+              showCreateWorkspace={showCreateWorkspace}
+              status={status}
+            />
           </div>
         </div>
       )}

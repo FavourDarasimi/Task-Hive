@@ -23,14 +23,12 @@ InvtationStatus = {
     'Declined':'Declined'
 }
 
-class WorkSpace(models.Model):
-    owner = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
-    space_id = models.PositiveIntegerField()
+
     
 
+
 class Team(models.Model):
-    workspace = models.OneToOneField(WorkSpace, on_delete=models.CASCADE,null=True,blank=True)
-    leader = models.OneToOneField(User,on_delete=models.CASCADE,related_name='team_leader')
+    leader = models.ForeignKey(User,on_delete=models.CASCADE,related_name='team_leader')
     members = models.ManyToManyField(User)
 
     def __str__(self):
@@ -40,8 +38,19 @@ class Team(models.Model):
         super().save(*args, **kwargs)
         self.members.add(self.leader)
 
+class WorkSpace(models.Model):
+    name = models.CharField(max_length=100)
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
+    space_id = models.PositiveIntegerField(null=True,blank=True)
+    active = models.ManyToManyField(User,related_name="active",blank=True)
+    team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=True,null=True)     
+
+    def __str__(self):
+        return self.name   
+
 
 class Project(models.Model):
+    workspace = models.ForeignKey(WorkSpace, on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     name = models.CharField(max_length=100)
     assigned_members = models.ManyToManyField(User,related_name='project_members',blank=True)
@@ -53,6 +62,7 @@ class Project(models.Model):
     
 
 class Task(models.Model):
+    workspace = models.ForeignKey(WorkSpace, on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     title = models.CharField(max_length=300)
     created_at = models.DateField(auto_now=True)
@@ -74,6 +84,7 @@ class Task(models.Model):
 
 
 class Invitation(models.Model):
+    workspace = models.ForeignKey(WorkSpace, on_delete=models.CASCADE,null=True,blank=True)
     sender = models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="sender")
     receiver = models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="receiver")
     responded = models.BooleanField(default=False)
@@ -111,6 +122,7 @@ class Invitation(models.Model):
             return f'{years} years ago'
 
 class Notification(models.Model):
+    workspace = models.ForeignKey(WorkSpace, on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     message  = models.CharField(max_length=100)
     read =  models.BooleanField(default=False)

@@ -3,11 +3,11 @@ import { Context } from "../context/Context";
 import cancel from "../assets/icons8-cross-24.png";
 import { RxCross1 } from "react-icons/rx";
 
-const Invitations = ({ setShowInvites }) => {
+const Invitations = ({ setShowInvites, status, setStatus }) => {
   const { getUserInvites, darkMode, responseToInvite, getFirstLetter } = useContext(Context);
   const [invites, setInvites] = useState([]);
   const [showResponse, setShowResponse] = useState(false);
-  const [status, setStatus] = useState(true);
+
   useEffect(() => {
     const fetchUserInvites = async () => {
       try {
@@ -19,9 +19,10 @@ const Invitations = ({ setShowInvites }) => {
     };
     fetchUserInvites();
   }, [status]);
-  const handleClick = async (id, res, pk) => {
+  const handleClick = async (id, res, pk, workspace) => {
+    console.log(workspace);
     try {
-      const response = await responseToInvite(id, res, pk);
+      const response = await responseToInvite(id, res, pk, workspace);
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +72,7 @@ const Invitations = ({ setShowInvites }) => {
                               className="bg-blue-600 text-white py-1 px-3 rounded-md text-13"
                               onClick={() => {
                                 setStatus(!status);
-                                handleClick(invite.sender.id, true, invite.id);
+                                handleClick(invite.sender.id, true, invite.id, invite.workspace);
                               }}
                             >
                               Accept
@@ -80,7 +81,12 @@ const Invitations = ({ setShowInvites }) => {
                               className="border-1 border-mygrey2 py-1 px-3 rounded-md text-13"
                               onClick={() => {
                                 setStatus(!status);
-                                handleClick(invite.sender.id, false, invite.id);
+                                handleClick(
+                                  invite.sender.id,
+                                  false,
+                                  invite.id,
+                                  invite.workspace.id
+                                );
                               }}
                             >
                               Reject

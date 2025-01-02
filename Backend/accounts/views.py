@@ -58,7 +58,7 @@ class UserIsAutheticated(APIView):
     def get(self,request:Request):
         if request.user.is_authenticated:
             user = UserSerializer(request.user)
-            return Response({'is_authenticated':True,'user':user.data},status=status.HTTP_200_OK)
+            return Response(data={'is_authenticated':True,'user':user.data},status=status.HTTP_200_OK)
         else:
             return Response({'is_authenticated':False},status=status.HTTP_200_OK)
         

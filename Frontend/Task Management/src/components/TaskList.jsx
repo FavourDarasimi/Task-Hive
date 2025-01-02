@@ -13,7 +13,7 @@ const TaskList = ({ tasks }) => {
 
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 pt-10 gap-x-10 gap-y-5">
-      {tasks ? (
+      {tasks && tasks.length > 0 ? (
         tasks.map((task) => (
           <div
             className={`${
@@ -74,8 +74,10 @@ const TaskList = ({ tasks }) => {
           </div>
         ))
       ) : (
-        <div className="flex justify-center items-center bg-anti-flash-white bg-blend-screen">
-          <img src={Spinner} />
+        <div className="animate-bounce h-24">
+          <h1 className="text-center font-semibold text-2xl ">
+            No Task Available. Enjoy your free time!
+          </h1>
         </div>
       )}
     </div>
