@@ -420,6 +420,42 @@ const ContextProvider = (props) => {
       throw error.response.data;
     }
   };
+  const updateProfile = async (updatedProfile) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        "http://127.0.0.1:8000/update/profile",
+
+        updatedProfile,
+
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const getProfile = async () => {
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.get(
+        "http://localhost:8000/view/profile",
+
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
 
   const switchWorkspace = async (last_workspace, new_workspace) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
@@ -519,6 +555,8 @@ const ContextProvider = (props) => {
     getUserWorkspaces,
     createWorkspace,
     switchWorkspace,
+    updateProfile,
+    getProfile,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;

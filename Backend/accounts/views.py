@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.contrib.auth import logout
 from django.shortcuts import render
-from .serializers import SignUpSerializer,UserSerializer
+from .serializers import SignUpSerializer,UserSerializer,ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.signals import user_logged_in,user_logged_out
 from rest_framework.permissions import IsAuthenticated
-from .models import User
+from .models import User,Profile
 
 
 
@@ -62,7 +62,23 @@ class UserIsAutheticated(APIView):
         else:
             return Response({'is_authenticated':False},status=status.HTTP_200_OK)
         
+class UpdateProfile(APIView):
+    def put(self,request:Request):
+        profile = Profile.objects.get(user=request.user)    
+        data=request.data
+        first_name = data.get('first_name')
+        user = User.objects.get(id=request.user.id)
+        serializer = ProfileSerializer(instance=profile,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            user.first_name = first_name
+            user.save()
+            return Response(data=serializer.data,status=status.HTTP_200_OK)    
+        return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)                  
 
-
-
+class ProfileView(APIView):
+    def get(Self,request:Request):
+        profile = Profile.objects.get(user=request.user)
+        serializer = ProfileSerializer(profile)
+        return Response(data=serializer.data,status=status.HTTP_200_OK)  
 # Create your views here.

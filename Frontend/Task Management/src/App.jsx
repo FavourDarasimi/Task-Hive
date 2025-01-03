@@ -15,12 +15,14 @@ import Project from "./pages/Project";
 import ProjectsDetail from "./pages/ProjectsDetail";
 import Inbox from "./components/Inbox";
 import CreateWorkspace from "./components/createWorkspace";
+import Profile from "./components/Profile";
 
 function App() {
   const { token, user_is_authenticated, isLoggedIn, darkMode, setDarkMode } = useContext(Context);
   const [authenticated, setAuthenticated] = useState();
   const [showInvites, setShowInvites] = useState(false);
   const [showInbox, setShowInbox] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
   const [showCreateWorkspace, setShowCreateWorkspace] = useState(false);
   const [status, setStatus] = useState(true);
 
@@ -49,6 +51,7 @@ function App() {
       ) : (
         ""
       )}
+      {showProfile ? <Profile setShowProfile={setShowProfile} /> : ""}
       {showInvites ? <Invitations setShowInvites={setShowInvites} setStatus={setStatus} /> : ""}
       {showInbox ? <Inbox setShowInbox={setShowInbox} /> : ""}
       {!isLoggedIn ? (
@@ -68,6 +71,7 @@ function App() {
               setShowInbox={setShowInbox}
               setShowCreateWorkspace={setShowCreateWorkspace}
               showCreateWorkspace={showCreateWorkspace}
+              setShowProfile={setShowProfile}
               status={status}
             />
           </div>

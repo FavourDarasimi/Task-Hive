@@ -4,10 +4,13 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 from django.dispatch import receiver
 from django.conf import settings
-from .models import User
+from .models import User,Profile
 
 
-
+@receiver(post_save,sender=User)
+def create_user_profile(sender,instance,created,**kwargs):
+    if created:
+       Profile.objects.create(user=instance)
 
 @receiver(user_logged_in)
 def user_logged_in_status(sender,request,user,**kwargs):

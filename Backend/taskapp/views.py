@@ -417,5 +417,3 @@ class MarkAllAsReadView(APIView):
     
  
 
-class Profile(APIView):
-    pass                  

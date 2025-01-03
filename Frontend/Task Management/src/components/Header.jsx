@@ -14,6 +14,7 @@ const Header = ({
   setShowCreateWorkspace,
   showCreateWorkspace,
   status,
+  setShowProfile,
 }) => {
   const {
     getTaskDueToday,
@@ -281,7 +282,7 @@ const Header = ({
                 ""
               )}
 
-              <div className="flex gap-x-2 items-center mt-3">
+              <div className="flex gap-x-2 items-center mt-3" onClick={() => setShowProfile(true)}>
                 <FaRegUserCircle className="w-5 h-5" />
                 <h1 className="text-16">Profile</h1>
               </div>
