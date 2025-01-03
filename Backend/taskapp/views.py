@@ -23,7 +23,9 @@ class CreateWorkSpace(APIView):
             serializer.validated_data['owner']=request.user
             space_id = random.randint(10001,99999)
             serializer.validated_data['space_id'] = space_id
-            serializer.save()
+            workspace = serializer.save()
+            workspace.name = f"{workspace.name}'s Workspace"
+            workspace.save()
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)
         return Response(data = serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 

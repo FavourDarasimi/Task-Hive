@@ -5,7 +5,7 @@ from accounts.models import User
 import random
 
 @receiver(post_save,sender=User)
-def create_workspace(sender,instance,created,**kwargs):
+def create_user_workspace(sender,instance,created,**kwargs):
     if created:
         space_id = random.randint(10001,99999)
         workspace = WorkSpace.objects.create(owner=instance,name=f"{instance.username}'s Workspace",space_id=space_id)
@@ -19,7 +19,9 @@ def create_workspace(sender,instance,created,**kwargs):
         team = Team.objects.create(leader=user)
         team.members.add(instance.owner)
         team.save()
-        workspace = WorkSpace.objects.get(id=instance.id)
-        workspace.team = team
-        workspace.save()
+        # workspace = WorkSpace.objects.get(id=instance.id)
+        # workspace.team = team
+        # workspace.save()
+        instance.team =team
+        instance.save()
         

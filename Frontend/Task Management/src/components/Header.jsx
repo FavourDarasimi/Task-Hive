@@ -6,7 +6,7 @@ import { FcInvite } from "react-icons/fc";
 import { FaRegUserCircle, FaPlus } from "react-icons/fa";
 import { GoInbox, GoPlus } from "react-icons/go";
 import { Switch } from "@headlessui/react";
-import Invitations from "./Invitations";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({
   setShowInvites,
@@ -31,6 +31,7 @@ const Header = ({
     switchWorkspace,
     user,
   } = useContext(Context);
+  const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
   const [read, setRead] = useState();
@@ -76,6 +77,8 @@ const Header = ({
   const switchWorkspaceFunction = async (last_id, new_id) => {
     const response = await switchWorkspace(last_id, new_id);
     setSwitched(new_id);
+    navigate("/dashboard/");
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -237,8 +240,8 @@ const Header = ({
 
           <div className="relative">
             <div className="flex items-center gap-x-1">
-              <div className="h-6 w-6 text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
-                {username ? getFirstLetter(username) : ""}
+              <div className="h-7 w-7 text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
+                {activeWorkspace ? getFirstLetter(activeWorkspace.name) : ""}
               </div>
               {showMenu ? (
                 <IoIosArrowUp className="cursor-pointer" onClick={() => setShowMenu(false)} />
@@ -328,10 +331,7 @@ const Header = ({
                       ) : (
                         <div
                           className="flex items-center whitespace-nowrap gap-x-3 hover:bg-gray-300 rounded-xl p-2 cursor-pointer"
-                          onClick={() => {
-                            switchWorkspaceFunction(activeWorkspace.id, workspace.id);
-                            window.location.reload();
-                          }}
+                          onClick={() => switchWorkspaceFunction(activeWorkspace.id, workspace.id)}
                         >
                           <div className="h-11 w-11 text-17 font-semibold rounded-full text-white flex justify-center items-center bg-purple-700">
                             {getFirstLetter(workspace.name)}
