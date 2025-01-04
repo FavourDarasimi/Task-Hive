@@ -1,13 +1,17 @@
 from rest_framework import serializers
 from .models import Profile, User
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id','user','age','avatar','phone_number','gender','occupation']  
 
 class UserSerializer(serializers.ModelSerializer):
-    
     full_name = serializers.SerializerMethodField()
+    profile = ProfileSerializer()
     class Meta:
         model = User
-        fields = ['id','username','email','first_name','last_name','is_online','full_name']
+        fields = ['id','username','email','first_name','last_name','is_online','full_name','profile']
 
     def get_full_name(self,obj):
         name = obj.first_name + ' ' + obj.last_name
@@ -26,9 +30,5 @@ class SignUpSerializer(serializers.ModelSerializer):
         user.save()
         return user    
     
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-    class Meta:
-        model = Profile
-        fields = ['id','user','age','avatar','phone_number','gender','occupation']    
+  
     

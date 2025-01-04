@@ -5,7 +5,7 @@ import { CiEdit } from "react-icons/ci";
 import cancel from "../assets/icons8-cross-24.png";
 import UpdateProfile from "./UpdateProfile";
 const Profile = ({ setShowProfile }) => {
-  const { getProfile, user, darkMode } = useContext(Context);
+  const { getProfile, user, darkMode, user_is_authenticated } = useContext(Context);
   const [profile, setProfile] = useState();
   const [users, setUser] = useState([]);
   const [showUpdate, setShowUpdate] = useState(false);
@@ -13,10 +13,10 @@ const Profile = ({ setShowProfile }) => {
     const fetchProfile = async () => {
       try {
         const response = await getProfile();
-
+        const response2 = await user_is_authenticated();
         console.table(response);
         setProfile(response);
-        setUser(user);
+        setUser(response2.data.user);
       } catch (error) {
         console.log(error);
       }

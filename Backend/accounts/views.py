@@ -67,11 +67,19 @@ class UpdateProfile(APIView):
         profile = Profile.objects.get(user=request.user)    
         data=request.data
         first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        email = data.get('email')
         user = User.objects.get(id=request.user.id)
         serializer = ProfileSerializer(instance=profile,data=data,partial=True)
         if serializer.is_valid():
+            print(first_name)
             serializer.save()
-            user.first_name = first_name
+            if first_name is not None:
+                user.first_name = first_name
+            if last_name is not None:    
+                user.last_name = last_name
+            if email is not None:
+                user.email = email
             user.save()
             return Response(data=serializer.data,status=status.HTTP_200_OK)    
         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)                  

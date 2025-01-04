@@ -22,7 +22,7 @@ const Project = () => {
     const getProjects = async () => {
       try {
         const response = await getUsersProject();
-        console.log(response);
+        console.log(response.profile);
         if (filter == "all") {
           setProjects(response);
         } else if (filter == "completed") {

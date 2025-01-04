@@ -2,9 +2,9 @@ import random
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import TaskSerializer, TeamSerializer,ProjectSerializer,InvitationSerializer,NotificationSerializer,WorkSpaceSerializer
-from accounts.serializers import UserSerializer
+from accounts.serializers import ProfileSerializer, UserSerializer
 from .models import Task,Team,Project,Invitation,Notification,WorkSpace
-from accounts.models import User
+from accounts.models import Profile, User
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework import status
@@ -96,8 +96,8 @@ class ListProjectView(APIView):
         try:
             team = Team.objects.get(members=request.user,workspace=workspace)
             workspace = WorkSpace.objects.filter(Q(owner=request.user) | Q(team__members = request.user),active=request.user)[:1].get()
-            projects = Project.objects.filter( Q(assigned_members=request.user) | Q(user=request.user),workspace= workspace).distinct()
-            serializer = ProjectSerializer(projects,many=True)
+            projects = Project.objects.filter( Q(assigned_members=request.user) | Q(user=request.user),workspace= workspace).distinct()      
+            serializer = ProjectSerializer(projects,many=True) 
             return Response(data=serializer.data,status=status.HTTP_200_OK)
         except Team.DoesNotExist:
             projects = Project.objects.filter( user=request.user,workspace= workspace ).distinct()

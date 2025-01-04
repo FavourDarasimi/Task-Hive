@@ -4,6 +4,7 @@ import Spinner from "../assets/Iphone-spinner-2.gif";
 import { Link } from "react-router";
 import axios from "axios";
 import Task from "../pages/Task";
+import { FaUserCircle } from "react-icons/fa";
 
 const TaskList = ({ tasks }) => {
   const { getDate, getRandomColor, getFirstLetter, darkMode } = useContext(Context);
@@ -58,16 +59,22 @@ const TaskList = ({ tasks }) => {
             >
               <h1>Task Team</h1>
               <div className="flex -space-x-2 w-28">
-                {task.assigned_members.map((member) => (
-                  <div
-                    style={{ backgroundColor: getRandomColor() }}
-                    className={` rounded-full lg:h-7 lg:w-7 sm:w-6 sm:h-6 lg:text-16 sm:text-13  text-white text-13 flex items-center justify-center border-2 ${
-                      darkMode == "dark" ? "border-myblack" : "border-mygrey"
-                    }`}
-                  >
-                    {getFirstLetter(member.username)}
-                  </div>
-                ))}
+                {task.assigned_members.map((member) =>
+                  member.profile.avatar ? (
+                    <img
+                      src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                      className={`lg:w-8 lg:h-8 md:w-4 md:h-4 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                        darkMode == "dark" ? "border-myblack" : "border-white"
+                      }`}
+                    />
+                  ) : (
+                    <FaUserCircle
+                      className={`lg:w-8 lg:h-8 md:w-4 md:h-4 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                        darkMode == "dark" ? "border-myblack" : "border-white"
+                      }`}
+                    />
+                  )
+                )}
               </div>
             </div>
             <h1 className="lg:text-16 sm:text-13">{getDate(task.created_at)}</h1>

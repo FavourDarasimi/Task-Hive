@@ -44,7 +44,7 @@ const UpdateProfile = ({ setShowUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await updateProfile({ ...profile, ["image"]: file });
+      const res = await updateProfile({ ...profile, ["avatar"]: file });
       setUserProfile(res.data);
       setChanged(!changed);
       setShowUpdate(false);
