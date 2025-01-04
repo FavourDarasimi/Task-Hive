@@ -11,12 +11,14 @@ const UpdateProfile = ({ setShowUpdate }) => {
   const [changed, setChanged] = useState(false);
   const [userProfile, setUserProfile] = useState([]);
   const [users, setUser] = useState([]);
-
+  const [gender, setGender] = useState("");
+  let female = <p>FEMALE</p>;
+  let male = <p>MALE</p>;
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const profile = await getProfile();
-
+        setGender(profile.gender);
         setUserProfile(profile);
         setProfile(profile);
         setUser(user);
@@ -45,6 +47,7 @@ const UpdateProfile = ({ setShowUpdate }) => {
     e.preventDefault();
     try {
       const res = await updateProfile({ ...profile, ["avatar"]: file });
+      console.log(female);
       setUserProfile(res.data);
       setChanged(!changed);
       setShowUpdate(false);
@@ -116,16 +119,41 @@ const UpdateProfile = ({ setShowUpdate }) => {
             </div>
             <div className="flex flex-col">
               <label className="font-semibold lg:text-16 sm:text-xs pb-1">Gender</label>
-              <input
-                name="gender"
-                value={message.gender || userProfile.gender}
-                type="text"
-                className={`  border-1 rounded-xl p-2 sm:text-xs lg:text-16 w-full  lg:h-14 sm:h-12 outline-none ${
-                  darkMode == "dark" ? "bg-myblack border-none" : "border-gray-300"
-                } focus:border-blue-500 focus:border-2`}
-                placeholder="Not Provided"
-                onChange={(e) => handleChange(e)}
-              />
+
+              <div className="flex gap-x-3">
+                <label class="cursor-pointer w-full">
+                  <input
+                    name="gender"
+                    value={male.props.children}
+                    type="radio"
+                    class="peer sr-only"
+                    onChange={(e) => {
+                      setGender("MALE");
+                      handleChange(e);
+                    }}
+                    checked={gender == "MALE" ? true : ""}
+                  />
+                  <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex w-full items-center justify-center p-5 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-blue-600 peer-checked:ring-blue-600 peer-checked:ring-offset-2">
+                    Male
+                  </div>
+                </label>
+                <label class="cursor-pointer w-full">
+                  <input
+                    name="gender"
+                    value={female.props.children}
+                    type="radio"
+                    class="peer sr-only"
+                    onChange={(e) => {
+                      setGender("FEMALE");
+                      handleChange(e);
+                    }}
+                    checked={gender == "FEMALE" ? true : ""}
+                  />
+                  <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex w-full items-center justify-center p-5 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-blue-600 peer-checked:ring-blue-600 peer-checked:ring-offset-2">
+                    Female
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
 

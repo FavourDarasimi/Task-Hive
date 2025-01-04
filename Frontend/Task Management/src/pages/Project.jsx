@@ -23,15 +23,7 @@ const Project = () => {
       try {
         const response = await getUsersProject();
         console.log(response.profile);
-        if (filter == "all") {
-          setProjects(response);
-        } else if (filter == "completed") {
-          const completed = response.filter((project) => project.status == "Completed");
-          setProjects(completed);
-        } else if (filter == "in_progress") {
-          const in_progress = response.filter((project) => project.status == "In Progress");
-          setProjects(in_progress);
-        }
+        setProjects(response);
       } catch (error) {
         console.log(error);
       }
@@ -46,28 +38,7 @@ const Project = () => {
       <div className="">
         <div className="flex justify-between items-center">
           <h1 className="lg:text-3xl sm:text-18 font-bold">My Projects</h1>
-          <div className="flex gap-x-7">
-            <select
-              onChange={(e) => setFilter(e.target.value)}
-              className={`sm:w-20 outline-none lg:w-fit border-1 ${
-                darkMode == "dark"
-                  ? "bg-myblack2 border-myblack focus:border-black"
-                  : "border-gray-300 focus:border-blue-500 "
-              } py-2 pl-2 rounded-lg focus:border-2 text-16`}
-            >
-              <option selected disabled className="sm:text-xs lg:text-16">
-                Sort By Status
-              </option>
-              <option value="all" className="sm:text-xs lg:text-16">
-                All
-              </option>
-              <option value="completed" className="sm:text-xs lg:text-16">
-                Completed
-              </option>
-              <option value="in_progress" className="sm:text-xs lg:text-16">
-                In Progress
-              </option>
-            </select>
+          <div className="">
             <button
               className="bg-blue-600 rounded-lg lg:p-2 sm:p-1 lg:text-15 sm:text-13 text-white flex items-center gap-x-2"
               onClick={() => setShow(true)}

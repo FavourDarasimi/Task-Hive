@@ -142,6 +142,9 @@ class CreateTaskView(APIView):
                 user = User.objects.get(id=request.user.id)
                 task.assigned_members.add(user)
                 task.save()
+                project.assigned_members.add(user)
+                project.workspace = workspace
+                project.save()
                 return Response(data=serializer.data,status=status.HTTP_201_CREATED)
         else:
             serializer = TaskSerializer(data=data)

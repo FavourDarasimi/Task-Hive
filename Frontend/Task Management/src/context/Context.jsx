@@ -565,7 +565,7 @@ const ContextProvider = (props) => {
         updateToken();
         user_is_authenticated();
       }
-    }, 1000 * 60 * 4);
+    }, 1000 * 60 * 60 * 20);
     return () => clearInterval(interval);
   }, [token]);
 

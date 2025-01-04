@@ -13,13 +13,13 @@ const TaskList = ({ tasks }) => {
   const shades = [400, 500, 600, 700, 800];
 
   return (
-    <div className="grid lg:grid-cols-3 sm:grid-cols-1 pt-10 gap-x-10 gap-y-5">
+    <div className="grid lg:grid-cols-4 sm:grid-cols-1 pt-10 gap-x-7 gap-y-5">
       {tasks && tasks.length > 0 ? (
         tasks.map((task) => (
           <div
             className={`${
               darkMode == "dark" ? "bg-myblack2" : "bg-white"
-            } p-4 flex flex-col lg::gap-y-5 sm:gap-y-2 rounded-lg `}
+            } p-4 flex flex-col  rounded-2xl `}
           >
             <div className="flex gap-x-2 items-center">
               <div
@@ -34,50 +34,41 @@ const TaskList = ({ tasks }) => {
               <h1 className="lg:text-xl sm:text-14 font-semibold">{task.title}</h1>
             </div>
             <h1
-              className={`lg:text-17 sm:text-13 font-semibold ${
+              className={`lg:text-15  sm:text-13 font-semibold pl-6 ${
                 task.priority == "High"
                   ? "text-red-600"
                   : task.priority == "Medium"
-                  ? "text-yellow-00"
+                  ? "text-yellow-600"
                   : "text-green-600"
               }`}
             >
               {task.priority}
             </h1>
-            <div
-              className={`flex justify-between lg:text-16 sm:text-13 border-b-1 ${
-                darkMode == "dark" ? "border-myblack" : "border-mygrey"
-              } pb-2`}
-            >
-              <h1>Deadline Date:</h1>
-              <h1>{getDate(task.due_date)}</h1>
+            <div className="flex items-center gap-x-2 lg:text-16 sm:text-13 py-4 ">
+              <h1 className="font-semibold">Deadline Date:</h1>
+              <h1 className="text-14">{getDate(task.due_date)}</h1>
             </div>
-            <div
-              className={`flex lg:text-16 sm:text-13 justify-between border-b-1 ${
-                darkMode == "dark" ? "border-myblack" : "border-mygrey"
-              } lg:pb-2 sm:pb-1`}
-            >
-              <h1>Task Team</h1>
+            <div className="flex lg:text-16 sm:text-13 justify-between items-center  lg:pb-2 sm:pb-1">
               <div className="flex -space-x-2 w-28">
                 {task.assigned_members.map((member) =>
                   member.profile.avatar ? (
                     <img
                       src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                      className={`lg:w-8 lg:h-8 md:w-4 md:h-4 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                      className={`lg:w-12 lg:h-12 md:w-4 md:h-4 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
                         darkMode == "dark" ? "border-myblack" : "border-white"
                       }`}
                     />
                   ) : (
                     <FaUserCircle
-                      className={`lg:w-8 lg:h-8 md:w-4 md:h-4 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                      className={`lg:w-12 lg:h-12 md:w-4 md:h-4 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
                         darkMode == "dark" ? "border-myblack" : "border-white"
                       }`}
                     />
                   )
                 )}
               </div>
+              <h1 className="lg:text-15 sm:text-13">{getDate(task.created_at)}</h1>
             </div>
-            <h1 className="lg:text-16 sm:text-13">{getDate(task.created_at)}</h1>
           </div>
         ))
       ) : (
