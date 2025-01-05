@@ -123,7 +123,7 @@ const Account = () => {
           )}
 
           <div className="flex flex-col relative">
-            <label htmlFor="input" className="font-semibold pb-1 lg:text-16 sm:text-14">
+            <label htmlFor="input" className="font-semibold pb-1 lg:text-16 sm:text-14 ">
               Password
             </label>
             <input
