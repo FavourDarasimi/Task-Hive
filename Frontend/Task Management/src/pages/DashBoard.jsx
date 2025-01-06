@@ -2,17 +2,45 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import { Calendar } from "react-calendar";
 import "./Calendar.css";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { MdAccessAlarm, MdAlarmOn } from "react-icons/md";
+import { GoProject } from "react-icons/go";
+import { HiOutlineUsers } from "react-icons/hi2";
+import { FaUserCircle } from "react-icons/fa";
 
 const DashBoard = () => {
-  const { getTaskDueToday, getOnlineMembers, getTaskStatus, user, getDate, darkMode } =
-    useContext(Context);
+  const {
+    getTaskDueToday,
+    getOnlineMembers,
+    getTaskStatus,
+    user,
+    getDate,
+    darkMode,
+    username,
+    getUserWorkspaces,
+  } = useContext(Context);
   const [tasks, setTasks] = useState([]);
   const [completed, setCompleted] = useState([]);
-  const [pending, setPending] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [inProgress, setInProgress] = useState([]);
   const [all, setAll] = useState([]);
+  const [upcoming, setUpComing] = useState([]);
   const [onlineMembers, setOnlineMembers] = useState([]);
-  const [team, setTeam] = useState();
+  const [teams, setTeams] = useState();
+  const [activeWorkspace, setActiveWorkspace] = useState();
+  const [offset1, setOffset1] = useState();
+  const [offset2, setOffset2] = useState();
+  const [projectOffset, setProjectOffset] = useState();
+  const [projectPercentage, setProjectPercentage] = useState();
+
+  const radius = 35; // Radius of the circle
+  const circumference = 2 * Math.PI * radius;
+
+  const radius2 = 25; // Radius of the circle
+  const circumference2 = 2 * Math.PI * radius2;
+
+  const projectradius = 40; // Radius of the circle
+  const projectcircumference = 2 * Math.PI * projectradius;
 
   useEffect(() => {
     const getDueTask = async () => {
@@ -23,30 +51,48 @@ const DashBoard = () => {
         console.log(error);
       }
     };
-    const getOnlineMember = async () => {
-      try {
-        const response = await getOnlineMembers();
-        if (response.team == true) {
-          setOnlineMembers(response.user);
-        } else if (response.team == false) {
-          setTeam(response.user);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+
     const getStatus = async () => {
       try {
         const response = await getTaskStatus();
+        const ongoingPercentage = (response.in_progress.length / response.all.length) * 100;
+        const ongoingOffset = circumference2 - (ongoingPercentage / 100) * circumference2;
+        setOffset2(ongoingOffset);
+
+        const completedPercentage = (response.completed.length / response.all.length) * 100;
+        const completedOffset = circumference - (completedPercentage / 100) * circumference;
+        setOffset1(completedOffset);
+
+        const completedProjects = response.projects.filter(
+          (project) => project.status == "Completed"
+        );
+        const projectCompletedPercentage =
+          (completedProjects.length / response.projects.length) * 100;
+        const projectOffset =
+          projectcircumference - (projectCompletedPercentage / 100) * projectcircumference;
+        setProjectOffset(projectOffset);
+        setProjectPercentage(projectCompletedPercentage);
+
         setAll(response.all);
         setCompleted(response.completed);
-        setPending(response.pending);
+        setProjects(response.projects);
         setInProgress(response.in_progress);
+        setUpComing(response.upcoming);
+        setTeams(response.team);
       } catch (error) {
         console.log(error);
       }
     };
-    getOnlineMember();
+    const getWorkspaces = async () => {
+      try {
+        const response = await getUserWorkspaces();
+
+        setActiveWorkspace(response.active);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getWorkspaces();
     getDueTask();
     getStatus();
   }, []);
@@ -55,188 +101,230 @@ const DashBoard = () => {
     const first_letter = letter[0].toUpperCase();
     return first_letter;
   };
-  const colors = ["red", "green", "yellow", "blue", "indigo", "purple", "pink"];
-  const shades = [400, 500, 600, 700, 800];
-  const getRandomColor = () => {
-    const color = ["red", "blue", "green"];
-    const randomColor = color[Math.floor(Math.random() * color.length)];
-    return randomColor;
+  const getNewName = (name) => {
+    const newName = name.charAt(0).toUpperCase() + name.slice(1);
+    return newName;
   };
+
+  const even = (num) => {
+    return num % 2 == 0;
+  };
+
   return (
-    <div className={`${darkMode == "dark" ? "text-anti-flash-white" : ""}`}>
-      <div className="grid grid-cols-3 gap-x-5  ml-20 gap-y-10">
-        <div
-          className={`${
-            darkMode == "dark" ? "bg-myblack2" : "bg-white"
-          } rounded-xl w-fit h-fit p-7 col-span-2`}
-        >
-          {/* 1st Grid */}
-          <h1 className="text-center text-xl font-semibold">Today's Deadline</h1>
-          <div
-            className={`flex gap-x-10 items-center text-17 font-semibold py-5 border-b-1 ${
-              darkMode == "dark" ? "border-myblack" : "border-mygrey"
-            } `}
-          >
-            <h1 className="w-96">Title</h1>
-            <h1 className="w-28">Priority</h1>
-            <h1 className="w-28">Team</h1>
-            <h1 className="w-48">Date Added</h1>
-          </div>
-
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
-              <div
-                className={`flex gap-x-10 items-center text-16 font-semibold py-5 border-b-1 ${
-                  darkMode == "dark" ? "border-myblack" : "border-mygrey"
-                } `}
-              >
-                <div className="flex gap-x-2 items-center w-96">
-                  <div
-                    className={` h-4 w-4 rounded-full ${
-                      task.status == "Completed"
-                        ? "bg-green-600"
-                        : task.status == "Pending"
-                        ? "bg-red-600"
-                        : "bg-yellow-600"
-                    }`}
-                  ></div>
-                  <h1 className="">{task.title}</h1>
-                </div>
-                <h1
-                  className={`w-28  font-bold ${
-                    task.priority == "High"
-                      ? "text-red-500"
-                      : task.priority == "Medium"
-                      ? "text-yellow-500"
-                      : "text-green-500"
-                  }`}
-                >
-                  {task.priority}
-                </h1>
-                <div className="flex -space-x-2 w-28">
-                  {task.assigned_members.map((member) => (
-                    <div
-                      style={{ backgroundColor: getRandomColor() }}
-                      className={` rounded-full h-7 w-7  text-white text-13 flex items-center justify-center border-2 ${
-                        darkMode == "dark" ? "border-myblack" : "border-white"
-                      }`}
-                    >
-                      {getFirstLetter(member.username)}
-                    </div>
-                  ))}
-                </div>
-                <h1 className="w-48">{getDate(task.created_at)}</h1>
+    <div className={`${darkMode == "dark" ? "text-anti-flash-white " : ""}`}>
+      <div className="flex gap-x-10">
+        <div className="w-65%">
+          <h1 className="lg:text-18 sm:text-14 font-bold ">
+            Hello {getNewName(username)} &#128512; ({activeWorkspace ? activeWorkspace.name : ""})
+          </h1>
+          <div className="flex justify-center gap-x-5 text-white pt-7">
+            <div className="bg-gradient-to-r from-[#4a90e2]  to-[#79abfd]  p-5 w-fit h-fit rounded-[40px] flex  gap-x-5 items-center">
+              <div className="bg-white text-[#4a90e2] rounded-full  p-1">
+                <IoMdCheckmarkCircleOutline className=" w-10 h-10" />
               </div>
-            ))
-          ) : (
-            <p className="text-center font-semibold text-xl pt-5">No Deadlines Today</p>
-          )}
-        </div>
-        {/* calender */}
-        <div>
-          <Calendar className={`${darkMode == "dark" ? "bg-myblack2" : "bg-white"}`} />
-        </div>
-      </div>
-
-      {/* Down */}
-      <div className="flex justify-center gap-x-16 mx-20 mt-10">
-        {/* Total task */}
-        <div
-          className={`${
-            darkMode == "dark" ? "bg-myblack2" : "bg-white"
-          } p-7 rounded-xl grid grid-cols-2 gap-y-7 w-fit gap-x-16 h-fit`}
-        >
-          <div className="">
-            <h1 className=" text-gray-400">Total Task</h1>
-            <h1 className="text-5xl border-l-4 border-blue-500 pl-2">{all ? all.length : 0}</h1>
-          </div>
-
-          <div className="">
-            <h1 className=" text-gray-400">Completed Task</h1>
-            <h1 className="text-5xl border-l-4 border-green-500 pl-2">
-              {completed ? completed.length : 0}
-            </h1>
-          </div>
-
-          <div className="">
-            <h1 className=" text-gray-400">Ongoing Task</h1>
-            <h1 className="text-5xl border-l-4 border-yellow-500 pl-2">
-              {inProgress ? inProgress.length : 0}
-            </h1>
-          </div>
-
-          <div className="">
-            <h1 className=" text-gray-400">Pending Task</h1>
-            <h1 className="text-5xl border-l-4 border-red-500 pl-2">
-              {pending ? pending.length : 0}
-            </h1>
-          </div>
-        </div>
-        {/* Online */}
-        <div
-          className={`${
-            darkMode == "dark" ? "bg-myblack2" : "bg-white"
-          } p-5 rounded-xl flex flex-col gap-y-3 h-fit`}
-        >
-          <h1 className="text-18 font-semibold px-10 pb-1">Online Team Members</h1>
-          {team ? (
-            <p>{team}</p>
-          ) : onlineMembers.length > 1 ? (
-            onlineMembers.map((member) =>
-              member.username == user.username ? (
-                ""
-              ) : (
-                <div className="flex gap-x-3 items-center">
-                  <div
-                    style={{ backgroundColor: getRandomColor() }}
-                    className=" rounded-full h-12 w-12 text-white text-17 flex items-center justify-center border-2 border-white relative"
-                  >
-                    {getFirstLetter(member.username)}
-                    <div className="h-3 w-3 absolute bottom-0 right-0 bg-online rounded-full border-2 border-white"></div>
-                  </div>
-                  <h1>{member.username}</h1>
-                </div>
-              )
-            )
-          ) : (
-            <p className="text-center font-semibold text-18">No Team Members Online</p>
-          )}
-        </div>
-
-        {/* Completed */}
-        <div className={` ${darkMode == "dark" ? "bg-myblack2" : "bg-white"} p-5 rounded-xl h-fit`}>
-          <h1 className="text-center text-18 font-semibold">Completed Task</h1>
-          {completed.map((task) => (
-            <div
-              className={`flex py-4 border-b-1 ${
-                darkMode == "dark" ? "border-myblack" : "border-mygrey"
-              }`}
-            >
-              <div className="flex space-x-2 items-center ">
-                <div
-                  className={` h-4 w-4 rounded-full ${
-                    task.status == "Completed"
-                      ? "bg-green-600"
-                      : task.status == "Pending"
-                      ? "bg-red-600"
-                      : "bg-yellow-600"
-                  }`}
-                ></div>
-                <h2 className="w-64">{task.title}</h2>
+              <div className="">
+                <h1 className="text-3xl pl-2 w-28">{all ? all.length : 0}</h1>
+                <h1 className="">Total Task</h1>
               </div>
-              <h2
-                className={`font-bold ${
-                  task.priority == "High"
-                    ? "text-red-500"
-                    : task.priority == "Medium"
-                    ? "text-yellow-500"
-                    : "text-green-500"
-                }`}
-              >
-                {task.priority}
-              </h2>
             </div>
-          ))}
+
+            <div className="bg-gradient-to-r from-[#34c759] to-[#34d8a7] p-5 w-fit h-fit rounded-[40px] flex  gap-x-5 items-center">
+              <div className="bg-white text-[#34c759] rounded-full  p-1">
+                <MdAlarmOn className=" w-10 h-10" />
+              </div>
+              <div>
+                <h1 className="text-3xl pl-2 w-28">{completed ? completed.length : 0}</h1>
+                <h1 className=" ">Completed Task</h1>
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-[#ffcc00] to-[#f4cd6c] p-5 w-fit h-fit rounded-[40px] flex  gap-x-5 items-center">
+              <div className="bg-white text-[#ffcc00] rounded-full  p-1">
+                <MdAccessAlarm className=" w-10 h-10" />
+              </div>
+              <div>
+                <h1 className="text-3xl pl-2 w-28">{inProgress ? inProgress.length : 0}</h1>
+                <h1 className=" ">Ongoing Task</h1>
+              </div>
+            </div>
+            <div className="bg-gradient-to-r from-[#8e44ad] to-[#a595ff] p-5 w-fit h-fit rounded-[40px] flex  gap-x-5 items-center">
+              <div className="bg-white text-[#8e44ad] rounded-full  p-1">
+                <GoProject className=" w-10 h-10" />
+              </div>
+              <div>
+                <h1 className="text-3xl pl-2 w-28">{projects ? projects.length : 0}</h1>
+                <h1 className=" ">All Projects</h1>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-x-5 mt-10">
+            <div className="w-60 h-fit  bg-white rounded-3xl py-5">
+              <h1 className="text-center font-semibold text-2xl">Task Percentage</h1>
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r={radius} fill="none" stroke="#ddd" strokeWidth="3" />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r={radius}
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="3"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={offset1}
+                  style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                  strokeLinecap="round"
+                />
+                <circle cx="50" cy="50" r={radius2} fill="none" stroke="#ddd" strokeWidth="3" />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r={radius2}
+                  fill="none"
+                  stroke="#eab208"
+                  strokeWidth="3"
+                  strokeDasharray={circumference2}
+                  strokeDashoffset={offset2}
+                  style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="flex gap-x-3 justify-center">
+                <div className="flex gap-x-1 items-center">
+                  <div className="w-[10px] h-[10px] bg-green-500 rounded-[4px]"></div>
+                  <h1 className="text-14">
+                    Completed{" "}
+                    <span className="font-semibold">{completed ? completed.length : 0}</span>
+                  </h1>
+                </div>
+                <div className="flex gap-x-1 items-center">
+                  <div className="w-[10px] h-[10px] bg-yellow-500 rounded-[4px]"></div>
+                  <h1 className="text-14">
+                    Ongoing{" "}
+                    <span className="font-semibold">{inProgress ? inProgress.length : 0}</span>
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white w-80 h-fit relative py-5 px-10 rounded-3xl">
+              <h1 className="text-center font-semibold text-2xl pb-5">Projects Completed</h1>
+              <svg viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r={projectradius}
+                  fill="none"
+                  stroke="#ddd"
+                  strokeWidth="15"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r={projectradius}
+                  fill="none"
+                  stroke="#2563eb"
+                  strokeWidth="15"
+                  strokeDasharray={projectcircumference}
+                  strokeDashoffset={projectOffset}
+                  style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
+                />
+              </svg>
+              <div className="absolute  top-[45%] left-[28%] font-semibold text-lg">
+                <h1 className="text-xl text-center">{Math.ceil(projectPercentage)}%</h1>
+                <h1 className="text-16">Projects Completed</h1>
+              </div>
+            </div>
+
+            <div className="bg-white p-5 rounded-3xl">
+              <div className="flex items-center gap-x-3">
+                <HiOutlineUsers className="w-7 h-7" />
+                <h1 className="text-2xl font-semibold ">My Team</h1>
+              </div>
+              <h1 className="pt-5 text-16">Team Members</h1>
+              <div className="flex -space-x-3 pt-1">
+                {teams
+                  ? teams.members.map((member, index) =>
+                      index >= 4 ? (
+                        index == 4 ? (
+                          <div className="bg-white text-17 font-bold shadow-2xl w-14 h-14 rounded-full flex items-center justify-center">
+                            +{teams.members.length - index}
+                          </div>
+                        ) : (
+                          ""
+                        )
+                      ) : member.profile.avatar ? (
+                        <img
+                          src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                          className={`lg:w-14 lg:h-14 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                            darkMode == "dark" ? "border-myblack" : "border-white"
+                          }`}
+                        />
+                      ) : (
+                        <FaUserCircle
+                          className={`lg:w-14 lg:h-14 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                            darkMode == "dark" ? "border-myblack" : "border-white"
+                          }`}
+                        />
+                      )
+                    )
+                  : ""}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <Calendar
+              className={`${darkMode == "dark text-green-500" ? "bg-myblack2" : "bg-white"}`}
+            />
+          </div>
+          <div className="flex flex-col items-center pt-10">
+            <h1 className="text-2xl font-semibold">Upcoming Deadlines</h1>
+            <div className="flex gap-x-3 pt-3">
+              <div className="flex gap-x-1 items-center">
+                <div className="w-3 h-3 bg-green-500 rounded-[4px]"></div>
+                <h1 className="text-15">Low Priority</h1>
+              </div>
+              <div className="flex gap-x-1 items-center">
+                <div className="w-3 h-3 bg-yellow-500 rounded-[4px]"></div>
+                <h1 className="text-15">Medium Priority</h1>
+              </div>
+              <div className="flex gap-x-1 items-center">
+                <div className="w-3 h-3 bg-red-500 rounded-[4px]"></div>
+                <h1 className="text-15">High Priority</h1>
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-7 pt-5">
+              {upcoming.map((task, index) =>
+                !even(index) ? (
+                  <div
+                    className={`bg-white ml-24 p-4 w-fit border-l-[5px] rounded-r-2xl ${
+                      task.priority == "High"
+                        ? "border-l-red-600"
+                        : task.priority == "Medium"
+                        ? "border-l-yellow-600"
+                        : "border-l-green-600"
+                    }`}
+                  >
+                    <h1 className="font-semibold">{task.title}</h1>
+                    <h1 className="text-14">{getDate(task.due_date)}</h1>
+                  </div>
+                ) : (
+                  <div
+                    className={`bg-white p-4 w-fit border-l-[5px] rounded-r-2xl ${
+                      task.priority == "High"
+                        ? "border-l-red-600"
+                        : task.priority == "Medium"
+                        ? "border-l-yellow-600"
+                        : "border-l-green-600"
+                    }`}
+                  >
+                    <h1 className="font-semibold">{task.title}</h1>
+                    <h1 className="text-14">{getDate(task.due_date)}</h1>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

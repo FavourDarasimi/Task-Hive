@@ -17,7 +17,7 @@ const AddTask = ({ setShow, projectid, projectName, projectMembers }) => {
     const fetchTeamMembers = async () => {
       const response = await getTeamMembers();
 
-      const members = response.user.members;
+      const members = response.members;
       const teamMembers = projectMembers.filter((member) => member.username != username);
       const options = teamMembers.map((member) => ({
         value: member.id,
@@ -63,11 +63,11 @@ const AddTask = ({ setShow, projectid, projectName, projectMembers }) => {
   };
 
   return (
-    <div className=" fixed z-10 inset-0  bg-black w-100%   bg-opacity-20 grid place-items-center  ">
+    <div className=" fixed z-10 inset-0  bg-black w-100%   bg-opacity-30 grid place-items-center  ">
       <form
         className={` rounded-3xl  ${
           darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
-        } lg:w-30% sm:w-90% h-fit  fixed`}
+        } w-35% h-fit  fixed`}
         onSubmit={(e) => {
           handleSubmit(e, title, priority, dueDate, selectedTeam);
         }}
@@ -80,14 +80,14 @@ const AddTask = ({ setShow, projectid, projectName, projectMembers }) => {
             onClick={() => setShow(false)}
           />
         </div>
-        <div className="flex flex-col gap-y-3 lg:px-8 sm:px-4 lg:pb-10 sm:pb-5">
+        <div className="flex flex-col gap-y-3  lg:px-8 sm:px-4 lg:pb-10 sm:pb-5">
           <div className="flex gap-x-1 items-center">
             <div className="bg-blue-300  p-1 rounded-lg">
               <MdOutlineAddToPhotos className="lg:w-7 lg:h-7 sm:w-5 sm:h-5 text-blue-600 " />
             </div>
             <h1 className="text-center lg:text-2xl sm:text-19 font-semibold">ADD TASK</h1>
           </div>
-          <div className="grid grid-cols-2 gap-x-4">
+          <div className="grid grid-cols-2 gap-x-1">
             <div className="flex flex-col">
               <label className="font-semibold lg:text-16 sm:text-xs pb-1">Title</label>
               <input
@@ -102,14 +102,48 @@ const AddTask = ({ setShow, projectid, projectName, projectMembers }) => {
 
             <div className="flex flex-col">
               <label className="font-semibold lg:text-16 sm:text-xs pb-1">Priority</label>
-              <input
-                type="text"
-                className={`  border-1 rounded-xl p-2 sm:text-xs lg:text-16 w-full  lg:h-14 sm:h-12 outline-none ${
-                  darkMode == "dark" ? "bg-myblack border-none" : "border-gray-300"
-                } focus:border-blue-500 focus:border-2`}
-                placeholder="Priority e.g High, Medium,Low"
-                onChange={(e) => setPriority(e.target.value)}
-              />
+
+              <div className="flex gap-x-3">
+                <label class="cursor-pointer w-full">
+                  <input
+                    name="gender"
+                    type="radio"
+                    class="peer sr-only"
+                    onChange={(e) => {
+                      setPriority("Low");
+                    }}
+                  />
+                  <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex gap-x-1 w-full items-center justify-center py-5 px-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-green-600 peer-checked:ring-green-600 peer-checked:ring-offset-2">
+                    <div className="w-3 h-3 bg-green-600 rounded-full"></div>Low
+                  </div>
+                </label>
+                <label class="cursor-pointer w-full">
+                  <input
+                    name="gender"
+                    type="radio"
+                    class="peer sr-only"
+                    onChange={(e) => {
+                      setPriority("Medium");
+                    }}
+                  />
+                  <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex gap-x-1 w-full items-center justify-center py-5 px-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-yellow-600 peer-checked:ring-yellow-600 peer-checked:ring-offset-2">
+                    <div className="w-3 h-3 bg-yellow-600 rounded-full"></div>Medium
+                  </div>
+                </label>
+                <label class="cursor-pointer w-full">
+                  <input
+                    name="gender"
+                    type="radio"
+                    class="peer sr-only"
+                    onChange={(e) => {
+                      setPriority("High");
+                    }}
+                  />
+                  <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex gap-x-1 w-full items-center justify-center py-5 px-3 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-red-600 peer-checked:ring-red-600 peer-checked:ring-offset-2">
+                    <div className="w-3 h-3 bg-red-600 rounded-full"></div>High
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -128,8 +162,8 @@ const AddTask = ({ setShow, projectid, projectName, projectMembers }) => {
             {projectName == "Personal Tasks" || !projectid ? (
               ""
             ) : (
-              <div className="flex gap-x-2 items-center">
-                <div className="flex flex-col">
+              <div className="flex gap-x-2 items-center ">
+                <div className="flex flex-col w-80%">
                   <label className="font-semibold lg:text-16 sm:text-xs pb-1">
                     Assigned Members
                   </label>

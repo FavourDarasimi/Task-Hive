@@ -65,7 +65,7 @@ const AddProject = ({ setShow }) => {
   };
 
   return (
-    <div className=" fixed z-20 inset-0  bg-black w-100%   bg-opacity-50 grid place-items-center  ">
+    <div className=" fixed z-20 inset-0  bg-black w-100%   bg-opacity-30 grid place-items-center  ">
       <form
         className={` rounded-3xl  ${
           darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"

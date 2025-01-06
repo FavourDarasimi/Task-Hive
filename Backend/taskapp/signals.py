@@ -8,7 +8,7 @@ import random
 def create_user_workspace(sender,instance,created,**kwargs):
     if created:
         space_id = random.randint(10001,99999)
-        workspace = WorkSpace.objects.create(owner=instance,name=f"{instance.username}'s Workspace",space_id=space_id)
+        workspace = WorkSpace.objects.create(owner=instance,name=f"{instance.username}'s Workspace",space_id=space_id,main=True)
         workspace.active.add(instance)
 
 

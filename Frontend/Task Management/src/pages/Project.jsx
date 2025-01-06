@@ -12,7 +12,7 @@ const Project = () => {
   const [showTask, setShowTask] = useState(false);
   const [show, setShow] = useState(false);
   const [showMenu, setShowMenu] = useState();
-  const [filter, setFilter] = useState("all");
+  const [del, setDel] = useState();
   const handleMoreClick = (event) => {
     event.stopPropagation();
     setShow(true);
@@ -29,7 +29,7 @@ const Project = () => {
       }
     };
     getProjects();
-  }, [show, showTask, filter]);
+  }, [show, showTask, del]);
   return (
     <div
       className={`sm:pl-10 sm:pr-3 lg:px-10 ${darkMode == "dark" ? "text-anti-flash-white" : ""}`}
@@ -58,6 +58,7 @@ const Project = () => {
                   setShowMenu={setShowMenu}
                   showTask={showTask}
                   setShowTask={setShowTask}
+                  setDelete={setDel}
                 />
               </div>
             ))

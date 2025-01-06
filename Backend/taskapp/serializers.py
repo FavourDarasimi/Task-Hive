@@ -17,7 +17,7 @@ class WorkSpaceSerializer(serializers.ModelSerializer):
     active = UserSerializer(read_only=True,many=True)
     class Meta:
         model = WorkSpace
-        fields = ['id','name','owner','space_id','team','active']
+        fields = ['id','name','owner','main','space_id','team','active']
 
 class ProjectSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)

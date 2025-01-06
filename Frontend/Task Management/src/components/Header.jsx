@@ -6,10 +6,11 @@ import { FcInvite } from "react-icons/fc";
 import { FaRegUserCircle, FaPlus } from "react-icons/fa";
 import { GoInbox, GoPlus } from "react-icons/go";
 import { Switch } from "@headlessui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Header = ({
   setShowInvites,
+  showInvites,
   setShowInbox,
   setShowCreateWorkspace,
   showCreateWorkspace,
@@ -20,7 +21,7 @@ const Header = ({
     getTaskDueToday,
     user_is_authenticated,
     token,
-    username,
+
     setUsername,
     getFirstLetter,
     darkMode,
@@ -33,7 +34,7 @@ const Header = ({
     user,
   } = useContext(Context);
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const [read, setRead] = useState();
   const [notifications, setNotifications] = useState([]);
@@ -70,11 +71,6 @@ const Header = ({
     return finalFormatedDate;
   };
 
-  const getNewName = (name) => {
-    const newName = name.charAt(0).toUpperCase() + name.slice(1);
-    return newName;
-  };
-
   const switchWorkspaceFunction = async (last_id, new_id) => {
     const response = await switchWorkspace(last_id, new_id);
     setSwitched(new_id);
@@ -95,7 +91,7 @@ const Header = ({
       }
     };
     getWorkspaces();
-  }, [showCreateWorkspace, switched, status]);
+  }, [showCreateWorkspace, switched, status, location]);
 
   useEffect(() => {
     const handleUser = async () => {
@@ -165,9 +161,6 @@ const Header = ({
           darkMode == "dark" ? "bg-myblack text-anti-flash-white" : "bg-white"
         } lg:px-10 sm:pl-3 sm:pr-10 py-4 `}
       >
-        <h1 className="lg:text-18 sm:text-14 font-bold ">
-          Hello {getNewName(username)} &#128512; ({activeWorkspace ? activeWorkspace.name : ""})
-        </h1>
         <h1 className="lg:text-18 font-bold sm:text-14">{getTodaysDate()}</h1>
         <div className="flex space-x-5">
           <div className="relative">

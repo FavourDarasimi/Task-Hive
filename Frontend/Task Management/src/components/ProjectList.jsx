@@ -7,14 +7,22 @@ import { HiOutlineUsers } from "react-icons/hi2";
 import { PiGreaterThan } from "react-icons/pi";
 import { FaTasks, FaUserCircle } from "react-icons/fa";
 import AddTask from "../components/AddTask";
-const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask }) => {
-  const { getDate, darkMode } = useContext(Context);
+const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask, setDelete }) => {
+  const { getDate, darkMode, deleteProject } = useContext(Context);
   const [numOfTasks, setNumOfTasks] = useState(7);
   const [projectid, setProjectid] = useState(null);
   const handleClick = (id) => {
     console.log(id);
     setProjectid(id);
     setShowTask(true);
+  };
+  const delProject = async (id) => {
+    try {
+      const response = await deleteProject(id);
+      setDelete(id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,7 +60,10 @@ const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask }) 
                 <MdEdit />
                 <h1 className="">Edit</h1>
               </div>
-              <div className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white">
+              <div
+                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
+                onClick={() => delProject(project.id)}
+              >
                 <MdDelete />
                 <h1 className="">Delete</h1>
               </div>

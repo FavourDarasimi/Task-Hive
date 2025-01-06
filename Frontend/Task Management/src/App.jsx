@@ -1,5 +1,5 @@
 import Header from "./components/Header";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import Invitations from "./components/Invitations";
 import Account from "./pages/Account";
 import DashBoard from "./pages/DashBoard";

@@ -287,7 +287,7 @@ const ContextProvider = (props) => {
     }
   };
 
-  const responseToInvite = async (id, res, pk, workspace) => {
+  const responseToInvite = async (id, res, pk, workspace, active) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
     try {
       const response = await axios.put(
@@ -296,6 +296,7 @@ const ContextProvider = (props) => {
           sender: id,
           accepted: res,
           workspace: workspace,
+          active: active,
         },
         {
           headers: { Authorization: `Bearer ${token.access}` },
@@ -476,6 +477,84 @@ const ContextProvider = (props) => {
     }
   };
 
+  const leaveTeam = async (pk, leader_id, member_id, remove) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/leave/team/${pk}`,
+        {
+          leader_id: leader_id,
+          member_id: member_id,
+          remove: remove,
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const deleteProject = async (pk) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/delete/project/${pk}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const deleteTask = async (pk) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/delete/task/${pk}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const addMemberToProject = async (pk, param) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/add/member/project/${pk}`,
+        { param: param },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
   const getDate = (dateTime) => {
     const options = {
       day: "numeric",
@@ -557,6 +636,10 @@ const ContextProvider = (props) => {
     switchWorkspace,
     updateProfile,
     getProfile,
+    leaveTeam,
+    deleteProject,
+    addMemberToProject,
+    deleteTask,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;
@@ -569,30 +652,6 @@ const ContextProvider = (props) => {
     return () => clearInterval(interval);
   }, [token]);
 
-  // useEffect(() => {
-  //   let timeoutId;
-
-  //   const resetTimeout = () => {
-  //     clearTimeout(timeoutId);
-
-  //     timeoutId = setTimeout(logout, 300000);
-  //   };
-
-  //   window.addEventListener("mousemove", resetTimeout);
-  //   window.addEventListener("keypress", resetTimeout);
-  //   window.addEventListener("click", resetTimeout);
-  //   window.addEventListener("scroll", resetTimeout);
-
-  //   resetTimeout();
-
-  //   return () => {
-  //     clearTimeout(timeoutId);
-  //     window.removeEventListener("mousemove", resetTimeout);
-  //     window.removeEventListener("keypress", resetTimeout);
-  //     window.removeEventListener("click", resetTimeout);
-  //     window.removeEventListener("scroll", resetTimeout);
-  //   };
-  // }, []);
   return <Context.Provider value={contextValue}>{props.children}</Context.Provider>;
 };
 

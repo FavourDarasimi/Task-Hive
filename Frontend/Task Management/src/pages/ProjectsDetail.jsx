@@ -1,15 +1,16 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../context/Context";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaUserCircle } from "react-icons/fa";
 import { HiMiniArrowPath, HiOutlineUsers } from "react-icons/hi2";
-import { MdDelete } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import AddTask from "../components/AddTask";
 
 const ProjectsDetail = () => {
   const { projectId } = useParams();
-  const { getProjectDetails, username, completeTask, darkMode } = useContext(Context);
+  const { getProjectDetails, username, completeTask, darkMode, addMemberToProject, deleteTask } =
+    useContext(Context);
   const [project, setProject] = useState();
   const [tasks, setTask] = useState();
   const [completedTasks, setCompletedTask] = useState();
@@ -19,6 +20,10 @@ const ProjectsDetail = () => {
   const [isHover, setIsHover] = useState(false);
   const [showTask, setShowTask] = useState(false);
   const [ischecked, setIsChecked] = useState(false);
+  const [showMenu, setShowMenu] = useState();
+  const [added, setAdded] = useState();
+  const [param, setParam] = useState();
+  const [del, setDelete] = useState();
 
   const radius = 45; // Radius of the circle
   const circumference = 2 * Math.PI * radius; // Circumference of the circle
@@ -31,6 +36,15 @@ const ProjectsDetail = () => {
       return false;
     } else {
       return true;
+    }
+  };
+
+  const delTask = async (id) => {
+    try {
+      const response = await deleteTask(id);
+      setDelete(id);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -59,7 +73,7 @@ const ProjectsDetail = () => {
       }
     };
     fetchDetailProjects();
-  }, [status, showTask, ischecked]);
+  }, [status, showTask, ischecked, added, del]);
 
   const handleChange = async (e, id) => {
     e.preventDefault();
@@ -67,6 +81,17 @@ const ProjectsDetail = () => {
       const checked = e.target.checked;
       setIsChecked(!ischecked);
       const response = await completeTask(id, checked, projectId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async () => {
+    try {
+      const response = await addMemberToProject(projectId, param);
+      setAdded(param);
+      console.log(response);
+      alert(response.message);
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +168,7 @@ const ProjectsDetail = () => {
                   <div>
                     {tasks.map((task) => (
                       <div
-                        className={`flex gap-x-20 ${
+                        className={`flex gap-x-20 w-fit  ${
                           darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
                         } p-5 rounded-lg mb-3`}
                       >
@@ -184,24 +209,64 @@ const ProjectsDetail = () => {
                             <div
                               className={` absolute  z-1 left-0 bottom-0 mb-5 bg-white shadow-2xl border-1 border-gray-300 rounded-lg p-5 w-fit`}
                             >
-                              <ul className="flex flex-col gap-y-3 list-disc px-3">
-                                <h1 className="text-17  font-bold text-blue-600 text-center w-60">
+                              <div className="flex flex-col gap-y-3 px-3">
+                                <h1 className="text-17  font-bold text-blue-600 text-center w-64">
                                   Assigned Team Memebers
                                 </h1>
                                 {task.assigned_members.map((member) => (
-                                  <li>
-                                    <div className="flex gap-x-5">
-                                      <h1 className="font-semibold">{member.username}</h1>
-                                      <h1>{member.email}</h1>
+                                  <div className="flex items-center gap-x-5">
+                                    <div className="flex items-center gap-x-1 w-60%">
+                                      {member.profile.avatar ? (
+                                        <img
+                                          src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                                          className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                                            darkMode == "dark" ? "border-myblack" : "border-white"
+                                          }`}
+                                        />
+                                      ) : (
+                                        <FaUserCircle
+                                          className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                                            darkMode == "dark" ? "border-myblack" : "border-white"
+                                          }`}
+                                        />
+                                      )}
+                                      <h1 className="font-semibold text-15">{member.username}</h1>
                                     </div>
-                                  </li>
+                                    <h1 className="w-40% text-15">{member.email}</h1>
+                                  </div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
                           )}
                         </div>
-                        <div className="ml-auto">
-                          <RiDeleteBin6Line className="w-5 h-5" />
+                        <div className="">
+                          <button
+                            onClick={() =>
+                              showMenu == task.id ? setShowMenu() : setShowMenu(task.id)
+                            }
+                          >
+                            <HiOutlineDotsVertical className="w-5 h-5" />
+                          </button>
+
+                          <div
+                            className={`${
+                              darkMode == "dark" ? "bg-myblack" : "bg-white"
+                            }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-3 font-semibold  ${
+                              showMenu == task.id ? "block" : "hidden"
+                            }`}
+                          >
+                            <div className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white">
+                              <MdEdit />
+                              <h1 className="">Edit</h1>
+                            </div>
+                            <div
+                              className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
+                              onClick={() => delTask(task.id)}
+                            >
+                              <MdDelete />
+                              <h1 className="">Delete</h1>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -225,7 +290,7 @@ const ProjectsDetail = () => {
                         r={radius}
                         fill="none"
                         stroke="#ddd"
-                        strokeWidth="8"
+                        strokeWidth="7"
                       />
                       <circle
                         cx="50"
@@ -233,7 +298,7 @@ const ProjectsDetail = () => {
                         r={radius}
                         fill="none"
                         stroke="#2563eb"
-                        strokeWidth="8"
+                        strokeWidth="7"
                         strokeDasharray={circumference}
                         strokeDashoffset={offset}
                         style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
@@ -251,39 +316,70 @@ const ProjectsDetail = () => {
                   </h1>
                 </div>
               </div>
-
-              <div
-                className={` ${
-                  darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
-                } rounded-xl w-full px-5 pb-10 pt-5 ml-5`}
-              >
-                <h1 className="text-2xl font-semibold mb-2 text-center text-blue-600">
-                  Team Members
-                </h1>
-                <ul className="list-disc">
-                  <div
-                    className={` flex gap-x-2 pb-2 border-b-1 ${
-                      darkMode == "dark" ? "border-myblack" : "border-gray-300"
-                    }`}
-                  >
-                    <h1 className="w-20% font-semibold">Username</h1>
-                    <h1 className="w-35% font-semibold">Fullname</h1>
-                    <h1 className="w-45% font-semibold">Email</h1>
-                  </div>
-                  {project.assigned_members.map((member) => (
-                    <li
-                      className={`flex gap-x-2 border-b-1 ${
-                        darkMode == "dark" ? "border-myblack" : "border-gray-300"
-                      } py-3`}
-                    >
-                      <h1 className="w-20% font-semibold truncate">{member.username}</h1>
-                      <h1 className="w-35% truncate">{member.full_name}</h1>
-                      <h1 className="w-45% truncate">{member.email}</h1>
-                    </li>
-                  ))}
-                </ul>
+            </div>
+          </div>
+          <div
+            className={` pt-10 my-10 ${
+              darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
+            } rounded-xl w-60% px-5 pb-10 pt-5 ml-5 `}
+          >
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-semibold mb-2 ">Project Team</h1>
+              <div className="flex ">
+                <input
+                  className={`border-1 ${
+                    darkMode == "dark" ? "border-myblack bg-myblack2" : "border-mygrey2 bg-white"
+                  } rounded-l-md p-2 outline-none focus:border-2 w-52 h-10  focus:border-blue-600`}
+                  type="email"
+                  placeholder="Email Address/Username"
+                  onChange={(e) => setParam(e.target.value)}
+                />
+                <button
+                  onClick={() => onSubmit()}
+                  className="bg-blue-600 text-white px-5 font-semibold rounded-r-md outline-none"
+                >
+                  Add
+                </button>
               </div>
             </div>
+            <ul className="list-disc pt-5">
+              <div
+                className={` flex gap-x-2 pb-2 border-b-1 ${
+                  darkMode == "dark" ? "border-myblack" : "border-gray-300"
+                }`}
+              >
+                <h1 className="w-40% font-semibold">Username</h1>
+                <h1 className="w-30% font-semibold">Fullname</h1>
+                <h1 className="w-30% font-semibold">Email</h1>
+              </div>
+              {project.assigned_members.map((member) => (
+                <li
+                  className={`flex  items-center gap-x-2 border-b-1 ${
+                    darkMode == "dark" ? "border-myblack" : "border-gray-300"
+                  } py-1`}
+                >
+                  <div className="flex items-center gap-x-1 w-40%">
+                    {member.profile.avatar ? (
+                      <img
+                        src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                        className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                          darkMode == "dark" ? "border-myblack" : "border-white"
+                        }`}
+                      />
+                    ) : (
+                      <FaUserCircle
+                        className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                          darkMode == "dark" ? "border-myblack" : "border-white"
+                        }`}
+                      />
+                    )}
+                    <h1 className="text-15 font-semibold">{member.username}</h1>
+                  </div>
+                  <h1 className="text-15 w-30%">{member.full_name}</h1>
+                  <h1 className="text-15 w-30%">{member.email}</h1>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       ) : (

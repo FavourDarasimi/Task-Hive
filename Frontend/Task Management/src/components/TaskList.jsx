@@ -48,7 +48,7 @@ const TaskList = ({ tasks }) => {
               <h1 className="font-semibold">Deadline Date:</h1>
               <h1 className="text-14">{getDate(task.due_date)}</h1>
             </div>
-            <div className="flex lg:text-16 sm:text-13 justify-between items-center  lg:pb-2 sm:pb-1">
+            <div className="flex lg:text-16 sm:text-13 justify-between items-center lg:pb-2 sm:pb-1">
               <div className="flex -space-x-2 w-28">
                 {task.assigned_members.map((member) =>
                   member.profile.avatar ? (

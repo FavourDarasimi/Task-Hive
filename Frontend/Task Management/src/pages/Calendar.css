@@ -126,7 +126,7 @@ abbr[title] {
 }
 
 .react-calendar__tile--now {
-  background: blue;
+  background: #2663eb;
   color: white;
   border-radius: 5px;
 }

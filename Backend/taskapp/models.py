@@ -43,10 +43,11 @@ class WorkSpace(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     space_id = models.PositiveIntegerField(null=True,blank=True)
     active = models.ManyToManyField(User,related_name="active",blank=True)
-    team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=True,null=True)     
+    team = models.OneToOneField(Team, on_delete=models.CASCADE, blank=True,null=True)
+    main = models.BooleanField(default=False, null=True,blank=True)     
 
     def __str__(self):
-        return self.name   
+        return f"{self.name}-{self.id}"   
 
 
 class Project(models.Model):

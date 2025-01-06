@@ -2,16 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../context/Context";
 import cancel from "../assets/icons8-cross-24.png";
 import { RxCross1 } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 const Invitations = ({ setShowInvites, status, setStatus }) => {
-  const { getUserInvites, darkMode, responseToInvite, getFirstLetter } = useContext(Context);
+  const { getUserInvites, darkMode, responseToInvite, getFirstLetter, getUserWorkspaces } =
+    useContext(Context);
   const [invites, setInvites] = useState([]);
+  const [workspaces, setWorkspace] = useState([]);
   const [showResponse, setShowResponse] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserInvites = async () => {
       try {
         const response = await getUserInvites();
+        const response2 = await getUserWorkspaces();
+        setWorkspace(response2.active);
         setInvites(response);
       } catch (error) {
         console.log(error);
@@ -22,7 +28,12 @@ const Invitations = ({ setShowInvites, status, setStatus }) => {
   const handleClick = async (id, res, pk, workspace) => {
     console.log(workspace);
     try {
-      const response = await responseToInvite(id, res, pk, workspace);
+      const response = await responseToInvite(id, res, pk, workspace, workspaces.id);
+      setStatus(pk);
+      if (res == true) {
+        navigate("/dashboard/");
+        window.location.reload();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +43,7 @@ const Invitations = ({ setShowInvites, status, setStatus }) => {
     <div className=" fixed z-50 inset-0  bg-black w-100%   bg-opacity-50 grid place-items-center">
       {invites ? (
         <div
-          className={`w-23% ${
+          className={`w-23% h-70% overflow-y-auto ${
             darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
           } p-5 rounded-lg`}
         >
@@ -71,7 +82,6 @@ const Invitations = ({ setShowInvites, status, setStatus }) => {
                             <button
                               className="bg-blue-600 text-white py-1 px-3 rounded-md text-13"
                               onClick={() => {
-                                setStatus(!status);
                                 handleClick(invite.sender.id, true, invite.id, invite.workspace);
                               }}
                             >
@@ -80,7 +90,6 @@ const Invitations = ({ setShowInvites, status, setStatus }) => {
                             <button
                               className="border-1 border-mygrey2 py-1 px-3 rounded-md text-13"
                               onClick={() => {
-                                setStatus(!status);
                                 handleClick(
                                   invite.sender.id,
                                   false,
