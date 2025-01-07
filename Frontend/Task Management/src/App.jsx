@@ -4,11 +4,10 @@ import Invitations from "./components/Invitations";
 import Account from "./pages/Account";
 import DashBoard from "./pages/DashBoard";
 import Task from "./pages/Task";
-import TaskDetail from "./pages/TaskDetail";
 import Team from "./pages/Team";
 import { Routes, Route, useLocation } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "./context/Context";
 import LandingPage from "./pages/LandingPage";
 import Project from "./pages/Project";
@@ -25,6 +24,16 @@ function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [showCreateWorkspace, setShowCreateWorkspace] = useState(false);
   const [status, setStatus] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const specificElementRef = useRef(null);
+
+  const handlePageClick = (event) => {
+    if (!specificElementRef.current?.contains(event.target)) {
+      setShowNotification(false);
+      setShowMenu(false);
+    }
+  };
 
   useEffect(() => {
     const toggleDarkMode = () => {
@@ -45,7 +54,7 @@ function App() {
   }, []);
 
   return (
-    <div className="flex  overflow-y-hidden ">
+    <div className="flex  overflow-y-hidden" onClick={handlePageClick}>
       {showCreateWorkspace ? (
         <CreateWorkspace setShowCreateWorkspace={setShowCreateWorkspace} />
       ) : (
@@ -67,12 +76,17 @@ function App() {
           </div>
           <div className="lg:w-85% sm:w-100% lg:ml-15% sm:ml-10 fixed z-1 top-0 ">
             <Header
+              specificElementRef={specificElementRef}
               setShowInvites={setShowInvites}
               setShowInbox={setShowInbox}
               setShowCreateWorkspace={setShowCreateWorkspace}
               showCreateWorkspace={showCreateWorkspace}
               setShowProfile={setShowProfile}
               status={status}
+              showNotification={showNotification}
+              setShowNotification={setShowNotification}
+              showMenu={showMenu}
+              setShowMenu={setShowMenu}
             />
           </div>
         </div>
@@ -101,14 +115,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/detail/:taskId"
-            element={
-              <PrivateRoute>
-                <TaskDetail />
-              </PrivateRoute>
-            }
-          />
+
           <Route path="/account/" element={<Account />} />
           <Route
             path="/dashboard/"

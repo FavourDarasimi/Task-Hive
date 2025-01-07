@@ -64,7 +64,7 @@ const Inbox = ({ setShowInbox }) => {
         <div>
           {notifications ? (
             notifications.map((notification) => (
-              <div className="flex gap-x-1">
+              <div className="flex gap-x-1" key={notification.id}>
                 {notification.starred ? <IoStar fill="yellow" /> : <IoStarOutline />}
 
                 <h1>{notification.message}</h1>

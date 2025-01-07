@@ -14,7 +14,7 @@ const AddProject = ({ setShow }) => {
     const fetchTeamMembers = async () => {
       const response = await getTeamMembers();
 
-      const members = response.user.members;
+      const members = response.members;
       const teamMembers = members.filter((member) => member.username != username);
       const options = teamMembers.map((member) => ({
         value: member.id,

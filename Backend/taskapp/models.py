@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 from django.utils import timezone
 import math
 from django.db import models
@@ -80,6 +81,11 @@ class Task(models.Model):
     def __save__(self,*args, **kwargs):
         super().save(*args, **kwargs)
         self.assigned_members.add(self.user)
+
+    def is_due(self):
+        due = self.due_date < date.today()
+        not_complete = self.status != 'Completed'
+        return due & not_complete    
    
 
 

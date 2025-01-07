@@ -57,7 +57,7 @@ const UpdateProfile = ({ setShowUpdate }) => {
   };
 
   return (
-    <div className=" fixed z-1 inset-0  bg-black w-100%  bg-opacity-50 grid place-items-center">
+    <div className=" fixed z-1 inset-0  bg-black w-100%  bg-opacity-30 grid place-items-center">
       <form
         className={` rounded-3xl  ${
           darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
@@ -131,7 +131,7 @@ const UpdateProfile = ({ setShowUpdate }) => {
                       setGender("MALE");
                       handleChange(e);
                     }}
-                    checked={gender == "MALE" ? true : ""}
+                    checked={gender == "MALE" ? true : false}
                   />
                   <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex w-full items-center justify-center p-5 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-blue-600 peer-checked:ring-blue-600 peer-checked:ring-offset-2">
                     Male
@@ -147,7 +147,7 @@ const UpdateProfile = ({ setShowUpdate }) => {
                       setGender("FEMALE");
                       handleChange(e);
                     }}
-                    checked={gender == "FEMALE" ? true : ""}
+                    checked={gender == "FEMALE" ? true : false}
                   />
                   <div class="rounded-xl border-1 text-17 border-gray-300 h-14 flex w-full items-center justify-center p-5 text-gray-600 ring-2 ring-transparent transition-all hover:shadow peer-checked:text-blue-600 peer-checked:ring-blue-600 peer-checked:ring-offset-2">
                     Female

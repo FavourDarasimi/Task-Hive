@@ -20,7 +20,7 @@ const CreateWorkspace = ({ setShowCreateWorkspace }) => {
       <form
         className={` rounded-3xl  ${
           darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
-        } lg:w-30% sm:w-90% h-fit  fixed`}
+        } lg:w-25% sm:w-90% h-fit  fixed`}
         onSubmit={(e) => {
           handleSubmit(e, name);
         }}

@@ -141,7 +141,15 @@ class AddUserToProject(APIView):
         return Response(data = serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
-
+class UpdateProject(APIView):
+    def put(self,request:Request,pk):
+        data = request.data
+        project = Project.objects.get(id=pk)
+        serializer = ProjectSerializer(instance=project,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
+        return Response(data = serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 class DetailProjectView(APIView):
     def get(self,request:Request,pk):
@@ -159,6 +167,9 @@ class DeleteProject(APIView):
     def delete(Self,request,pk):
         try:
             project= Project.objects.get(id=pk)
+            tasks = Task.objects.filter(project=project)
+            for task in tasks:
+                task.delete()
             project.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Project.DoesNotExist:
@@ -221,6 +232,17 @@ class ListTaskView(APIView):
         serializer = TaskSerializer(instance=task,many=True)
         return Response(data=serializer.data,status=status.HTTP_200_OK)
     
+class UpdateTask(APIView):
+    def put(self,request:Request,pk):
+        data = request.data
+        task = Task.objects.get(id=pk)
+        serializer = TaskSerializer(instance=task,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
+        return Response(data = serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
 class DeleteTask(APIView):
     def delete(Self,request,pk):
         try:
@@ -244,21 +266,28 @@ class StatusOfTasks(APIView):
     def get(self,request:Request):
         space_id = request.query_params.get('space_id')
         workspace = WorkSpace.objects.filter(Q(owner=request.user) | Q(team__members = request.user),active=request.user)[0]
-        all = Task.objects.filter(assigned_members = request.user,workspace=workspace)
-        completed = Task.objects.filter(assigned_members = request.user,status="Completed",workspace=workspace) 
-        project = Project.objects.filter(assigned_members = request.user,workspace=workspace) 
-        in_progress = Task.objects.filter(assigned_members = request.user,status="In Progress",workspace=workspace) 
+        all_task = Task.objects.filter(assigned_members = request.user,workspace=workspace)
+        completed_task = Task.objects.filter(assigned_members = request.user,status="Completed",workspace=workspace) 
+        all_project = Project.objects.filter(assigned_members = request.user,workspace=workspace) 
+        in_progress_task = Task.objects.filter(assigned_members = request.user,status="In Progress",workspace=workspace) 
         team = Team.objects.get(id=workspace.team.id)
+        missed_deadline = []
+        for task in all_task.all():
+            if task.is_due() == True:
+                missed_deadline.append(task)
+            else:
+                pass    
         today = timezone.now()
         range_days = 5
         start_date = today 
         end_date = today + timedelta(days=range_days)
-        upcoming_deadlines = Task.objects.filter(due_date__range=(start_date,end_date),assigned_members = request.user,workspace=workspace)[:5]
-        all_serializer = TaskSerializer(all,many=True)
+        upcoming_deadlines = Task.objects.filter(due_date__range=(start_date,end_date),assigned_members = request.user,workspace=workspace).order_by("due_date")[:5]
+        all_serializer = TaskSerializer(all_task,many=True)
         upcoming_deadlines_serializer = TaskSerializer(upcoming_deadlines,many=True)
-        completed_serializer = TaskSerializer(completed,many=True)
-        project_serializer = ProjectSerializer(project,many=True)
-        in_progress_serializer = TaskSerializer(in_progress,many=True)
+        completed_serializer = TaskSerializer(completed_task,many=True)
+        project_serializer = ProjectSerializer(all_project,many=True)
+        in_progress_serializer = TaskSerializer(in_progress_task,many=True)
+        missed_deadline_serializer = TaskSerializer(missed_deadline,many=True)
         team_serializer = TeamSerializer(team)
         response = {
             'all':all_serializer.data,
@@ -267,6 +296,7 @@ class StatusOfTasks(APIView):
             'in_progress':in_progress_serializer.data ,
             'upcoming':upcoming_deadlines_serializer.data,
             "team":team_serializer.data,
+            "missed_deadline":missed_deadline_serializer.data,
         }
         return Response(data=response,status=status.HTTP_200_OK)
     
@@ -444,25 +474,19 @@ class ResponseToInvitationView(APIView):
         
 class UserInvitationView(APIView):
     def get(self, request:Request):
-        space_id = request.query_params.get('space_id')
-        workspace = WorkSpace.objects.filter(Q(owner=request.user) | Q(team__members = request.user),active=request.user)[:1].get()
-        invitations = Invitation.objects.filter(receiver=request.user)
+        invitations = Invitation.objects.filter(receiver=request.user).order_by("-sent_at")
         serializer = InvitationSerializer(invitations,many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class NotificationView(APIView):
     def get(self,request:Request):
-        space_id = request.query_params.get('space_id')
-        workspace = WorkSpace.objects.filter(Q(owner=request.user) | Q(team__members = request.user),active=request.user)[:1].get()
-        notification = Notification.objects.filter(user=request.user)
+        notification = Notification.objects.filter(user=request.user).order_by("-date_created")
         serializer = NotificationSerializer(notification,many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
 class UnReadNotificationView(APIView):
-    def get(self,request:Request):
-        space_id = request.query_params.get('space_id')
-        
-        notification = Notification.objects.filter(user=request.user,read=False)
+    def get(self,request:Request):        
+        notification = Notification.objects.filter(user=request.user,read=False).order_by("-date_created")
         serializer = NotificationSerializer(notification,many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)   
 

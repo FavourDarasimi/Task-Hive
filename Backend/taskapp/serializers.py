@@ -53,9 +53,14 @@ class TaskSerializer(serializers.ModelSerializer):
     due_date = serializers.DateField()
     assigned_members = UserSerializer(many=True,read_only=True)
     workspace = WorkSpaceSerializer(read_only=True)
+    is_due = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Task
-        fields = ['id','workspace','user','workspace','title','due_date','created_at','priority','status','assigned_members','project','completed']
+        fields = ['id','workspace','user','workspace','title','due_date','created_at','priority','status','assigned_members','project','completed','is_due']
+
+    def get_is_due(self,obj):
+        return obj.is_due()
+
 
 class InvitationSerializer(serializers.ModelSerializer):
     time_since_created = serializers.SerializerMethodField()

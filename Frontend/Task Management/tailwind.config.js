@@ -83,6 +83,9 @@ export default {
       zIndex: {
         1: "1",
       },
+      boxShadow: {
+        "custom-strong": "0 10px 15px -3px rgba(0,0,0,0.5), 0,4px 6px -2px rgba(0,0,0,0.3)",
+      },
     },
   },
   plugins: [],

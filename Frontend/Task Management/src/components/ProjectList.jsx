@@ -2,20 +2,13 @@ import React, { useState, useContext } from "react";
 import { Context } from "../context/Context";
 import { Link } from "react-router-dom";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { MdOutlineAddToPhotos, MdEdit, MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi2";
-import { PiGreaterThan } from "react-icons/pi";
 import { FaTasks, FaUserCircle } from "react-icons/fa";
-import AddTask from "../components/AddTask";
-const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask, setDelete }) => {
+import EditProject from "./EditProject";
+const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setShowEdit }) => {
   const { getDate, darkMode, deleteProject } = useContext(Context);
-  const [numOfTasks, setNumOfTasks] = useState(7);
-  const [projectid, setProjectid] = useState(null);
-  const handleClick = (id) => {
-    console.log(id);
-    setProjectid(id);
-    setShowTask(true);
-  };
+
   const delProject = async (id) => {
     try {
       const response = await deleteProject(id);
@@ -32,7 +25,7 @@ const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask, se
           darkMode == "dark" ? "bg-myblack2" : "bg-white"
         } lg:p-5 sm:p-3 rounded-xl  flex flex-col`}
       >
-        {showTask && projectid ? <AddTask projectid={projectid} setShow={setShowTask} /> : ""}
+        {showEdit ? <EditProject project={project} setShowEdit={setShowEdit} /> : ""}
         <div className="flex justify-between items-center">
           <h1
             className={` ${
@@ -56,7 +49,10 @@ const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask, se
                 showMenu == project.id ? "block" : "hidden"
               }`}
             >
-              <div className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white">
+              <div
+                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
+                onClick={() => setShowEdit(true)}
+              >
                 <MdEdit />
                 <h1 className="">Edit</h1>
               </div>
@@ -109,22 +105,24 @@ const ProjectList = ({ project, showMenu, setShowMenu, showTask, setShowTask, se
         </div>
 
         <div className="flex -space-x-2 pt-1">
-          {project.assigned_members.map((member, index) =>
-            member.profile.avatar ? (
-              <img
-                src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                className={`lg:w-12 lg:h-12 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
-                  darkMode == "dark" ? "border-myblack" : "border-white"
-                }`}
-              />
-            ) : (
-              <FaUserCircle
-                className={`lg:w-12 lg:h-12 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
-                  darkMode == "dark" ? "border-myblack" : "border-white"
-                }`}
-              />
-            )
-          )}
+          {project.assigned_members.map((member) => (
+            <div key={member.id}>
+              {member.profile.avatar ? (
+                <img
+                  src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                  className={`lg:w-12 lg:h-12 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                    darkMode == "dark" ? "border-myblack" : "border-white"
+                  }`}
+                />
+              ) : (
+                <FaUserCircle
+                  className={`lg:w-12 lg:h-12 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
+                    darkMode == "dark" ? "border-myblack" : "border-white"
+                  }`}
+                />
+              )}
+            </div>
+          ))}
         </div>
 
         <div className="flex justify-between lg:pt-5 sm:pt-2">

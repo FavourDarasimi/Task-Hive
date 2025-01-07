@@ -555,6 +555,61 @@ const ContextProvider = (props) => {
     }
   };
 
+  const updateDueDate = async (pk, date) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/update/task/${pk}`,
+        { due_date: date },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  const updateTask = async (pk, title, priority) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/update/task/${pk}`,
+        { title: title, priority: priority },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  const updateProject = async (pk, title) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/update/project/${pk}`,
+        { name: title },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
   const getDate = (dateTime) => {
     const options = {
       day: "numeric",
@@ -640,6 +695,9 @@ const ContextProvider = (props) => {
     deleteProject,
     addMemberToProject,
     deleteTask,
+    updateDueDate,
+    updateProject,
+    updateTask,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;

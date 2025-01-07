@@ -9,6 +9,8 @@ urlpatterns = [
     path('list/task', views.ListTaskView.as_view()),
     path('task/due/today', views.TodaysDueTaskView.as_view()),
     path('task/status', views.StatusOfTasks.as_view()),
+    path('update/task/<int:pk>', views.UpdateTask.as_view()),
+    path('update/project/<int:pk>', views.UpdateProject.as_view()),
     path('team/memebers', views.TeamMembers.as_view()),
     path('leave/team/<int:pk>', views.LeaveTeam.as_view()),
     path('list/project', views.ListProjectView.as_view()),

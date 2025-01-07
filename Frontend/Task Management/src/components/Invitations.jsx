@@ -40,10 +40,10 @@ const Invitations = ({ setShowInvites, status, setStatus }) => {
   };
 
   return (
-    <div className=" fixed z-50 inset-0  bg-black w-100%   bg-opacity-50 grid place-items-center">
+    <div className=" fixed z-50 inset-0  bg-black w-100%   bg-opacity-30 grid place-items-center">
       {invites ? (
         <div
-          className={`w-23% h-70% overflow-y-auto ${
+          className={`w-23% max-h-[70%] overflow-y-auto ${
             darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
           } p-5 rounded-lg`}
         >
@@ -58,6 +58,7 @@ const Invitations = ({ setShowInvites, status, setStatus }) => {
             {invites.length > 0 ? (
               invites.map((invite) => (
                 <div
+                  key={invite.id}
                   className={`flex items-center justify-between ${
                     darkMode == "dark" ? "border-b-black border-b-1" : "border-b-mygrey border-b-1"
                   }`}

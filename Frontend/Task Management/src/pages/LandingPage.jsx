@@ -43,7 +43,7 @@ const LandingPage = () => {
   };
   return (
     <div className="">
-      <div className="flex justify-between p-2">
+      <div className="flex justify-between pt-2 px-7">
         <h1 className="lg:text-4xl  sm:text-xl  font-bold  text-blue-600 text-center ">TASKHIVE</h1>
         <div>
           <Link to="/account/">
@@ -58,22 +58,22 @@ const LandingPage = () => {
       </div>
 
       <div
-        className={`mx-auto lg:w-60% sm:w-90% lg:pt-32 sm:pt-16 ${
+        className={`mx-auto lg:w-60% sm:w-90% lg:pt-28 sm:pt-16 ${
           darkMode == "dark" ? "text-anti-flash-white" : ""
         }`}
       >
-        <h1 className="lg:text-7xl sm:text-3xl font-medium  text-center leading-tight">
-          Efficient Task Management Strategies
+        <h1 className="lg:text-6xl sm:text-3xl font-medium  text-center leading-tight">
+          Efficient <span className="text-blue-600 font-bold">Task Management</span> Strategies
         </h1>
-        <h1 className="text-center lg:pt-10 lg:w-60%  sm:pt-5 mx-auto ">
+        <h1 className="text-center lg:pt-10 lg:w-60%  sm:pt-5 mx-auto font-semibold">
           Boosting Productivity and Achieving goals.{" "}
           <span className="text-blue-600 font-bold">TaskHive</span> helps you manage your tasks and
-          time effectively, giving you the contro; to focus on what truly matters
+          time effectively, giving you the control to focus on what truly matters
         </h1>
         <div className=" flex justify-center pt-10">
           <Link to="/account/">
             <button
-              className="bg-blue-600 text-xl px-10 rounded-full p-4 w-fit  text-white font-semibold"
+              className="bg-blue-600 text-18 px-8 rounded-full py-3 w-fit  text-white font-semibold"
               onClick={() => setCurrentStatus("signup")}
             >
               Get Started For Free
@@ -102,71 +102,49 @@ const LandingPage = () => {
       </div>
       <div className="flex flex-col items-center sm:w-80% sm:mx-auto lg:w-100%">
         <h1
-          className={`text-center lg:mt-40 sm:mt-20 font-bold text-3xl pb-10 ${
+          className={`text-center lg:mt-40 sm:mt-20 font-bold text-2xl pb-10 ${
             darkMode == "dark" ? "text-anti-flash-white" : ""
           }`}
         >
           Key Features
         </h1>
         <div className="grid lg:grid-cols-3 sm:grid-cols-1 sm:gap-y-7 gap-x-10 mb-10">
-          <div className="bg-gradient-to-tl from-blue-600 to-blue-300 rounded-lg lg:p-8 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
+          <div className="bg-gradient-to-tl from-blue-600 to-blue-300 rounded-lg lg:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
             <div className="bg-blue-200 p-10 rounded-full w-fit h-fit mx-auto">
-              <GrTasks className="text-blue-600 w-7 h-7" />
+              <GrTasks className="text-blue-600 w-5 h-5" />
             </div>
-            <h1 className="text-center font-bold lg:text-2xl sm:text-19 text-white lg:pt-7 sm:pt-4">
+            <h1 className="text-center font-bold lg:text-xl sm:text-19 text-white lg:pt-5 sm:pt-4">
               Task Creation and Management
             </h1>
-            <h1 className="pt-2 sm:text-14 lg:text-16 text-white text-center">
+            <h1 className="pt-2 sm:text-14 lg:text-15 font-semibold text-white text-center">
               Easily create, edit, and delete tasks with intuitive controls.
             </h1>
           </div>
 
-          <div className="bg-gradient-to-tl from-blue-400 to-fuchsia-600 rounded-lg lg:p-8 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
+          <div className="bg-gradient-to-tl from-blue-400 to-fuchsia-600 rounded-lg lg:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
             <div className="bg-blue-200 p-4 rounded-full w-fit h-fit mx-auto">
-              <DiResponsive className="text-blue-600 w-20 h-20" />
+              <DiResponsive className="text-blue-600 w-16 h-16" />
             </div>
-            <h1 className="text-center font-bold lg:text-2xl sm:text-19 text-white lg:pt-7 sm:pt-4">
+            <h1 className="text-center font-bold lg:text-xl sm:text-19 text-white lg:pt-5 sm:pt-4">
               User Friendly Interface
             </h1>
-            <h1 className="pt-2 sm:text-14 lg:text-16 text-white text-center">
+            <h1 className="pt-2 sm:text-14 lg:text-15 font-semibold text-white text-center">
               Enjoy a clean, intuitive interface designed for ease of use.
             </h1>
           </div>
 
-          <div className="bg-gradient-to-tl from-fuchsia-500 to-blue-800  rounded-lg lg:p-8 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
+          <div className="bg-gradient-to-tl from-fuchsia-500 to-blue-800  rounded-lg lg:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
             <div className="bg-blue-200 p-9 rounded-full w-fit h-fit mx-auto">
-              <MdOutlineNotificationsActive className="text-blue-600 w-9 h-9" />
+              <MdOutlineNotificationsActive className="text-blue-600 w-6 h-6" />
             </div>
-            <h1 className="text-center font-bold lg:text-2xl sm:text-19 text-white lg:pt-7 sm:pt-4">
+            <h1 className="text-center font-bold lg:text-xl sm:text-19 text-white lg:pt-5 sm:pt-4">
               Reminders and Notifications
             </h1>
-            <h1 className="pt-2 sm:text-14 lg:text-16 text-white text-center">
+            <h1 className="pt-2 sm:text-14 lg:text-15 font-semibold text-white text-center">
               Stay on track with timely reminders and notifications.
             </h1>
           </div>
         </div>
-        {/*  percentage completion */}
-        {/* <div className="flex justify-center items-center">
-          <div className="relative">
-            <svg className="w-24 h-24" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r={radius} fill="none" stroke="#ddd" strokeWidth="10" />
-              <circle
-                cx="50"
-                cy="50"
-                r={radius}
-                fill="none"
-                stroke="#2563eb"
-                strokeWidth="10"
-                strokeDasharray={circumference}
-                strokeDashoffset={offset}
-                style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
-              />
-            </svg>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold text-gray-600">
-              {completionPercentage}%
-            </div>
-          </div>
-        </div> */}
       </div>
       <h1 className="mt-auto mx-auto p-2 sm:text-14 lg:text-18  font-semibold w-fit">
         The Everything app for task Management
