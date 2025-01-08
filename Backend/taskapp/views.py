@@ -118,11 +118,66 @@ class AddUserToProject(APIView):
                 try:
                     workspace = WorkSpace.objects.get(id=project.workspace.id)
                     team = Team.objects.get(id=workspace.team.id,members=user)
-                    updated_project.assigned_members.add(user)
-                    updated_project.save()
+                    if user in project.assigned_members.all():
+                        response = {
+                            'message':'User Already Added'
+                        }  
+                    else:
+                        updated_project.assigned_members.add(user)
+                        updated_project.save()
+                        response = {
+                            'message':'User Added'
+                        }
+                         
+                except Team.DoesNotExist:
                     response = {
-                        'message':'User Added'
+                        'message':'User not in your Team'
                     }
+            except User.DoesNotExist:
+                if ".com" in name  or "@" in name or "gmail" in name:
+                    response = {
+                        'message':'User with this email address does not exist'
+                    }
+                else:
+                    response = {
+                        'message':'User with this Username does not exist'
+                    }        
+                
+            return Response(data=response,status=status.HTTP_200_OK)
+        return Response(data = serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+class RemoveUserFromProject(APIView):
+    def put(self,request:Request,pk):
+        data = request.data
+        name= data.get('param')
+        project = Project.objects.get(id=pk)
+        serializer = ProjectSerializer(instance=project,data=data,partial=True)
+        if serializer.is_valid():
+            updated_project = serializer.save()
+            try:
+                user = User.objects.get(Q(username=name) | Q(email=name))
+                try:
+                    workspace = WorkSpace.objects.get(id=project.workspace.id)
+                    team = Team.objects.get(id=workspace.team.id,members=user)
+                    if user in project.assigned_members.all():
+                        if user == project.user:
+                            response = {
+                            'message':"You can't remove the creator of the project"
+                        }
+                        else:
+                            tasks = Task.objects.filter(project=project,assigned_members=user)
+                            for task in tasks:
+                                task.assigned_members.remove(user)
+                                task.save()    
+                            updated_project.assigned_members.remove(user)
+                            updated_project.save()
+                            response = {
+                                'message':'User Removed'
+                            }
+                    else:
+                        response = {
+                            'message':"User Not Assigned To this Project"
+                        }    
                 except Team.DoesNotExist:
                     response = {
                         'message':'User not in your Team'
@@ -162,6 +217,14 @@ class DetailProjectView(APIView):
             'task':taskSerializer.data
         }
         return Response(data=response,status=status.HTTP_200_OK)
+
+class ProjectTaskDueToday(APIView):
+    def get(self,request:Request,pk):
+        project = Project.objects.get(pk=pk)
+        dates =  date.today()
+        task = Task.objects.filter(project=project,due_date=dates,completed=False)
+        serializer = TaskSerializer(task,many=True)
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
 
 class DeleteProject(APIView):
     def delete(Self,request,pk):

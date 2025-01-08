@@ -3,15 +3,27 @@ import { Context } from "../context/Context";
 import { MdStars } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 
-const ProjectTeam = ({ project, setAdded }) => {
-  const { username, darkMode, addMemberToProject } = useContext(Context);
+const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
+  const { username, darkMode, addMemberToProject, removeMemberToProject } = useContext(Context);
 
   const [param, setParam] = useState();
+  const [status, setStatus] = useState("Add");
+  const [isOpen, setIsOpen] = useState(false);
 
-  const onSubmit = async () => {
+  const addSubmit = async () => {
     try {
       const response = await addMemberToProject(project.id, param);
-      setAdded(param);
+      setAdded(!added);
+      console.log(response);
+      alert(response.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const removeSubmit = async () => {
+    try {
+      const response = await removeMemberToProject(project.id, param);
+      setRemoved(!removed);
       console.log(response);
       alert(response.message);
     } catch (error) {
@@ -21,73 +33,105 @@ const ProjectTeam = ({ project, setAdded }) => {
 
   return (
     <div
-      className={` pt-10 my-10 ${
+      className={` py-3 ${
         darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
-      } rounded-xl w-60% px-5 pb-10 pt-5 ml-5 `}
+      } rounded-xl w-fit px-3   `}
     >
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold mb-2 ">Project Team</h1>
+      <div className="flex justify-between">
+        <h1 className="text-16 text-center pb-3 font-semibold">Assigned Team</h1>
+        {project.user.username == username ? (
+          <div className="relative">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className=" px-4 py-[6px] font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center text-13"
+            >
+              {status}
+            </button>
+            {isOpen ? (
+              <div className="absolute top-0 z-1 mt-12  shadow-2xl border border-gray-300 rounded-md flex flex-col gap-y-1 bg-white">
+                <h1
+                  onClick={() => {
+                    setStatus("Add");
+                    setIsOpen(false);
+                  }}
+                  className="hover:bg-gray-100 py-2 px-4 cursor-pointer text-14"
+                >
+                  Add
+                </h1>
+                <h1
+                  onClick={() => {
+                    setStatus("Remove");
+                    setIsOpen(false);
+                  }}
+                  className="hover:bg-gray-100 py-2 px-4 cursor-pointer text-14"
+                >
+                  Remove
+                </h1>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+
+      <div className="flex justify-center items-center gap-x-3 pt-2">
+        <div className="flex -space-x-3 ">
+          {project.assigned_members.map((member, index) =>
+            index >= 4 ? (
+              index == 4 ? (
+                <div
+                  key={member.id}
+                  className={`bg-anti-flash-white lg:text-15 sm:text-10 font-bold  lg:w-9 lg:h-9 sm:w-5 sm:h-5 shadow-2xl rounded-full border-2 flex items-center justify-center ${
+                    darkMode == "dark" ? "text-black border-myblack" : "border-white"
+                  }`}
+                >
+                  +{project.assigned_members.length - index}
+                </div>
+              ) : (
+                ""
+              )
+            ) : member.profile.avatar ? (
+              <img
+                src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                className={`lg:w-9 lg:h-9 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
+                  darkMode == "dark" ? "border-myblack" : "border-white"
+                }`}
+              />
+            ) : (
+              <FaUserCircle
+                className={`lg:w-9 lg:h-9 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
+                  darkMode == "dark" ? "border-myblack" : "border-white"
+                }`}
+              />
+            )
+          )}
+        </div>
         {project.name == "Personal Tasks" ? (
           ""
-        ) : (
+        ) : project.user.username == username ? (
           <div className="flex ">
             <input
-              className={`border-1 ${
+              className={`border-1 placeholder:text-12 text-14 ${
                 darkMode == "dark" ? "border-myblack bg-myblack2" : "border-mygrey2 bg-white"
-              } rounded-l-md p-2 outline-none focus:border-2 w-52 h-10  focus:border-blue-600`}
+              } rounded-l-md p-2 outline-none focus:border-2 w-40 h-9  focus:border-blue-600`}
               type="email"
               placeholder="Email Address/Username"
               onChange={(e) => setParam(e.target.value)}
-            />
+            />{" "}
             <button
-              onClick={() => onSubmit()}
-              className="bg-blue-600 text-white px-5 font-semibold rounded-r-md outline-none"
+              onClick={() => (status == "Add" ? addSubmit() : removeSubmit())}
+              className="bg-blue-600 text-white text-14 px-3 font-semibold rounded-r-md outline-none"
             >
-              Add
+              {status == "Add" ? "Add" : "Remove"}
             </button>
           </div>
+        ) : (
+          ""
         )}
       </div>
-      <ul className="list-disc pt-5">
-        <div
-          className={` flex gap-x-2 pb-2 border-b-1 ${
-            darkMode == "dark" ? "border-myblack" : "border-gray-300"
-          }`}
-        >
-          <h1 className="w-40% font-semibold">Username</h1>
-          <h1 className="w-30% font-semibold">Fullname</h1>
-          <h1 className="w-30% font-semibold">Email</h1>
-        </div>
-        {project.assigned_members.map((member) => (
-          <li
-            key={member.id}
-            className={`flex  items-center gap-x-2 border-b-1 ${
-              darkMode == "dark" ? "border-myblack" : "border-gray-300"
-            } py-1`}
-          >
-            <div className="flex items-center gap-x-1 w-40%">
-              {member.profile.avatar ? (
-                <img
-                  src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                  className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
-                    darkMode == "dark" ? "border-myblack" : "border-white"
-                  }`}
-                />
-              ) : (
-                <FaUserCircle
-                  className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
-                    darkMode == "dark" ? "border-myblack" : "border-white"
-                  }`}
-                />
-              )}
-              <h1 className="text-15 font-semibold">{member.username}</h1>
-              {username == member.username ? <MdStars className="w-4 h-4 text-blue-600" /> : ""}
-            </div>
-            <h1 className="text-15 w-30%">{member.full_name}</h1>
-            <h1 className="text-15 w-30%">{member.email}</h1>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

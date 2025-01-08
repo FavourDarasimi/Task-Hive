@@ -457,6 +457,21 @@ const ContextProvider = (props) => {
       throw error.response.data;
     }
   };
+  const getProjectTaskDueToday = async (pk) => {
+    try {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      const response = await axios.get(
+        `http://localhost:8000/project/task/due/${pk}`,
+
+        {
+          headers: { Authorization: `Bearer ${token.access}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
 
   const switchWorkspace = async (last_workspace, new_workspace) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
@@ -541,6 +556,24 @@ const ContextProvider = (props) => {
     try {
       const response = await axios.put(
         `http://127.0.0.1:8000/add/member/project/${pk}`,
+        { param: param },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+  const removeMemberToProject = async (pk, param) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/remove/member/project/${pk}`,
         { param: param },
 
         {
@@ -698,6 +731,8 @@ const ContextProvider = (props) => {
     updateDueDate,
     updateProject,
     updateTask,
+    getProjectTaskDueToday,
+    removeMemberToProject,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;

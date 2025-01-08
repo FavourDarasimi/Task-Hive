@@ -23,14 +23,14 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
       <div
         className={` ${
           darkMode == "dark" ? "bg-myblack2" : "bg-white"
-        } lg:p-5 sm:p-3 rounded-xl  flex flex-col`}
+        } lg:p-5 sm:p-2 rounded-xl  flex flex-col`}
       >
         {showEdit ? <EditProject project={project} setShowEdit={setShowEdit} /> : ""}
         <div className="flex justify-between items-center">
           <h1
             className={` ${
               darkMode == "dark" ? "text-anti-flash-white" : ""
-            } lg:text-xl sm:text-16 font-bold   `}
+            } lg:text-18 sm:text-10 font-bold   `}
           >
             {project.name}
           </h1>
@@ -39,7 +39,7 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
             <button
               onClick={() => (showMenu == project.id ? setShowMenu() : setShowMenu(project.id))}
             >
-              <HiOutlineDotsVertical className="w-5 h-5" />
+              <HiOutlineDotsVertical className="lg:w-5 lg:h-5 sm:w-3 sm:h-3" />
             </button>
 
             <div
@@ -66,24 +66,16 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
             </div>
           </div>
         </div>
-        <p className="lg:text-14 sm:text-xs text-gray-400 pl-2 pt-1">
+        <p className="lg:text-13 sm:text-[8px] text-gray-400 pl-2 lg:pt-1 sm:-mt-[4px]">
           {getDate(project.created_at)}
         </p>
 
-        <div className="lg:pt-10 sm:pt-4 flex gap-x-5 items-center">
-          <div className="flex justify-end pt-1 lg:text-xl sm:text-xs font-semibold">
+        <div className="lg:pt-5 sm:pt-2 flex lg:gap-x-5 sm:gap-x-1 items-center">
+          <div className="flex justify-end  lg:text-18 sm:text-[9px] font-semibold sm:font-bold">
             <h1>{project.percentage}%</h1>
           </div>
-          <svg height={10} className="w-100%">
-            <line
-              x1="0"
-              y1={10 / 2}
-              x2={370}
-              y2={10 / 2}
-              stroke="#f0f0f0"
-              strokeWidth={4}
-              strokeLinecap="round"
-            />
+          <svg height={10} className="w-100% lg:stroke-[4] sm:stroke-[2]">
+            <line x1="0" y1={10 / 2} x2={370} y2={10 / 2} stroke="#f0f0f0" strokeLinecap="round" />
             <line
               x1="0"
               y1={10 / 2}
@@ -99,46 +91,47 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
                   ? "#2563eb"
                   : "#16a34a"
               }`}
-              strokeWidth={4}
             />
           </svg>
         </div>
 
-        <div className="flex -space-x-2 pt-1">
-          {project.assigned_members.map((member) => (
-            <div key={member.id}>
-              {member.profile.avatar ? (
-                <img
-                  src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                  className={`lg:w-12 lg:h-12 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
-                    darkMode == "dark" ? "border-myblack" : "border-white"
+        <div className="flex items-center lg:-space-x-3 sm:-space-x-2 lg:pt-1 sm:pt-[2px] justify-center">
+          {project.assigned_members.map((member, index) =>
+            index >= 4 ? (
+              index == 4 ? (
+                <h1
+                  key={member.id}
+                  className={`bg-anti-flash-white  lg:text-19 font-bold  lg:w-[44px] lg:h-[44px] sm:w-6 sm:h-6 sm:text-10 border-2 rounded-full flex items-center justify-center ${
+                    darkMode == "dark" ? "text-black border-myblack" : "border-white"
                   }`}
-                />
+                >
+                  {" "}
+                  +{project.assigned_members.length - index}
+                </h1>
               ) : (
-                <FaUserCircle
-                  className={`lg:w-12 lg:h-12 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full lg:ml-3 border-3 ${
-                    darkMode == "dark" ? "border-myblack" : "border-white"
-                  }`}
-                />
-              )}
-            </div>
-          ))}
+                ""
+              )
+            ) : member.profile.avatar ? (
+              <img
+                key={member.id}
+                src={`http://127.0.0.1:8000/${member.profile.avatar}`}
+                className={`lg:w-[44px] lg:h-[44px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
+                  darkMode == "dark" ? "border-myblack" : "border-white"
+                }`}
+              />
+            ) : (
+              <FaUserCircle
+                key={member.id}
+                className={`lg:w-[44px] lg:h-[44px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
+                  darkMode == "dark" ? "border-myblack" : "border-white"
+                }`}
+              />
+            )
+          )}
         </div>
 
-        <div className="flex justify-between lg:pt-5 sm:pt-2">
-          <div className="flex gap-x-3 items-center">
-            <div className="flex gap-x-1 items-center">
-              <HiOutlineUsers />
-              <h1 className=" lg:text-14 sm:text-xs ">
-                {project.assigned_members ? project.assigned_members.length : "0"}
-              </h1>
-            </div>
-            <div className="flex gap-x-1 items-center">
-              <FaTasks />
-              <h1 className="lg:text-14 sm:text-xs">{project.task.length}</h1>
-            </div>
-          </div>
-          <div className="flex  items-center  text-blue-500 lg:text-15 sm:text-13 font-semibold">
+        <div className="flex justify-end lg:pt-5 sm:pt-2">
+          <div className="flex  items-center  text-blue-500 lg:text-15 sm:text-10 font-semibold">
             <Link to={`/project/${project.id}`}>
               <h1>View</h1>
             </Link>

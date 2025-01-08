@@ -49,7 +49,7 @@ export default {
       },
       fontSize: {
         10: "10px",
-        11: "12px",
+        11: "11px",
         12: "12px",
         13: "13px",
         14: "14px",

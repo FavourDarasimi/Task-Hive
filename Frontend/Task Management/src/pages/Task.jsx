@@ -12,6 +12,8 @@ const Task = () => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [showEdit, setShowEdit] = useState(false);
+  const [showMenu, setShowMenu] = useState();
+  const [del, setDel] = useState();
   useEffect(() => {
     const handleGetTasks = async () => {
       try {
@@ -36,11 +38,9 @@ const Task = () => {
       }
     };
     handleGetTasks();
-  }, [status, show]);
+  }, [status, show, del]);
   return (
-    <div
-      className={`sm:pl-10 sm:pr-3 lg:px-10 ${darkMode == "dark" ? "text-anti-flash-white" : ""}`}
-    >
+    <div className={` px-2 ${darkMode == "dark" ? "text-anti-flash-white" : ""}`}>
       {show ? <AddTask setShow={setShow} id={null} /> : ""}
       {loading ? (
         <div className="flex justify-center">
@@ -51,52 +51,59 @@ const Task = () => {
           />
         </div>
       ) : (
-        <div>
+        <div className="lg:-mt-5 sm:-mt-10">
           <div className="flex justify-between">
-            <h1 className="lg:text-3xl sm:text-18 font-bold">Tasks</h1>
+            <h1 className="lg:text-2xl sm:text-14 font-bold">My Tasks</h1>
             <button
-              className="bg-blue-600 rounded-lg lg:p-2 sm:p-2 lg:text-15 sm:text-13 text-white flex items-center gap-x-2"
+              className="bg-blue-600 rounded-lg lg:p-2 sm:p-[6px] lg:text-14 sm:text-10 text-white flex items-center lg:gap-x-2 sm:gap-x-1"
               onClick={() => setShow(true)}
             >
               <FaPlus />
-              Add Task
+              New Task
             </button>
           </div>
           <div className="grid grid-cols-3  gap-x-2 pt-5">
             <div
-              className={`${
+              className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
               } rounded-lg lg:p-3 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
               onClick={() => setStatus("")}
             >
-              <div className="h-4 w-4 bg-black rounded-full"></div>
-              <h1 className="font-bold lg:text-16 sm:text-13">All</h1>
+              <div className="lg:h-4 lg:w-4 sm:w-2 sm:h-2 bg-black rounded-full"></div>
+              <h1 className="font-semibold lg:text-14 sm:text-11">All</h1>
             </div>
 
             <div
-              className={`${
+              className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
               } rounded-lg lg:p-3 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
               onClick={() => setStatus("in progress")}
             >
-              <div className="h-4 w-4 bg-yellow-600 rounded-full"></div>
-              <h1 className="lg:text-16 sm:text-13">In Progress</h1>
+              <div className="lg:h-4 lg:w-4 sm:w-2 sm:h-2 bg-yellow-600 rounded-full"></div>
+              <h1 className="font-semibold lg:text-14 sm:text-11">In Progress</h1>
             </div>
             <div
-              className={`${
+              className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
               } rounded-lg lg:p-3 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
               onClick={() => setStatus("completed")}
             >
-              <div className="h-4 w-4 bg-green-600 rounded-full"></div>
-              <h1 className="lg:text-16 sm:text-13">Completed</h1>
+              <div className="lg:h-4 lg:w-4 sm:w-2 sm:h-2 bg-green-600 rounded-full"></div>
+              <h1 className="font-semibold lg:text-14 sm:text-11">Completed</h1>
             </div>
           </div>
           {tasks && tasks.length > 0 ? (
-            <div className="grid lg:grid-cols-4 sm:grid-cols-1 pt-10 gap-x-7 gap-y-5">
+            <div className="grid lg:grid-cols-4 sm:grid-cols-2 pt-5 lg:gap-x-7 sm:gap-x-4 gap-y-5">
               {tasks.map((task) => (
                 <div key={task.id}>
-                  <TaskList task={task} showEdit={showEdit} setShowEdit={setShowEdit} />
+                  <TaskList
+                    task={task}
+                    showEdit={showEdit}
+                    setShowEdit={setShowEdit}
+                    showMenu={showMenu}
+                    setShowMenu={setShowMenu}
+                    setDel={setDel}
+                  />
                 </div>
               ))}
             </div>

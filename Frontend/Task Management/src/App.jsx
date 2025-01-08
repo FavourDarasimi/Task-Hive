@@ -54,7 +54,7 @@ function App() {
   }, []);
 
   return (
-    <div className="flex  overflow-y-hidden" onClick={handlePageClick}>
+    <div className="flex  overflow-y-hidden " onClick={handlePageClick}>
       {showCreateWorkspace ? (
         <CreateWorkspace setShowCreateWorkspace={setShowCreateWorkspace} />
       ) : (
@@ -66,15 +66,15 @@ function App() {
       {!isLoggedIn ? (
         ""
       ) : (
-        <div>
+        <div className="sm:relative">
           <div
-            className={`lg:w-15% ${
+            className={`lg:w-[15%] sm:w-[100%] ${
               darkMode == "dark" ? "bg-myblack" : ""
-            }  left-0 top-0 z-10 h-full  sm:w-fit fixed sm:px-1`}
+            }  lg:left-0 lg:top-0 z-10 h-full  fixed sm:px-1`}
           >
             <Navbar />
           </div>
-          <div className="lg:w-85% sm:w-100% lg:ml-15% sm:ml-10 fixed z-1 top-0 ">
+          <div className="lg:w-85% sm:w-100% lg:ml-15%  fixed z-1 top-0 ">
             <Header
               specificElementRef={specificElementRef}
               setShowInvites={setShowInvites}
@@ -93,9 +93,9 @@ function App() {
       )}
 
       <div
-        className={`${
+        className={`sm:w-[100%] sm:pb-16 ${
           darkMode == "dark" ? "bg-myblack min-h-screen" : "bg-anti-flash-white min-h-screen"
-        }  ${isLoggedIn ? "lg:ml-15% sm:pl-4 pt-24" : "w-85% "}  sm:w-full`}
+        }  ${isLoggedIn ? "lg:ml-[15%] sm:px-2 pt-24" : " "}  `}
       >
         <Routes>
           <Route path="/" element={<LandingPage />} exact />

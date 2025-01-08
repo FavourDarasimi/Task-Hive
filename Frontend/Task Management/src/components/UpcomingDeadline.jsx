@@ -8,28 +8,28 @@ const UpcomingDeadline = ({ upcoming }) => {
   };
   return (
     <div className="flex flex-col items-center pt-10">
-      <h1 className="text-2xl font-semibold">Upcoming Deadlines</h1>
+      <h1 className="lg:text-2xl sm:text-16 font-semibold">Upcoming Deadlines</h1>
       <div className="flex gap-x-3 pt-3">
         <div className="flex gap-x-1 items-center">
           <div className="w-3 h-3 bg-green-500 rounded-[4px]"></div>
-          <h1 className="text-15">Low Priority</h1>
+          <h1 className="lg:text-15 sm:text-11">Low Priority</h1>
         </div>
         <div className="flex gap-x-1 items-center">
           <div className="w-3 h-3 bg-yellow-500 rounded-[4px]"></div>
-          <h1 className="text-15">Medium Priority</h1>
+          <h1 className="lg:text-15 sm:text-11">Medium Priority</h1>
         </div>
         <div className="flex gap-x-1 items-center">
           <div className="w-3 h-3 bg-red-500 rounded-[4px]"></div>
-          <h1 className="text-15">High Priority</h1>
+          <h1 className="lg:text-15 sm:text-11">High Priority</h1>
         </div>
       </div>
       <div className="flex flex-col gap-y-7 pt-5">
-        {upcoming.length > 1 ? (
+        {upcoming.length >= 1 ? (
           upcoming.map((task, index) => (
             <div key={task.id}>
               {!even(index) ? (
                 <div
-                  className={` ml-24 p-4 w-fit border-l-[5px] hover:scale-125 duration-500 rounded-r-2xl ${
+                  className={` ml-24 lg:p-4 sm:p-3 w-fit lg:border-l-[5px] sm:border-l-[3px] hover:scale-125 duration-500 rounded-r-2xl ${
                     darkMode == "dark" ? "bg-myblack2" : "bg-white"
                   } ${
                     task.priority == "High"
@@ -39,12 +39,12 @@ const UpcomingDeadline = ({ upcoming }) => {
                       : "border-l-green-600"
                   }`}
                 >
-                  <h1 className="font-semibold">{task.title}</h1>
-                  <h1 className="text-14">{getDate(task.due_date)}</h1>
+                  <h1 className="font-semibold lg:text-16 sm:text-13">{task.title}</h1>
+                  <h1 className="lg:text-14 sm:text-10">{getDate(task.due_date)}</h1>
                 </div>
               ) : (
                 <div
-                  className={` p-4 w-fit border-l-[5px] hover:scale-125 duration-500 rounded-r-2xl ${
+                  className={` lg:p-4 sm:p-3 w-fit lg:border-l-[5px] sm:border-l-[3px] hover:scale-125 duration-500 rounded-r-2xl ${
                     darkMode == "dark" ? "bg-myblack2" : "bg-white"
                   } ${
                     task.priority == "High"
@@ -54,14 +54,14 @@ const UpcomingDeadline = ({ upcoming }) => {
                       : "border-l-green-600"
                   }`}
                 >
-                  <h1 className="font-semibold">{task.title}</h1>
-                  <h1 className="text-14">{getDate(task.due_date)}</h1>
+                  <h1 className="font-semibold lg:text-16 sm:text-13">{task.title}</h1>
+                  <h1 className="lg:text-14 sm:text-10">{getDate(task.due_date)}</h1>
                 </div>
               )}
             </div>
           ))
         ) : (
-          <h1 className="text-xl font-semibold">No Upcoming Deadlines</h1>
+          <h1 className="lg:text-xl sm:text-18 font-semibold">No Upcoming Deadlines</h1>
         )}
       </div>
     </div>

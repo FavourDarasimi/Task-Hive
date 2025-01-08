@@ -15,84 +15,74 @@ const Navbar = () => {
 
   const [active, setActive] = useState("");
   return (
-    <nav className="lg:p-5 ">
-      <h1
-        className={`flex lg:hidden ${isOpen ? "justify-end" : "justify-center"}`}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        show
-      </h1>
-      <div className={`flex gap-x-2 items-center `}>
-        <MdTaskAlt className="text-blue-600 lg:w-10 lg:h-10 sm:w-10 sm:h-10   " />
-        <h1
-          className={`text-blue-600 lg:block lg:text-3xl sm:text-2xl font-extrabold ${
-            isOpen ? "" : "sm:hidden"
-          }`}
-        >
-          TaskHive
+    <nav className="lg: ">
+      <div className={`lg:flex gap-x-2 items-center sm:hidden p-3`}>
+        <h1 className={`text-blue-600  lg:text-3xl sm:text-2xl font-bold `}>
+          <span className="font-normal">Task</span>Hive
         </h1>
       </div>
 
       {isLoggedIn ? (
-        <ul className="flex flex-col lg:gap-y-10 sm:gap-y-5 text-16 lg:pt-16 sm:pt-10">
+        <ul className="lg:flex lg:flex-col lg:gap-y-5 sm:gap-y-5 text-16 lg:pt-12 sm:px-5 sm:py-[6px] sm:flex sm:absolute lg:relative sm:w-full lg:bg-none sm:bottom-0 sm:justify-between  sm:bg-white sm:h-fit">
           <Link to="/dashboard/">
             <div
-              className={`flex items-center  lg:justify-start gap-x-1 ${
+              className={`flex items-center  lg:justify-start gap-x-1 lg:py-3 ${
                 darkMode == "dark" ? "text-anti-flash-white" : ""
-              } ${isOpen ? "" : "sm:justify-center"} cursor-pointer  ${
+              }  cursor-pointer  ${
                 location.pathname == "/dashboard/"
-                  ? "bg-blue-600 py-3 sm:px-2  lg:w-full sm:w-full   rounded-xl font-semibold text-white"
-                  : " py-3 px-2"
+                  ? "text-blue-600 lg:bg-blue-200  sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold "
+                  : "px-2"
               }`}
             >
-              <MdDashboard className="w-5 h-5" />
-              <li className={`lg:block text-15 ${isOpen ? "sm:block" : "sm:hidden"}`}>Dashboard</li>
+              <MdDashboard className="lg:w-5 lg:h-5 sm:w-4 sm:h-4" />
+              <li className={`lg:block text-15 sm:hidden`}>Dashboard</li>
             </div>
           </Link>
           <Link to="/projects/">
             <div
-              className={`flex items-center lg:justify-start gap-x-1 ${
+              className={`flex items-center lg:justify-start gap-x-1 lg:py-3 ${
                 darkMode == "dark" ? "text-anti-flash-white" : ""
-              } ${isOpen ? "" : "sm:justify-center"} cursor-pointer  ${
+              }  cursor-pointer  ${
                 location.pathname == "/projects/"
-                  ? "bg-blue-600  py-3  sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold text-white"
-                  : " py-3 px-2"
+                  ? "text-blue-600 lg:bg-blue-200  sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold "
+                  : " px-2"
               }`}
             >
-              <GrProjects className="w-5 h-5" />
-              <li className={`lg:block text-15 ${isOpen ? "sm:block" : "sm:hidden"}`}>Projects</li>
+              <GrProjects className="lg:w-5 lg:h-5 sm:w-4 sm:h-4" />
+              <li className={`lg:block text-15 sm:hidden`}>Projects</li>
             </div>
           </Link>
 
           <Link to="/task/">
             <div
-              className={`flex items-center lg:justify-start gap-x-1 ${
+              className={`flex items-center lg:justify-start gap-x-1 lg:py-3 ${
                 darkMode == "dark" ? "text-anti-flash-white" : ""
-              } ${isOpen ? "" : "sm:justify-center"} cursor-pointer  ${
+              }  cursor-pointer  ${
                 location.pathname == "/task/"
-                  ? "bg-blue-600  py-3 sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold text-white"
-                  : " py-3 px-2"
+                  ? "text-blue-600 lg:bg-blue-200  sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold "
+                  : " px-2"
               }`}
             >
-              <FaTasks className="w-5 h-5" />
-              <li className={`lg:block text-15 ${isOpen ? "sm:block" : "sm:hidden"}`}>Tasks</li>
+              <FaTasks className="lg:w-5 lg:h-5 sm:w-4 sm:h-4" />
+              <li className={`lg:block text-15 sm:hidden`}>Tasks</li>
             </div>
           </Link>
 
           <Link to="/team/">
             <div
-              className={`flex items-center lg:justify-start gap-x-1 ${
+              className={`flex items-center lg:justify-start gap-x-1 lg:py-3 ${
                 darkMode == "dark" ? "text-anti-flash-white" : ""
-              } ${isOpen ? "" : "sm:justify-center"} cursor-pointer  ${
+              }  cursor-pointer  ${
                 location.pathname == "/team/"
-                  ? "bg-blue-600 py-3 sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold text-white"
-                  : " py-3 px-2"
+                  ? "text-blue-600 lg:bg-blue-200  sm:px-2 lg:w-full sm:w-full  rounded-xl font-semibold "
+                  : "  px-2"
               }`}
             >
-              <RiTeamFill className="w-5 h-5" />
-              <li className={`lg:block text-15 ${isOpen ? "sm:block" : "sm:hidden"}`}>Team</li>
+              <RiTeamFill className="lg:w-5 lg:h-5 sm:w-4 sm:h-4" />
+              <li className={`lg:block text-15 sm:hidden`}>Team</li>
             </div>
           </Link>
+          <li></li>
         </ul>
       ) : (
         ""

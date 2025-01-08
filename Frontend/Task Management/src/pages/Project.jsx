@@ -35,9 +35,7 @@ const Project = () => {
     getProjects();
   }, [show, showTask, del, showEdit]);
   return (
-    <div
-      className={`sm:pl-10 sm:pr-3 lg:px-10 ${darkMode == "dark" ? "text-anti-flash-white" : ""}`}
-    >
+    <div className={`px-2 ${darkMode == "dark" ? "text-anti-flash-white" : ""}`}>
       {show ? <AddProject setShow={setShow} /> : ""}
       {loading ? (
         <div className="flex justify-center">
@@ -48,12 +46,12 @@ const Project = () => {
           />
         </div>
       ) : (
-        <div className="">
+        <div className="lg:-mt-5 sm:-mt-10">
           <div className="flex justify-between items-center">
-            <h1 className="lg:text-3xl sm:text-18 font-bold">My Projects</h1>
+            <h1 className="lg:text-2xl sm:text-14 font-bold">My Projects</h1>
             <div className="">
               <button
-                className="bg-blue-600 rounded-lg lg:p-2 sm:p-1 lg:text-15 sm:text-13 text-white flex items-center gap-x-2"
+                className="bg-blue-600 rounded-lg lg:p-2 sm:p-[6px] lg:text-14 sm:text-10 text-white flex items-center lg:gap-x-2 sm:gap-x-1"
                 onClick={() => setShow(true)}
               >
                 <FaPlus />
@@ -61,7 +59,7 @@ const Project = () => {
               </button>
             </div>
           </div>
-          <div className="grid lg:grid-cols-4 sm:grid-cols-1 lg:gap-x-10 sm:gap-x-5 gap-y-5 pt-5">
+          <div className="grid lg:grid-cols-4 sm:grid-cols-2 lg:gap-x-10 sm:gap-x-5 gap-y-5 pt-5">
             {projects.length ? (
               projects.map((project) => (
                 <div key={project.id}>

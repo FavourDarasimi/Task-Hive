@@ -118,19 +118,20 @@ const Header = ({
   return (
     <div className="" ref={specificElementRef}>
       <div
-        className={`flex justify-between ${
+        className={`flex justify-between items-center ${
           darkMode == "dark" ? "bg-myblack text-anti-flash-white" : "bg-white"
-        } lg:px-10 sm:pl-3 sm:pr-10 py-4 `}
+        } lg:px-10 sm:px-3 lg:py-2 sm:py-2 `}
       >
-        <h1 className="lg:text-16 font-bold sm:text-14">{getTodaysDate()}</h1>
-        <div className="flex space-x-5">
+        <h1 className="lg:hidden text-blue-600 font-[1000] text-16">TASKHIVE</h1>
+        <h1 className="lg:text-16 font-bold sm:text-11">{getTodaysDate()}</h1>
+        <div className="flex space-x-4 items-center">
           <div className="relative">
             <IoIosNotifications
               onClick={() => handleClick()}
-              className="lg:w-6 lg:h-6 sm:w-5 sm:h-5"
+              className="lg:w-6 lg:h-6 sm:w-[16px] sm:h-[16px] sm:mt-1"
             />
             {notifications.length > 0 && (
-              <div className="absolute top-0 right-0 bg-red-600 rounded-full w-2 h-2"></div>
+              <div className="absolute top-0 right-0 bg-red-600 rounded-full lg:w-2 lg:h-2 sm:w-[5px] sm:h-[5px] sm:mt-1"></div>
             )}
             {showNotification ? (
               <div
@@ -152,14 +153,20 @@ const Header = ({
           </div>
 
           <div className="relative">
-            <div className="flex items-center gap-x-1">
-              <div className="h-6 w-6 text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
+            <div className="flex items-center lg:gap-x-1 sm:gap-x-[2px]">
+              <div className="lg:h-6 lg:w-6 sm:w-4 sm:h-4 sm:text-[8px] lg:text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
                 {activeWorkspace ? getFirstLetter(activeWorkspace.name) : ""}
               </div>
               {showMenu ? (
-                <IoIosArrowUp className="cursor-pointer" onClick={() => setShowMenu(false)} />
+                <IoIosArrowUp
+                  className="cursor-pointer w-4 h-4 sm:w-2 sm:h-2"
+                  onClick={() => setShowMenu(false)}
+                />
               ) : (
-                <IoIosArrowDown className="cursor-pointer" onClick={() => setShowMenu(true)} />
+                <IoIosArrowDown
+                  className="cursor-pointer lg:w-4 lg:h-4 sm:w-2 sm:h-2"
+                  onClick={() => setShowMenu(true)}
+                />
               )}
             </div>
             <HeaderMenu

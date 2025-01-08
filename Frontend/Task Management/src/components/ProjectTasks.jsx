@@ -1,11 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../context/Context";
-
 import EditTask from "../components/EditTask";
 import { FaPlus, FaUserCircle } from "react-icons/fa";
 import { HiMiniArrowPath, HiOutlineUsers } from "react-icons/hi2";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { MdDelete, MdEdit, MdOutlineAlarmAdd } from "react-icons/md";
+import { MdDelete, MdEdit, MdOutlineAlarmAdd, MdError } from "react-icons/md";
 
 const ProjectTasks = ({
   task,
@@ -52,6 +51,12 @@ const ProjectTasks = ({
     return members.includes(username);
   };
 
+  const usersInTask = (taskUsers, member) => {
+    const members = [];
+    const user = taskUsers.map((user) => members.push(user.username));
+    return members.includes(member.username);
+  };
+
   const delTask = async (id) => {
     try {
       const response = await deleteTask(id);
@@ -85,29 +90,27 @@ const ProjectTasks = ({
     <div
       className={`flex gap-x-20 w-fit  ${
         darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
-      } p-5 rounded-lg mb-3`}
+      } px-5 py-3 rounded-lg mb-3`}
     >
       {showEdit == task.id ? <EditTask task={task} setShowEdit={setShowEdit} /> : ""}
 
-      <div className="flex gap-x-3 w-96">
+      <div className="flex gap-x-3 w-96 items-center">
         <input
           type="checkbox"
           checked={task.completed}
           disabled={task.is_due ? true : disabled(task.assigned_members)}
           onChange={(e) => handleChange(e, task.id)}
         />
-        <p className=" text-17 font-semibold">{task.title}</p>
+        <p className=" text-15 font-semibold">{task.title}</p>
         <div>
           {task.is_due ? (
-            <h1 className="text-13 bg-red-200 text-red-600 font-semibold py-1 px-2 rounded-full">
-              Missed Deadline{" "}
-            </h1>
+            <MdError className="text-red-600 lg:w-5 lg:h-5 sm:w-[13px] sm:h-[13px]" />
           ) : (
             ""
           )}
         </div>
       </div>
-      <div className="flex items-center gap-x-2">
+      <div className="flex items-center text-15 gap-x-2">
         <HiMiniArrowPath />
         <p>{task.status}</p>
       </div>
@@ -121,11 +124,11 @@ const ProjectTasks = ({
               : "bg-yellow-600"
           }`}
         ></div>
-        <p>{task.priority}</p>
+        <p className="text-15">{task.priority}</p>
       </div>
-      <div className="flex gap-x-2 relative">
+      <div className="flex gap-x-2 relative text-15">
         <button onMouseEnter={() => setIsHover(task.id)} onMouseLeave={() => setIsHover(false)}>
-          <HiOutlineUsers className="w-5 h-5" />
+          <HiOutlineUsers className="w-4 h-4" />
         </button>
         <p>{task.assigned_members.length}</p>
         {isHover == task.id && (
@@ -170,29 +173,39 @@ const ProjectTasks = ({
         <div
           className={`${
             darkMode == "dark" ? "bg-myblack" : "bg-white"
-          }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-3 font-semibold  ${
+          }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
             showMenu == task.id ? "block" : "hidden"
           }`}
         >
           {project.name != "Personal Tasks" &&
           !task.is_due &&
-          userInMembers(task.assigned_members) ? (
+          userInMembers(task.assigned_members) &&
+          !task.completed ? (
             <div>
               <div
-                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
+                className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
+                  openAdd ? "bg-green-600 text-white rounded-lg" : ""
+                }`}
                 onClick={() => {
                   openAdd == task.id ? setOpenAdd() : setOpenAdd(task.id);
-                  openUnassigned(task.assigned_members);
                 }}
               >
                 <FaPlus />
                 <h1 className="">Add</h1>
               </div>
               {openAdd == task.id ? (
-                <div>
-                  <h1>UnAssigned</h1>
-                  {unassigned.map((member) => (
-                    <h1>{member.username}</h1>
+                <div className="absolute bg-white shadow-2xl p-3 w-fit rounded-xl left-0 mt-[90px] ">
+                  {project.assigned_members.map((member) => (
+                    <div>
+                      {!usersInTask(task.assigned_members, member) ? (
+                        <div className="flex gap-x-1 items-center py-1">
+                          <h1 className="w-20">{member.username}</h1>
+                          <FaPlus />
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   ))}
                 </div>
               ) : (

@@ -89,7 +89,7 @@ const DashBoard = () => {
   return (
     <div className={`${darkMode == "dark" ? "text-anti-flash-white " : ""}`}>
       {loading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center">
           <ColorRing
             height={100}
             width={100}
@@ -97,12 +97,20 @@ const DashBoard = () => {
           />
         </div>
       ) : (
-        <div className="flex gap-x-10 -mt-5">
-          <div className="w-65%">
-            <h1 className="lg:text-17 sm:text-14 font-bold  ">
+        <div className="lg:flex lg:flex-row sm:flex sm:flex-col lg:gap-x-10 lg:-mt-5 sm:-mt-10">
+          <div className="lg:w-65% ">
+            <h1 className="lg:text-17 sm:text-12 font-bold  ">
               Hello {getNewName(username)} &#128512; ({activeWorkspace ? activeWorkspace.name : ""})
             </h1>
-            <TopCards all={all} completed={completed} inProgress={inProgress} projects={projects} />
+            <div className="sm:flex sm:justify-center">
+              <TopCards
+                all={all}
+                completed={completed}
+                inProgress={inProgress}
+                projects={projects}
+              />
+            </div>
+
             <BottomCards
               circumference={circumference}
               circumference2={circumference2}
@@ -121,8 +129,8 @@ const DashBoard = () => {
             />
           </div>
 
-          <div>
-            <div>
+          <div className="sm:mt-10 ">
+            <div className="sm:flex justify-center">
               <Calendar className={`${darkMode == "dark" ? "bg-myblack2" : "bg-white"}`} />
             </div>
             <UpcomingDeadline upcoming={upcoming} />
