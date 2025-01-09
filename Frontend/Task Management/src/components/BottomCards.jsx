@@ -114,7 +114,7 @@ const BottomCards = ({
             <h1 className="lg:text-[22px] sm:text-13 font-semibold ">My Team</h1>
           </div>
           <h1 className="lg:pt-5 sm:pt-2 text-12">Team Members</h1>
-          <div className="flex -space-x-3 pt-1 items-center lg:ml-3 sm:ml-1">
+          <div className="flex -space-x-3 pt-1 items-center lg:ml-3 sm:ml-1 justify-center">
             {teams
               ? teams.members.map((member, index) =>
                   index >= 4 ? (

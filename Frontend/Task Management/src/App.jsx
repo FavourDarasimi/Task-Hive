@@ -17,7 +17,16 @@ import CreateWorkspace from "./components/createWorkspace";
 import Profile from "./components/Profile";
 
 function App() {
-  const { token, user_is_authenticated, isLoggedIn, darkMode, setDarkMode } = useContext(Context);
+  const {
+    token,
+    user_is_authenticated,
+    isLoggedIn,
+    darkMode,
+    setDarkMode,
+    authToken,
+    teamId,
+    getTeamMembers,
+  } = useContext(Context);
   const [authenticated, setAuthenticated] = useState();
   const [showInvites, setShowInvites] = useState(false);
   const [showInbox, setShowInbox] = useState(false);

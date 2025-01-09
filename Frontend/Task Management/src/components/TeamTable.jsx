@@ -5,7 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const TeamTable = ({ members, team, leader }) => {
+const TeamTable = ({ members, team, leader, setRemoved }) => {
   const { user, darkMode, leaveTeam } = useContext(Context);
   const navigate = useNavigate();
   const leaveTeamFunction = async (pk, leader_id, member_id, remove) => {
@@ -14,7 +14,6 @@ const TeamTable = ({ members, team, leader }) => {
       setRemoved(member_id);
       if (remove == false) {
         navigate("/dashboard/");
-        window.location.reload();
       }
     } catch (error) {
       console.log(error);

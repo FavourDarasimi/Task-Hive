@@ -58,6 +58,7 @@ class Project(models.Model):
     assigned_members = models.ManyToManyField(User,related_name='project_members',blank=True)
     status = models.CharField(choices=Status,max_length=50, blank=True)
     created_at = models.DateField(auto_now=True)
+    favourite = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.name}-{str(self.user)}'

@@ -27,7 +27,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     workspace = WorkSpaceSerializer(read_only=True)
     class Meta:
         model = Project
-        fields = ['id','workspace','user','name','assigned_members','workspace','status','created_at','task','percentage']
+        fields = ['id','workspace','user','name','assigned_members','favourite','workspace','status','created_at','task','percentage']
 
     def get_task(self,obj):
         task = Task.objects.filter(project=obj)

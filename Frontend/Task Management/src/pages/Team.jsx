@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../context/Context";
 import TeamTable from "../components/TeamTable";
 
-const Team = () => {
+const Team = ({ ws }) => {
   const { getTeamMembers, user, sendInvite, darkMode, leaveTeam } = useContext(Context);
   const [members, setMembers] = useState();
   const [leader, setLeader] = useState();
@@ -72,7 +72,13 @@ const Team = () => {
           </div>
         </div>
       </div>
-      <TeamTable members={members} team={team} leader={leader} user={user} />
+      <TeamTable
+        members={members}
+        team={team}
+        leader={leader}
+        user={user}
+        setRemoved={setRemoved}
+      />
     </div>
   );
 };

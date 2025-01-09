@@ -10,7 +10,6 @@ import UpcomingDeadline from "../components/UpcomingDeadline";
 const DashBoard = () => {
   const { getTaskDueToday, getTaskStatus, darkMode, username, getUserWorkspaces } =
     useContext(Context);
-  const [tasks, setTasks] = useState([]);
   const [completed, setCompleted] = useState([]);
   const [projects, setProjects] = useState([]);
   const [inProgress, setInProgress] = useState([]);

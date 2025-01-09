@@ -8,11 +8,12 @@ import ProjectTasks from "../components/ProjectTasks";
 import ProjectTeam from "../components/ProjectTeam";
 import ProjectPercentage from "../components/ProjectPercentage";
 import { RiProgress5Line } from "react-icons/ri";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaUserCircle, FaCheckCircle } from "react-icons/fa";
 import { BsFilterSquare } from "react-icons/bs";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import ProjectDetailTask from "../components/ProjectDetailTask";
 import ProjectTaskDue from "../components/ProjectTaskDue";
+import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
 
 const ProjectsDetail = () => {
   const { projectId } = useParams();
@@ -37,6 +38,7 @@ const ProjectsDetail = () => {
   const [selected, setSelected] = useState("ListView");
   const [isOpen, setIsOpen] = useState(false);
   const specificElementRef = useRef(null);
+  const [addedToFavorite, setAddedToFavorite] = useState(false);
 
   const options = [
     { value: "ListView", label: "ListView", icon: <BsFilterSquare className="w-5 h-5" /> },
@@ -130,6 +132,30 @@ const ProjectsDetail = () => {
                     ? "On Track"
                     : "Completed"}
                 </h1>
+              </div>
+
+              {project.favourite ? (
+                <StarSolid className="text-yellow-400 w-6 h-6 cursor-pointer " />
+              ) : (
+                ""
+              )}
+
+              <div className="flex items-center gap-x-2 -ml-5">
+                {project.user.profile.avatar ? (
+                  <img
+                    src={`http://127.0.0.1:8000/${project.user.profile.avatar}`}
+                    className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                      darkMode == "dark" ? "border-myblack" : "border-white"
+                    }`}
+                  />
+                ) : (
+                  <FaUserCircle
+                    className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                      darkMode == "dark" ? "border-myblack" : "border-white"
+                    }`}
+                  />
+                )}
+                <h1 className="font-semibold text-15">{project.user.username}</h1>
               </div>
             </div>
             <div className="flex gap-x-5">

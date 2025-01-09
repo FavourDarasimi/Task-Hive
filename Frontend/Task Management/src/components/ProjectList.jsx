@@ -6,8 +6,19 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { FaTasks, FaUserCircle } from "react-icons/fa";
 import EditProject from "./EditProject";
-const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setShowEdit }) => {
-  const { getDate, darkMode, deleteProject } = useContext(Context);
+import { PiStarThin as StarOutline } from "react-icons/pi";
+import { StarIcon as StarSolid } from "@heroicons/react/24/solid";
+const ProjectList = ({
+  project,
+  showMenu,
+  setShowMenu,
+  setDelete,
+  showEdit,
+  setShowEdit,
+  setAddedToFavorite,
+  addedToFavorite,
+}) => {
+  const { getDate, darkMode, deleteProject, username, addToFavourite } = useContext(Context);
 
   const delProject = async (id) => {
     try {
@@ -18,12 +29,21 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
     }
   };
 
+  const addFavourite = async (fav) => {
+    try {
+      const response = await addToFavourite(project.id, fav);
+      setAddedToFavorite(!addedToFavorite);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <div
         className={` ${
           darkMode == "dark" ? "bg-myblack2" : "bg-white"
-        } lg:p-5 sm:p-2 rounded-xl  flex flex-col`}
+        } lg:px-5 lg:py-3 sm:p-2 rounded-xl  flex flex-col`}
       >
         {showEdit ? <EditProject project={project} setShowEdit={setShowEdit} /> : ""}
         <div className="flex justify-between items-center">
@@ -34,36 +54,52 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
           >
             {project.name}
           </h1>
+          <div className="flex items-center">
+            {project.favourite == true ? (
+              <StarSolid
+                className="text-yellow-400 w-5 h-5 mb-2 cursor-pointer"
+                onClick={() => addFavourite(false)}
+              />
+            ) : (
+              <StarOutline
+                className="w-5 h-5 mb-2 text-gray-400  cursor-pointer"
+                onClick={() => addFavourite(true)}
+              />
+            )}
+            {project.user.username == username ? (
+              <div className="">
+                <button
+                  onClick={() => (showMenu == project.id ? setShowMenu() : setShowMenu(project.id))}
+                >
+                  <HiOutlineDotsVertical className="lg:w-5 lg:h-5 sm:w-3 sm:h-3" />
+                </button>
 
-          <div className="">
-            <button
-              onClick={() => (showMenu == project.id ? setShowMenu() : setShowMenu(project.id))}
-            >
-              <HiOutlineDotsVertical className="lg:w-5 lg:h-5 sm:w-3 sm:h-3" />
-            </button>
-
-            <div
-              className={`${
-                darkMode == "dark" ? "bg-myblack" : "bg-white"
-              }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-3 font-semibold  ${
-                showMenu == project.id ? "block" : "hidden"
-              }`}
-            >
-              <div
-                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
-                onClick={() => setShowEdit(true)}
-              >
-                <MdEdit />
-                <h1 className="">Edit</h1>
+                <div
+                  className={`${
+                    darkMode == "dark" ? "bg-myblack" : "bg-white"
+                  }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-3 font-semibold  ${
+                    showMenu == project.id ? "block" : "hidden"
+                  }`}
+                >
+                  <div
+                    className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
+                    onClick={() => setShowEdit(true)}
+                  >
+                    <MdEdit />
+                    <h1 className="">Edit</h1>
+                  </div>
+                  <div
+                    className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
+                    onClick={() => delProject(project.id)}
+                  >
+                    <MdDelete />
+                    <h1 className="">Delete</h1>
+                  </div>
+                </div>
               </div>
-              <div
-                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
-                onClick={() => delProject(project.id)}
-              >
-                <MdDelete />
-                <h1 className="">Delete</h1>
-              </div>
-            </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <p className="lg:text-13 sm:text-[8px] text-gray-400 pl-2 lg:pt-1 sm:-mt-[4px]">
@@ -95,13 +131,13 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
           </svg>
         </div>
 
-        <div className="flex items-center lg:-space-x-3 sm:-space-x-2 lg:pt-1 sm:pt-[2px] justify-center">
+        <div className="flex items-center lg:-space-x-3 sm:-space-x-2 lg:pt-1 sm:pt-[2px] ">
           {project.assigned_members.map((member, index) =>
             index >= 4 ? (
               index == 4 ? (
                 <h1
                   key={member.id}
-                  className={`bg-anti-flash-white  lg:text-19 font-bold  lg:w-[44px] lg:h-[44px] sm:w-6 sm:h-6 sm:text-10 border-2 rounded-full flex items-center justify-center ${
+                  className={`bg-anti-flash-white  lg:text-19 font-bold  lg:w-[48px] lg:h-[48px] sm:w-6 sm:h-6 sm:text-10 border-2 rounded-full flex items-center justify-center ${
                     darkMode == "dark" ? "text-black border-myblack" : "border-white"
                   }`}
                 >
@@ -115,14 +151,14 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
               <img
                 key={member.id}
                 src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                className={`lg:w-[44px] lg:h-[44px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
+                className={`lg:w-[48px] lg:h-[48px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
             ) : (
               <FaUserCircle
                 key={member.id}
-                className={`lg:w-[44px] lg:h-[44px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
+                className={`lg:w-[48px] lg:h-[48px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
@@ -130,7 +166,7 @@ const ProjectList = ({ project, showMenu, setShowMenu, setDelete, showEdit, setS
           )}
         </div>
 
-        <div className="flex justify-end lg:pt-5 sm:pt-2">
+        <div className="flex justify-end  sm:pt-2">
           <div className="flex  items-center  text-blue-500 lg:text-15 sm:text-10 font-semibold">
             <Link to={`/project/${project.id}`}>
               <h1>View</h1>

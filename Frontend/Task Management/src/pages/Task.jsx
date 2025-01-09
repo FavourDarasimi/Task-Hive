@@ -51,7 +51,7 @@ const Task = () => {
           />
         </div>
       ) : (
-        <div className="lg:-mt-5 sm:-mt-10">
+        <div className="lg:-mt-8 sm:-mt-10">
           <div className="flex justify-between">
             <h1 className="lg:text-2xl sm:text-14 font-bold">My Tasks</h1>
             <button
@@ -62,7 +62,7 @@ const Task = () => {
               New Task
             </button>
           </div>
-          <div className="grid grid-cols-3  gap-x-2 pt-5">
+          <div className="grid grid-cols-3 px-3 gap-x-10 pt-5">
             <div
               className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
@@ -93,7 +93,7 @@ const Task = () => {
             </div>
           </div>
           {tasks && tasks.length > 0 ? (
-            <div className="grid lg:grid-cols-4 sm:grid-cols-2 pt-5 lg:gap-x-7 sm:gap-x-4 gap-y-5">
+            <div className="grid lg:grid-cols-4 sm:grid-cols-2 pt-5 lg:gap-x-7 sm:gap-x-4 gap-y-5 px-10">
               {tasks.map((task) => (
                 <div key={task.id}>
                   <TaskList

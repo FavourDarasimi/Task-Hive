@@ -295,6 +295,51 @@ class ListTaskView(APIView):
         serializer = TaskSerializer(instance=task,many=True)
         return Response(data=serializer.data,status=status.HTTP_200_OK)
     
+class AssignUsersToTask(APIView):
+    def put(self,request:Request,pk):
+        data = request.data
+        newMembers = data.get("members")
+        task = Task.objects.get(pk=pk)
+        serializer = TaskSerializer(instance=task,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            for user in newMembers:
+                task.assigned_members.add(user)
+                task.save()
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
+        return Response(data = serializer.errors,status=status.HTTP_400_BAD_REQUEST)    
+
+class SearchTaskMembers(APIView):
+    def get(self,request:Request):
+        search = request.query_params.get('search')
+        task_id = request.query_params.get('task_id')
+        project_id = request.query_params.get('project_id')
+        workspace = WorkSpace.objects.get(owner=request.user,active=request.user)
+        task = Task.objects.get(id=task_id)
+        project = Project.objects.get(id=project_id)
+        results = []
+        for user in project.assigned_members.all():
+            if user in task.assigned_members.all():
+                pass
+            else:
+                if ".com" in search  or "@" in search or "gmail" in search:     
+                    if search.lower() in str(user.email).lower():
+                        if user not in results:
+                            results.append(user)
+                elif search.lower() in user.username.lower():
+                    if user not in results:
+                        results.append(user)
+                elif search.lower() in user.first_name.lower():
+                    if user not in results:
+                        results.append(user)
+                elif search.lower() in user.last_name.lower():
+                    if user not in results:
+                        results.append(user)
+                else:
+                    pass       
+        serializer = UserSerializer(results,many=True)
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
+
 class UpdateTask(APIView):
     def put(self,request:Request,pk):
         data = request.data
@@ -393,8 +438,13 @@ class LeaveTeam(APIView):
                 for task in tasks:
                     task.assigned_members.remove(user)
                     task.save()
-                project.assigned_members.remove(user) 
-                project.save()    
+                if project.user == user:
+                    project.assigned_members.remove(user) 
+                    project.user = leader
+                    project.save()   
+                else:     
+                    project.assigned_members.remove(user) 
+                    project.save()    
             if user in  workspace.active.all():
                 workspace.active.remove(user)
                 workspace.save()
@@ -579,5 +629,29 @@ class MarkAllAsReadView(APIView):
         }
         return Response(data=response,status=status.HTTP_200_OK)
     
- 
+class SearchResult(APIView):
+    def get(self,request:Request):
+        search = request.query_params.get('search')
+        workspace = WorkSpace.objects.get(owner=request.user,active=request.user)
+        projects = Project.objects.filter(assigned_members=request.user,workspace=workspace)
+        results = []
+        for project in projects:
+            if search.lower() in project.name.lower():
+                results.append(project)
+            else:
+                pass 
+        serializer = ProjectSerializer(results,many=True)
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
 
+class AddProjectToFavorites(APIView):
+    def put(self,request:Request,pk):
+        data = request.data
+        fav = data.get("favourite")
+        project = Project.objects.get(pk=pk)
+        serializer = ProjectSerializer(instance=project,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            project.favourite = fav
+            project.save()
+            return Response(data=serializer.data,status=status.HTTP_200_OK, )   
+        return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)

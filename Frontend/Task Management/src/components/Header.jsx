@@ -159,7 +159,7 @@ const Header = ({
               </div>
               {showMenu ? (
                 <IoIosArrowUp
-                  className="cursor-pointer w-4 h-4 sm:w-2 sm:h-2"
+                  className="cursor-pointer lg:w-4 lg:h-4 sm:w-2 sm:h-2"
                   onClick={() => setShowMenu(false)}
                 />
               ) : (

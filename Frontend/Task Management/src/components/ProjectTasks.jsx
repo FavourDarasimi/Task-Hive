@@ -23,7 +23,7 @@ const ProjectTasks = ({
 }) => {
   const { username, completeTask, darkMode, deleteTask, updateDueDate } = useContext(Context);
   const [isHover, setIsHover] = useState(false);
-  const [openAdd, setOpenAdd] = useState([]);
+  const [openAdd, setOpenAdd] = useState();
   const [unassigned, setUnassigned] = useState([]);
   const [dueDate, setDueDate] = useState();
 
@@ -165,111 +165,116 @@ const ProjectTasks = ({
           </div>
         )}
       </div>
-      <div className="">
-        <button onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}>
-          <HiOutlineDotsVertical className="w-5 h-5" />
-        </button>
+      {project.user.username == username || userInMembers(task.assigned_members) ? (
+        <div className="">
+          <button onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}>
+            <HiOutlineDotsVertical className="w-5 h-5" />
+          </button>
 
-        <div
-          className={`${
-            darkMode == "dark" ? "bg-myblack" : "bg-white"
-          }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
-            showMenu == task.id ? "block" : "hidden"
-          }`}
-        >
-          {project.name != "Personal Tasks" &&
-          !task.is_due &&
-          userInMembers(task.assigned_members) &&
-          !task.completed ? (
-            <div>
-              <div
-                className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
-                  openAdd ? "bg-green-600 text-white rounded-lg" : ""
-                }`}
-                onClick={() => {
-                  openAdd == task.id ? setOpenAdd() : setOpenAdd(task.id);
-                }}
-              >
-                <FaPlus />
-                <h1 className="">Add</h1>
-              </div>
-              {openAdd == task.id ? (
-                <div className="absolute bg-white shadow-2xl p-3 w-fit rounded-xl left-0 mt-[90px] ">
-                  {project.assigned_members.map((member) => (
-                    <div>
-                      {!usersInTask(task.assigned_members, member) ? (
-                        <div className="flex gap-x-1 items-center py-1">
-                          <h1 className="w-20">{member.username}</h1>
-                          <FaPlus />
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ))}
+          <div
+            className={`${
+              darkMode == "dark" ? "bg-myblack" : "bg-white"
+            }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
+              showMenu == task.id ? "block" : "hidden"
+            }`}
+          >
+            {project.name != "Personal Tasks" &&
+            !task.is_due &&
+            userInMembers(task.assigned_members) &&
+            !task.completed ? (
+              <div>
+                <div
+                  className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
+                    openAdd ? "bg-green-600 text-white rounded-lg" : ""
+                  }`}
+                  onClick={() => {
+                    openAdd == task.id ? setOpenAdd() : setOpenAdd(task.id);
+                  }}
+                >
+                  <FaPlus />
+                  <h1 className="">Add</h1>
                 </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ) : (
-            ""
-          )}
-          <div
-            className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
-            onClick={() => setShowEdit(task.id)}
-          >
-            <MdEdit />
-            <h1 className="">Edit</h1>
-          </div>
-          <div
-            className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
-            onClick={() => delTask(task.id)}
-          >
-            <MdDelete />
-            <h1 className="">Delete</h1>
-          </div>
-
-          {task.is_due && userInMembers(task.assigned_members) ? (
-            <div>
-              <div
-                className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
-                  update == task.id ? "bg-green-600 rounded-lg text-white" : ""
-                }`}
-                onClick={() => (update == task.id ? setUpdate() : setUpdate(task.id))}
-              >
-                <MdOutlineAlarmAdd />
-                <h1 className="">New Deadline</h1>
-              </div>
-              {update == task.id ? (
-                <div className="absolute right-0 mt-5 bg-white shadow-2xl p-3 rounded-xl">
-                  <input
-                    type="date"
-                    value={dueDate || task.due_date}
-                    className={`  border-1 rounded-xl p-2 sm:text-xs lg:text-16 w-full bg-anti-flash-white lg:h-10 sm:h-11 outline-none ${
-                      darkMode == "dark" ? "bg-myblack border-none" : "border-gray-300"
-                    } focus:border-blue-500 focus:border-2`}
-                    placeholder="Due Date"
-                    onChange={(e) => setDueDate(e.target.value)}
-                  />
-                  <div className="w-full flex justify-center">
-                    <button
-                      className="bg-blue-600 p-1 text-white text-14 rounded-md mt-2 "
-                      onClick={() => updDueDate(task.id)}
-                    >
-                      Change
-                    </button>
+                {openAdd == task.id ? (
+                  <div className="absolute bg-white shadow-2xl p-3 w-fit rounded-xl left-0 mt-[90px] ">
+                    {project.assigned_members.map((member) => (
+                      <div>
+                        {!usersInTask(task.assigned_members, member) ? (
+                          <div className="flex gap-x-1 items-center py-1">
+                            <h1 className="w-20">{member.username}</h1>
+                            <FaPlus />
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    ))}
                   </div>
-                </div>
-              ) : (
-                ""
-              )}
+                ) : (
+                  ""
+                )}
+              </div>
+            ) : (
+              ""
+            )}
+            <div
+              className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
+              onClick={() => setShowEdit(task.id)}
+            >
+              <MdEdit />
+              <h1 className="">Edit</h1>
             </div>
-          ) : (
-            ""
-          )}
+            <div
+              className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
+              onClick={() => delTask(task.id)}
+            >
+              <MdDelete />
+              <h1 className="">Delete</h1>
+            </div>
+
+            {(task.is_due && userInMembers(task.assigned_members)) ||
+            (task.is_due && project.user.username == username) ? (
+              <div>
+                <div
+                  className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
+                    update == task.id ? "bg-green-600 rounded-lg text-white" : ""
+                  }`}
+                  onClick={() => (update == task.id ? setUpdate() : setUpdate(task.id))}
+                >
+                  <MdOutlineAlarmAdd />
+                  <h1 className="">New Deadline</h1>
+                </div>
+                {update == task.id ? (
+                  <div className="absolute right-0 mt-5 bg-white shadow-2xl p-3 rounded-xl">
+                    <input
+                      type="date"
+                      value={dueDate || task.due_date}
+                      className={`  border-1 rounded-xl p-2 sm:text-xs lg:text-16 w-full bg-anti-flash-white lg:h-10 sm:h-11 outline-none ${
+                        darkMode == "dark" ? "bg-myblack border-none" : "border-gray-300"
+                      } focus:border-blue-500 focus:border-2`}
+                      placeholder="Due Date"
+                      onChange={(e) => setDueDate(e.target.value)}
+                    />
+                    <div className="w-full flex justify-center">
+                      <button
+                        className="bg-blue-600 p-1 text-white text-14 rounded-md mt-2 "
+                        onClick={() => updDueDate(task.id)}
+                      >
+                        Change
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

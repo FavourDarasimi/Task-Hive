@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 export const Context = createContext(null);
 
 const ContextProvider = (props) => {
-  const authToken = sessionStorage.getItem("token");
+  const authToken = JSON.parse(sessionStorage.getItem("token"));
   const [token, setToken] = useState(authToken ? authToken : null);
   const [isLoggedIn, setIsLoggedIn] = useState(authToken);
   const [currentStatus, setCurrentStatus] = useState("login");
@@ -25,6 +25,7 @@ const ContextProvider = (props) => {
 
       sessionStorage.setItem("token", JSON.stringify(response.data));
       user_is_authenticated();
+
       return response;
     } catch (error) {
       throw error;
@@ -141,19 +142,25 @@ const ContextProvider = (props) => {
           headers: { Authorization: `Bearer ${token.access}` },
         }
       );
+
       return response.data;
     } catch (error) {
       console.log(error.response.data);
     }
   };
 
-  const getOnlineMembers = async () => {
+  const searchTaskMembers = async (search, task_id, project_id) => {
     try {
       const token = JSON.parse(sessionStorage.getItem("token"));
       const response = await axios.get(
-        "http://localhost:8000/online/team/members",
+        "http://localhost:8000/search/task/members",
 
         {
+          params: {
+            search: search,
+            task_id: task_id,
+            project_id: project_id,
+          },
           headers: { Authorization: `Bearer ${token.access}` },
         }
       );
@@ -643,6 +650,46 @@ const ContextProvider = (props) => {
     }
   };
 
+  const addToFavourite = async (pk, favourite) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/add/project/favourite/${pk}`,
+        { favourite: favourite },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
+  const searchResult = async (search) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/search/result`,
+
+        {
+          params: {
+            search: search,
+          },
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
+
   const getDate = (dateTime) => {
     const options = {
       day: "numeric",
@@ -696,7 +743,7 @@ const ContextProvider = (props) => {
     setCurrentStatus,
     isLoggedIn,
     setIsLoggedIn,
-    getOnlineMembers,
+    searchTaskMembers,
     getTaskStatus,
     getTeamMembers,
     user,
@@ -733,6 +780,8 @@ const ContextProvider = (props) => {
     updateTask,
     getProjectTaskDueToday,
     removeMemberToProject,
+    searchResult,
+    addToFavourite,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;
@@ -740,6 +789,7 @@ const ContextProvider = (props) => {
       if (token) {
         updateToken();
         user_is_authenticated();
+        getTeamMembers();
       }
     }, 1000 * 60 * 60 * 20);
     return () => clearInterval(interval);

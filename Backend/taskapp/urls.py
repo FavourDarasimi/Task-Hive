@@ -3,12 +3,14 @@ from . import views
 
 urlpatterns = [
     path('list/user/workspace', views.UserWorkSpace.as_view()),
+    path('search/result', views.SearchResult.as_view()),
     path('switch/workspace', views.SwitchWorkspace.as_view()),
     path('create/workspace', views.CreateWorkSpace.as_view()),
     path('create/task', views.CreateTaskView.as_view()),
     path('list/task', views.ListTaskView.as_view()),
     path('task/due/today', views.TodaysDueTaskView.as_view()),
     path('task/status', views.StatusOfTasks.as_view()),
+    path('search/task/members', views.SearchTaskMembers.as_view()),
     path('update/task/<int:pk>', views.UpdateTask.as_view()),
     path('update/project/<int:pk>', views.UpdateProject.as_view()),
     path('team/memebers', views.TeamMembers.as_view()),
@@ -16,6 +18,7 @@ urlpatterns = [
     path('list/project', views.ListProjectView.as_view()),
     path('create/project', views.CreateProjectView.as_view()),
     path('project/<int:pk>', views.DetailProjectView.as_view()),
+    path('add/project/favourite/<int:pk>', views.AddProjectToFavorites.as_view()),
     path('project/task/due/<int:pk>', views.ProjectTaskDueToday.as_view()),
     path('add/member/project/<int:pk>', views.AddUserToProject.as_view()),
     path('remove/member/project/<int:pk>', views.RemoveUserFromProject.as_view()),

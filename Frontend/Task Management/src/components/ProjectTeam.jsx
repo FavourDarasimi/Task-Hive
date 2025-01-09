@@ -39,11 +39,11 @@ const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
     >
       <div className="flex justify-between">
         <h1 className="text-16 text-center pb-3 font-semibold">Assigned Team</h1>
-        {project.user.username == username ? (
+        {project.user.username == username && project.name !== "Personal Tasks" ? (
           <div className="relative">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className=" px-4 py-[6px] font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center text-13"
+              className=" px-4 py-[3px] font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center text-13"
             >
               {status}
             </button>
@@ -84,7 +84,7 @@ const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
               index == 4 ? (
                 <div
                   key={member.id}
-                  className={`bg-anti-flash-white lg:text-15 sm:text-10 font-bold  lg:w-9 lg:h-9 sm:w-5 sm:h-5 shadow-2xl rounded-full border-2 flex items-center justify-center ${
+                  className={`bg-anti-flash-white lg:text-15 sm:text-10 font-bold  lg:w-10 lg:h-10 sm:w-5 sm:h-5 shadow-2xl rounded-full border-2 flex items-center justify-center ${
                     darkMode == "dark" ? "text-black border-myblack" : "border-white"
                   }`}
                 >
@@ -96,13 +96,13 @@ const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
             ) : member.profile.avatar ? (
               <img
                 src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                className={`lg:w-9 lg:h-9 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
+                className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
             ) : (
               <FaUserCircle
-                className={`lg:w-9 lg:h-9 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
+                className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
