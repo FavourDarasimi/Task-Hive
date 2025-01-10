@@ -23,7 +23,11 @@ const Navbar = () => {
       </div>
 
       {isLoggedIn ? (
-        <ul className="lg:flex lg:flex-col lg:gap-y-5 sm:gap-y-5 text-16 lg:pt-12 sm:px-5 sm:py-[6px] sm:flex sm:absolute lg:relative sm:w-full lg:bg-none sm:bottom-0 sm:justify-between  sm:bg-white sm:h-fit">
+        <ul
+          className={`lg:flex lg:flex-col lg:gap-y-5 sm:gap-y-5 text-16 lg:pt-12 sm:px-5 sm:py-[6px] sm:flex sm:absolute lg:relative sm:w-full ${
+            darkMode == "dark" ? "lg:bg-myblack" : ""
+          } sm:bottom-0 sm:justify-between  sm:bg-white sm:h-fit`}
+        >
           <Link to="/dashboard/">
             <div
               className={`flex items-center  lg:justify-start gap-x-1 lg:py-3 ${

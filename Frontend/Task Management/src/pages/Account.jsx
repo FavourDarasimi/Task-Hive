@@ -19,7 +19,7 @@ const Account = () => {
       setIsLoggedIn(true);
       navigate("/dashboard/");
     } catch (error) {
-      console.log(error.data);
+      console.log(error.message);
     }
   };
 

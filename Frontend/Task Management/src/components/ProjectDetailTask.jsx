@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../context/Context";
 import { FaUserCircle, FaPlus } from "react-icons/fa";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { MdDelete, MdEdit, MdOutlineAlarmAdd, MdError } from "react-icons/md";
+import { MdError } from "react-icons/md";
 import EditTask from "../components/EditTask";
+import ProjectTaskMenu from "./ProjectTaskMenu";
 
 const ProjectDetailTask = ({
   task,
@@ -17,8 +18,8 @@ const ProjectDetailTask = ({
   setIsChecked,
   ischecked,
   projectId,
-
   setDelete,
+  setAddedUser,
 }) => {
   const {
     username,
@@ -86,6 +87,38 @@ const ProjectDetailTask = ({
     }
   };
 
+  const removeSelectedUser = (member) => {
+    setSelectedMembers(selectedMembers.filter((user) => user != member));
+    setSelectedMembersId(selectedMembersId.filter((user) => user != member.id));
+  };
+
+  const remove = (user) => {
+    if (selectedMembersId.includes(user.id)) {
+      setSelectedMembers(selectedMembers.filter((member) => member != user));
+      setSelectedMembersId(selectedMembersId.filter((member) => member != user.id));
+    } else {
+      setSelectedMembers((prev) => [...prev, user]);
+      setSelectedMembersId((prev) => [...prev, user.id]);
+    }
+  };
+
+  const cancel = () => {
+    setOpenAdd();
+    setSelectedMembers([]);
+    setSelectedMembersId([]);
+    searchedMembers();
+  };
+
+  const openAddMenu = (id) => {
+    if (openAdd == id) {
+      setOpenAdd();
+      setSelectedMembers([]);
+      setSelectedMembersId([]);
+    } else {
+      setOpenAdd(id);
+    }
+  };
+
   useEffect(() => {
     const team = async () => {
       try {
@@ -105,12 +138,12 @@ const ProjectDetailTask = ({
   return (
     <div className="">
       <div
-        className={`${darkMode == "dark" ? "bg-myblack2" : "bg-white"} ${
+        className={`${darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"} ${
           task.status == "Completed"
-            ? "border-l-8 border-green-600"
+            ? "border-l-[6px] border-green-600"
             : task.status == "Pending"
-            ? "border-l-8 border-red-600"
-            : "border-l-8 border-yellow-600"
+            ? "border-l-[6px] border-red-600"
+            : "border-l-[6px] border-yellow-600"
         } lg:p-3 sm:p-2 flex flex-col  rounded-2xl `}
       >
         {showEdit == task.id ? <EditTask task={task} setShowEdit={setShowEdit} /> : ""}
@@ -134,192 +167,30 @@ const ProjectDetailTask = ({
                   <HiOutlineDotsVertical className="w-[18px] h-[18px]" />
                 </button>
 
-                <div
-                  className={`z-1 ${
-                    darkMode == "dark" ? "bg-myblack" : "bg-white"
-                  }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
-                    showMenu == task.id ? "block" : "hidden"
-                  }`}
-                >
-                  {project.name != "Personal Tasks" &&
-                  !task.is_due &&
-                  userInMembers(task.assigned_members) &&
-                  !task.completed ? (
-                    <div>
-                      <div
-                        className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
-                          openAdd ? "bg-green-600 text-white rounded-lg" : ""
-                        }`}
-                        onClick={() => {
-                          openAdd == task.id ? setOpenAdd() : setOpenAdd(task.id);
-                        }}
-                      >
-                        <FaPlus />
-                        <h1 className="">Add</h1>
-                      </div>
-                      {openAdd == task.id ? (
-                        <div className="absolute transition duration-500 bg-white shadow-2xl p-5 w-fit rounded-xl left-0 mt-[90px] ">
-                          {/* {project.assigned_members.map((member) => (
-                            <div>
-                              {!usersInTask(task.assigned_members, member) ? (
-                                <div className="flex gap-x-1 items-center py-1">
-                                  <h1 className="w-20">{member.username}</h1>
-                                  <FaPlus />
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))} */}
-
-                          <h1>Assign to</h1>
-                          <input
-                            onChange={(e) => setParam(e.target.value)}
-                            className="h-9 w-[234px] outline-none focus:border-2 focus:border-blue-500 placeholder:font-[400] pl-3 rounded-md mt-3 border-1 border-gray-300"
-                            placeholder="Search user"
-                          />
-                          <div className="mt-4">
-                            {param && searchedMembers
-                              ? searchedMembers.map((user) => (
-                                  <div
-                                    className={`flex gap-x-2 items-center rounded-md border-1 border-gray-300 py-2 ${
-                                      selectedMembersId.includes(user.id)
-                                        ? "ring-2 ring-blue-500"
-                                        : ""
-                                    }`}
-                                    onClick={() => {
-                                      console.log(selectedMembers);
-                                      setSelectedMembers((prev) => {
-                                        if (selectedMembersId.includes(user.id)) {
-                                        } else {
-                                          setSelectedMembersId((prev) => [...prev, user.id]);
-                                          return [...prev, user];
-                                        }
-                                      });
-                                    }}
-                                  >
-                                    {user.profile.avatar ? (
-                                      <img
-                                        key={user.id}
-                                        src={`http://127.0.0.1:8000/${user.profile.avatar}`}
-                                        className={`lg:w-7 lg:h-7 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
-                                          darkMode == "dark" ? "border-myblack" : "border-white"
-                                        }`}
-                                      />
-                                    ) : (
-                                      <FaUserCircle
-                                        key={user.id}
-                                        className={`lg:w-7 lg:h-7 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
-                                          darkMode == "dark" ? "border-myblack" : "border-white"
-                                        }`}
-                                      />
-                                    )}
-                                    <h1>{user.username}</h1>
-                                  </div>
-                                ))
-                              : selectedMembers.map((user) => (
-                                  <div
-                                    className={`flex gap-x-2 items-center rounded-md border-1 border-gray-300 py-2 ${
-                                      selectedMembersId.includes(user.id)
-                                        ? "ring-2 ring-blue-500"
-                                        : ""
-                                    }`}
-                                  >
-                                    {user.profile.avatar ? (
-                                      <img
-                                        key={user.id}
-                                        src={`http://127.0.0.1:8000/${user.profile.avatar}`}
-                                        className={`lg:w-7 lg:h-7 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
-                                          darkMode == "dark" ? "border-myblack" : "border-white"
-                                        }`}
-                                      />
-                                    ) : (
-                                      <FaUserCircle
-                                        key={user.id}
-                                        className={`lg:w-7 lg:h-7 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
-                                          darkMode == "dark" ? "border-myblack" : "border-white"
-                                        }`}
-                                      />
-                                    )}
-                                    <h1>{user.username}</h1>
-                                  </div>
-                                ))}
-                          </div>
-                          <div className="mt-5 flex gap-x-4">
-                            <button className="bg-blue-500 text-white px-3 py-1 text-15 rounded-[4px] font-[400]">
-                              Done
-                            </button>
-                            <button
-                              onClick={() => setOpenAdd()}
-                              className="border-1 border-gray-300 px-3 py-1 text-15 rounded-[4px] font-[400] text-gray-500"
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-
-                  <div
-                    className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
-                    onClick={() => setShowEdit(task.id)}
-                  >
-                    <MdEdit />
-                    <h1 className="">Edit</h1>
-                  </div>
-                  <div
-                    className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
-                    onClick={() => delTask(task.id)}
-                  >
-                    <MdDelete />
-                    <h1 className="">Delete</h1>
-                  </div>
-
-                  {(task.is_due && userInMembers(task.assigned_members)) ||
-                  (task.is_due && project.user.username == username) ? (
-                    <div>
-                      <div
-                        className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
-                          update == task.id ? "bg-green-600 rounded-lg text-white" : ""
-                        }`}
-                        onClick={() => (update == task.id ? setUpdate() : setUpdate(task.id))}
-                      >
-                        <MdOutlineAlarmAdd />
-                        <h1 className="">New Deadline</h1>
-                      </div>
-                      {update == task.id ? (
-                        <div className="absolute right-0 mt-5 bg-white shadow-2xl p-3 rounded-xl">
-                          <input
-                            type="date"
-                            value={dueDate || task.due_date}
-                            className={`  border-1 rounded-xl p-2 sm:text-xs lg:text-16 w-full bg-anti-flash-white lg:h-10 sm:h-11 outline-none ${
-                              darkMode == "dark" ? "bg-myblack border-none" : "border-gray-300"
-                            } focus:border-blue-500 focus:border-2`}
-                            placeholder="Due Date"
-                            onChange={(e) => setDueDate(e.target.value)}
-                          />
-                          <div className="w-full flex justify-center">
-                            <button
-                              className="bg-blue-600 p-1 text-white text-14 rounded-md mt-2 "
-                              onClick={() => updDueDate(task.id)}
-                            >
-                              Change
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                <ProjectTaskMenu
+                  project={project}
+                  task={task}
+                  showMenu={showMenu}
+                  userInMembers={userInMembers}
+                  openAdd={openAdd}
+                  setOpenAdd={setOpenAdd}
+                  setParam={setParam}
+                  param={param}
+                  searchedMembers={searchedMembers}
+                  selectedMembers={selectedMembers}
+                  selectedMembersId={selectedMembersId}
+                  remove={remove}
+                  removeSelectedUser={removeSelectedUser}
+                  cancel={cancel}
+                  setShowEdit={setShowEdit}
+                  delTask={delTask}
+                  update={update}
+                  setUpdate={setUpdate}
+                  dueDate={dueDate}
+                  setDueDate={setDueDate}
+                  updDueDate={updDueDate}
+                  setAddedUser={setAddedUser}
+                />
               </div>
             ) : (
               ""
@@ -348,7 +219,7 @@ const ProjectDetailTask = ({
                 index == 3 ? (
                   <div
                     key={member.id}
-                    className={`bg-anti-flash-white lg:text-17 sm:text-10 font-bold  lg:w-7 lg:h-7 sm:w-5 sm:h-5 shadow-2xl rounded-full border-1 flex items-center justify-center ${
+                    className={`bg-anti-flash-white lg:text-17 sm:text-10 font-bold  lg:w-9 lg:h-9 sm:w-5 sm:h-5 shadow-2xl rounded-full border-1 flex items-center justify-center ${
                       darkMode == "dark" ? "text-black border-myblack" : "border-white"
                     }`}
                   >
@@ -361,14 +232,14 @@ const ProjectDetailTask = ({
                 <img
                   key={member.id}
                   src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                  className={`lg:w-7 lg:h-7 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                  className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
                     darkMode == "dark" ? "border-myblack" : "border-white"
                   }`}
                 />
               ) : (
                 <FaUserCircle
                   key={member.id}
-                  className={`lg:w-7 lg:h-7 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                  className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
                     darkMode == "dark" ? "border-myblack" : "border-white"
                   }`}
                 />

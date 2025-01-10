@@ -38,18 +38,12 @@ const ProjectsDetail = () => {
   const [selected, setSelected] = useState("ListView");
   const [isOpen, setIsOpen] = useState(false);
   const specificElementRef = useRef(null);
-  const [addedToFavorite, setAddedToFavorite] = useState(false);
+  const [addedUser, setAddedUser] = useState();
 
   const options = [
     { value: "ListView", label: "ListView", icon: <BsFilterSquare className="w-5 h-5" /> },
     { value: "DetailView", label: "DetailView", icon: <AdjustmentsHorizontalIcon /> },
   ];
-
-  const handlePageClick = (event) => {
-    if (!specificElementRef.current?.contains(event.target)) {
-      setShowMenu();
-    }
-  };
 
   const radius = 35;
   const circumference = 2 * Math.PI * radius;
@@ -84,10 +78,10 @@ const ProjectsDetail = () => {
       }
     };
     fetchDetailProjects();
-  }, [status, showTask, ischecked, added, removed, del, update, showEdit]);
+  }, [status, showTask, ischecked, added, removed, del, update, showEdit, addedUser]);
 
   return (
-    <div className="px-2 relative" onClick={handlePageClick}>
+    <div className="px-2 relative">
       {loading ? (
         <div className="flex justify-center">
           <ColorRing
@@ -108,10 +102,14 @@ const ProjectsDetail = () => {
           ) : (
             ""
           )}
-          <div className="flex  justify-between lg:-mt-5 sm:-mt-10">
-            <div className="flex items-center gap-x-5">
-              <h1 className="lg:text-2xl sm:text-18  font-bold">{project.name}</h1>
-              <div className="flex items-center gap-x-1">
+          <div
+            className={`flex  justify-between lg:-mt-5 sm:-mt-10 ${
+              darkMode == "dark" ? "text-anti-flash-white" : ""
+            }`}
+          >
+            <div className="flex lg:flex-row sm:flex-col sm:gap-y-2 sm:items-start lg:items-center lg:gap-x-5 sm:gap-x-2">
+              <h1 className="lg:text-2xl sm:text-16 whitespace-nowrap font-bold">{project.name}</h1>
+              <div className="flex items-center gap-x-1 sm:pl-3">
                 <div
                   className={`w-[9px] h-[9px] rounded-full ${
                     project.percentage <= 40
@@ -123,7 +121,7 @@ const ProjectsDetail = () => {
                       : "bg-[#16a34a]"
                   }`}
                 ></div>
-                <h1 className="text-16 font-[500]">
+                <h1 className="lg:text-16 sm:text-12 font-[500]">
                   {project.percentage <= 40
                     ? "Critical"
                     : project.percentage <= 70
@@ -135,16 +133,16 @@ const ProjectsDetail = () => {
               </div>
 
               {project.favourite ? (
-                <StarSolid className="text-yellow-400 w-6 h-6 cursor-pointer " />
+                <StarSolid className="text-yellow-400 lg:w-6 lg:h-6 sm:w-3  cursor-pointer " />
               ) : (
                 ""
               )}
 
-              <div className="flex items-center gap-x-2 -ml-5">
+              <div className="flex items-center lg:gap-x-2 sm:gap-x-1 sm:pl-2 lg:-ml-5">
                 {project.user.profile.avatar ? (
                   <img
                     src={`http://127.0.0.1:8000/${project.user.profile.avatar}`}
-                    className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                    className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-5 sm:h-5 rounded-full lg:ml-3 border-1 ${
                       darkMode == "dark" ? "border-myblack" : "border-white"
                     }`}
                   />
@@ -155,14 +153,14 @@ const ProjectsDetail = () => {
                     }`}
                   />
                 )}
-                <h1 className="font-semibold text-15">{project.user.username}</h1>
+                <h1 className="font-semibold lg:text-15 sm:text-12">{project.user.username}</h1>
               </div>
             </div>
             <div className="flex gap-x-5">
               <div className="relative">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className=" px-4 py-2 font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center text-14"
+                  className="lg:px-4 lg:py-2 sm:px-2 sm:py-[4px] font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center lg:text-14 sm:text-11"
                 >
                   <AdjustmentsHorizontalIcon className="w-4 h-4" />
                   {selected}
@@ -194,7 +192,7 @@ const ProjectsDetail = () => {
               </div>
 
               <button
-                className="bg-blue-600 rounded-lg p-2 text-14 text-white flex items-center gap-x-2"
+                className="bg-blue-600 rounded-lg lg:p-2 sm:p-[4px] h-fit lg:text-14 sm:text-10 text-white flex items-center lg:gap-x-2 sm:gap-x-1"
                 onClick={() => setShowTask(true)}
               >
                 <FaPlus />
@@ -202,49 +200,55 @@ const ProjectsDetail = () => {
               </button>
             </div>
           </div>
-          <div className="flex mt-5 ">
-            <div className="w-70%">
-              <div className="flex gap-x-20">
+          <div className="flex lg:flex-row sm:flex-col mt-5 ">
+            <div className="lg:w-70% sm:w-100%">
+              <div className="flex lg:gap-x-20 sm:gap-x-3">
                 <div
-                  className={`flex gap-x-2 items-center text-15 font-semibold rounded-xl  cursor-pointer px-5 py-2 w-full ${
-                    status == "all" ? " bg-blue-200 font-bold " : "bg-white"
-                  }`}
+                  className={`flex gap-x-2 items-center lg:text-15 sm:text-11 font-semibold rounded-xl  cursor-pointer lg:px-5 lg:py-2 sm:px-2 sm:py-[6px] w-full ${
+                    status == "all"
+                      ? " bg-blue-200 font-bold "
+                      : `${darkMode == "dark" ? "bg-myblack2 text-white" : "bg-white"}`
+                  } `}
                   onClick={() => setStatus("all")}
                 >
                   <div className="flex gap-x-1 items-center">
                     <RiProgress5Line className="text-yellow-600 w-5 h-5" />
                     <h1>All</h1>
                   </div>
-                  <h1 className="bg-anti-flash-white rounded-full py-[2px] px-[10px]">
+                  <h1 className="bg-anti-flash-white rounded-full lg:py-[2px] sm:py-[1px] text-black lg:px-[10px] sm:px-[5px]">
                     {all.length}
                   </h1>
                 </div>
 
                 <div
-                  className={`flex gap-x-2 items-center text-15 font-semibold rounded-xl  cursor-pointer px-5 py-2 w-full ${
-                    status == "ongoing" ? " bg-blue-200 font-bold " : "bg-white"
-                  }`}
+                  className={`flex gap-x-2 items-center lg:text-15 sm:text-11 whitespace-nowrap font-semibold rounded-xl  cursor-pointer lg:px-5 lg:py-2 sm:px-2 sm:py-[6px] w-full ${
+                    status == "ongoing"
+                      ? " bg-blue-200 font-bold "
+                      : `${darkMode == "dark" ? "bg-myblack2 text-white" : "bg-white"}`
+                  } `}
                   onClick={() => setStatus("ongoing")}
                 >
                   <div className="flex gap-x-1 items-center">
                     <RiProgress5Line className="text-yellow-600 w-5 h-5" />
                     <h1>In Progress </h1>
                   </div>
-                  <h1 className="bg-anti-flash-white rounded-full py-[2px] px-[10px]">
+                  <h1 className="bg-anti-flash-white rounded-full py-[2px] text-black px-[10px]">
                     {ongoingTasks.length}
                   </h1>
                 </div>
                 <div
-                  className={`flex gap-x-2 items-center text-15 font-semibold rounded-xl  cursor-pointer px-5 py-2 w-full ${
-                    status == "completed" ? " bg-blue-200 font-bold " : "bg-white"
-                  }`}
+                  className={`flex gap-x-2 items-center lg:text-15 sm:text-11 font-semibold rounded-xl  cursor-pointer lg:px-5 lg:py-2 sm:px-2 sm:py-[6px] w-full ${
+                    status == "completed"
+                      ? " bg-blue-200 font-bold "
+                      : `${darkMode == "dark" ? "bg-myblack2 text-white" : "bg-white"}`
+                  } `}
                   onClick={() => setStatus("completed")}
                 >
                   <div className="flex gap-x-1 items-center">
                     <FaCheckCircle className="text-green-600 w-4 h-4" />
                     <h1>Completed</h1>
                   </div>
-                  <h1 className="bg-anti-flash-white rounded-full py-[2px] px-[10px]">
+                  <h1 className="bg-anti-flash-white rounded-full py-[2px] text-black px-[10px]">
                     {completedTasks.length}
                   </h1>
                 </div>
@@ -278,6 +282,7 @@ const ProjectsDetail = () => {
                               projectId={projectId}
                               del={del}
                               setDelete={setDelete}
+                              setAddedUser={setAddedUser}
                             />
                           ))}
                         </div>
@@ -298,6 +303,7 @@ const ProjectsDetail = () => {
                               projectId={projectId}
                               del={del}
                               setDelete={setDelete}
+                              setAddedUser={setAddedUser}
                             />
                           ))}
                         </div>
@@ -307,7 +313,7 @@ const ProjectsDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="w-30% flex flex-col items-center gap-y-5">
+            <div className="lg:w-30% sm:w-100% flex flex-col items-center gap-y-5">
               <ProjectTeam
                 project={project}
                 setAdded={setAdded}

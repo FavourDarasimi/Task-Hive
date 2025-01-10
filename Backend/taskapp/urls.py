@@ -21,6 +21,7 @@ urlpatterns = [
     path('add/project/favourite/<int:pk>', views.AddProjectToFavorites.as_view()),
     path('project/task/due/<int:pk>', views.ProjectTaskDueToday.as_view()),
     path('add/member/project/<int:pk>', views.AddUserToProject.as_view()),
+    path('add/member/task/<int:pk>', views.AssignUsersToTask.as_view()),
     path('remove/member/project/<int:pk>', views.RemoveUserFromProject.as_view()),
     path('delete/project/<int:pk>', views.DeleteProject.as_view()),
     path('delete/task/<int:pk>', views.DeleteTask.as_view()),

@@ -57,12 +57,12 @@ const ProjectList = ({
           <div className="flex items-center">
             {project.favourite == true ? (
               <StarSolid
-                className="text-yellow-400 w-5 h-5 mb-2 cursor-pointer"
+                className="text-yellow-400 lg:w-5 lg:h-5 sm:w-3 sm:h-3 mb-2 cursor-pointer"
                 onClick={() => addFavourite(false)}
               />
             ) : (
               <StarOutline
-                className="w-5 h-5 mb-2 text-gray-400  cursor-pointer"
+                className="lg:w-5 lg:h-5 sm:w-3 sm:h-3 mb-2 text-gray-400  cursor-pointer"
                 onClick={() => addFavourite(true)}
               />
             )}

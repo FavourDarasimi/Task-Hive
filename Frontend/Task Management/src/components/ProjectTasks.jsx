@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../context/Context";
 import EditTask from "../components/EditTask";
 import { FaPlus, FaUserCircle } from "react-icons/fa";
 import { HiMiniArrowPath, HiOutlineUsers } from "react-icons/hi2";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdDelete, MdEdit, MdOutlineAlarmAdd, MdError } from "react-icons/md";
+import ProjectTaskMenu from "./ProjectTaskMenu";
 
 const ProjectTasks = ({
   task,
@@ -18,14 +19,19 @@ const ProjectTasks = ({
   setIsChecked,
   ischecked,
   projectId,
-
   setDelete,
+  setAddedUser,
 }) => {
-  const { username, completeTask, darkMode, deleteTask, updateDueDate } = useContext(Context);
+  const { username, completeTask, darkMode, deleteTask, updateDueDate, searchTaskMembers } =
+    useContext(Context);
   const [isHover, setIsHover] = useState(false);
   const [openAdd, setOpenAdd] = useState();
   const [unassigned, setUnassigned] = useState([]);
   const [dueDate, setDueDate] = useState();
+  const [searchedMembers, setSearchedMembers] = useState();
+  const [param, setParam] = useState();
+  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedMembersId, setSelectedMembersId] = useState([]);
 
   const openUnassigned = (members) => {
     const projectAssignedMembers = project.assigned_members;
@@ -86,22 +92,71 @@ const ProjectTasks = ({
     }
   };
 
+  const removeSelectedUser = (member) => {
+    setSelectedMembers(selectedMembers.filter((user) => user != member));
+    setSelectedMembersId(selectedMembersId.filter((user) => user != member.id));
+  };
+
+  const remove = (user) => {
+    if (selectedMembersId.includes(user.id)) {
+      setSelectedMembers(selectedMembers.filter((member) => member != user));
+      setSelectedMembersId(selectedMembersId.filter((member) => member != user.id));
+    } else {
+      setSelectedMembers((prev) => [...prev, user]);
+      setSelectedMembersId((prev) => [...prev, user.id]);
+    }
+  };
+
+  const cancel = () => {
+    setOpenAdd();
+    setSelectedMembers([]);
+    setSelectedMembersId([]);
+    setParam();
+  };
+
+  const openAddMenu = (id) => {
+    if (openAdd == id) {
+      setOpenAdd();
+      setSelectedMembers([]);
+      setSelectedMembersId([]);
+    } else {
+      setOpenAdd(id);
+    }
+  };
+
+  useEffect(() => {
+    const team = async () => {
+      try {
+        const response = await searchTaskMembers(param, task.id, project.id);
+        console.log(response);
+        setSearchedMembers(response);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (param) {
+      team();
+    }
+  }, [param]);
+
   return (
     <div
-      className={`flex gap-x-20 w-fit  ${
+      className={`flex lg:gap-x-20 sm:gap-x-5 w-fit  ${
         darkMode == "dark" ? "bg-myblack2 text-anti-flash-white" : "bg-white"
-      } px-5 py-3 rounded-lg mb-3`}
+      } lg:px-5 sm:px-2 lg:py-3 sm:py-[6px] rounded-lg mb-3`}
     >
       {showEdit == task.id ? <EditTask task={task} setShowEdit={setShowEdit} /> : ""}
 
-      <div className="flex gap-x-3 w-96 items-center">
+      <div className="flex lg:gap-x-3 sm:gap-x-1 lg:w-96 sm:w-32 items-center">
         <input
           type="checkbox"
           checked={task.completed}
+          className="lg:w-[13px] lg:h-[13px] sm:w-[10px] sm:h-[10px]"
           disabled={task.is_due ? true : disabled(task.assigned_members)}
           onChange={(e) => handleChange(e, task.id)}
         />
-        <p className=" text-15 font-semibold">{task.title}</p>
+        <p className=" lg:text-15 sm:text-11 whitespace-nowrap font-semibold">{task.title}</p>
         <div>
           {task.is_due ? (
             <MdError className="text-red-600 lg:w-5 lg:h-5 sm:w-[13px] sm:h-[13px]" />
@@ -110,13 +165,13 @@ const ProjectTasks = ({
           )}
         </div>
       </div>
-      <div className="flex items-center text-15 gap-x-2">
+      <div className="flex items-center lg:text-15 sm:text-11 lg:gap-x-2 sm:gap-x-1">
         <HiMiniArrowPath />
-        <p>{task.status}</p>
+        <p className="whitespace-nowrap">{task.status}</p>
       </div>
-      <div className="flex items-center gap-x-2 w-20">
+      <div className="flex items-center lg:gap-x-2 sm:gap-x-1 lg:w-20 sm:w-14">
         <div
-          className={` h-3 w-3 rounded-full ${
+          className={` lg:h-3 lg:w-3 sm:h-2 sm:w-2 rounded-full ${
             task.priority == "High"
               ? "bg-red-600"
               : task.priority == "Low"
@@ -124,9 +179,9 @@ const ProjectTasks = ({
               : "bg-yellow-600"
           }`}
         ></div>
-        <p className="text-15">{task.priority}</p>
+        <p className="lg:text-15 sm:text-11 ">{task.priority}</p>
       </div>
-      <div className="flex gap-x-2 relative text-15">
+      <div className="flex lg:gap-x-2 sm:gap-x-1 items-center relative lg:text-15 sm:text-11">
         <button onMouseEnter={() => setIsHover(task.id)} onMouseLeave={() => setIsHover(false)}>
           <HiOutlineUsers className="w-4 h-4" />
         </button>
@@ -156,9 +211,9 @@ const ProjectTasks = ({
                         }`}
                       />
                     )}
-                    <h1 className="font-semibold text-15">{member.username}</h1>
+                    <h1 className="font-semibold lg:text-15 sm:text-11">{member.username}</h1>
                   </div>
-                  <h1 className="w-40% text-15">{member.email}</h1>
+                  <h1 className="w-40% lg:text-15 sm:text-11">{member.email}</h1>
                 </div>
               ))}
             </div>
@@ -168,109 +223,33 @@ const ProjectTasks = ({
       {project.user.username == username || userInMembers(task.assigned_members) ? (
         <div className="">
           <button onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}>
-            <HiOutlineDotsVertical className="w-5 h-5" />
+            <HiOutlineDotsVertical className="lg:w-5 lg:h-5 sm:w-3 sm:h-3" />
           </button>
 
-          <div
-            className={`${
-              darkMode == "dark" ? "bg-myblack" : "bg-white"
-            }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
-              showMenu == task.id ? "block" : "hidden"
-            }`}
-          >
-            {project.name != "Personal Tasks" &&
-            !task.is_due &&
-            userInMembers(task.assigned_members) &&
-            !task.completed ? (
-              <div>
-                <div
-                  className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
-                    openAdd ? "bg-green-600 text-white rounded-lg" : ""
-                  }`}
-                  onClick={() => {
-                    openAdd == task.id ? setOpenAdd() : setOpenAdd(task.id);
-                  }}
-                >
-                  <FaPlus />
-                  <h1 className="">Add</h1>
-                </div>
-                {openAdd == task.id ? (
-                  <div className="absolute bg-white shadow-2xl p-3 w-fit rounded-xl left-0 mt-[90px] ">
-                    {project.assigned_members.map((member) => (
-                      <div>
-                        {!usersInTask(task.assigned_members, member) ? (
-                          <div className="flex gap-x-1 items-center py-1">
-                            <h1 className="w-20">{member.username}</h1>
-                            <FaPlus />
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )}
-            <div
-              className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
-              onClick={() => setShowEdit(task.id)}
-            >
-              <MdEdit />
-              <h1 className="">Edit</h1>
-            </div>
-            <div
-              className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
-              onClick={() => delTask(task.id)}
-            >
-              <MdDelete />
-              <h1 className="">Delete</h1>
-            </div>
-
-            {(task.is_due && userInMembers(task.assigned_members)) ||
-            (task.is_due && project.user.username == username) ? (
-              <div>
-                <div
-                  className={`flex gap-x-1 relative items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-green-600 hover:rounded-lg  hover:text-white ${
-                    update == task.id ? "bg-green-600 rounded-lg text-white" : ""
-                  }`}
-                  onClick={() => (update == task.id ? setUpdate() : setUpdate(task.id))}
-                >
-                  <MdOutlineAlarmAdd />
-                  <h1 className="">New Deadline</h1>
-                </div>
-                {update == task.id ? (
-                  <div className="absolute right-0 mt-5 bg-white shadow-2xl p-3 rounded-xl">
-                    <input
-                      type="date"
-                      value={dueDate || task.due_date}
-                      className={`  border-1 rounded-xl p-2 sm:text-xs lg:text-16 w-full bg-anti-flash-white lg:h-10 sm:h-11 outline-none ${
-                        darkMode == "dark" ? "bg-myblack border-none" : "border-gray-300"
-                      } focus:border-blue-500 focus:border-2`}
-                      placeholder="Due Date"
-                      onChange={(e) => setDueDate(e.target.value)}
-                    />
-                    <div className="w-full flex justify-center">
-                      <button
-                        className="bg-blue-600 p-1 text-white text-14 rounded-md mt-2 "
-                        onClick={() => updDueDate(task.id)}
-                      >
-                        Change
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+          <ProjectTaskMenu
+            project={project}
+            task={task}
+            showMenu={showMenu}
+            userInMembers={userInMembers}
+            openAdd={openAdd}
+            setOpenAdd={setOpenAdd}
+            setParam={setParam}
+            param={param}
+            searchedMembers={searchedMembers}
+            selectedMembers={selectedMembers}
+            selectedMembersId={selectedMembersId}
+            remove={remove}
+            removeSelectedUser={removeSelectedUser}
+            cancel={cancel}
+            setShowEdit={setShowEdit}
+            delTask={delTask}
+            update={update}
+            setUpdate={setUpdate}
+            dueDate={dueDate}
+            setDueDate={setDueDate}
+            updDueDate={updDueDate}
+            setAddedUser={setAddedUser}
+          />
         </div>
       ) : (
         ""

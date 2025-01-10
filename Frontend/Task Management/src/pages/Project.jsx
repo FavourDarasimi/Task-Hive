@@ -63,7 +63,7 @@ const Project = () => {
       ) : (
         <div className="lg:-mt-8 sm:-mt-10">
           <div className="flex justify-between items-center">
-            <div className="flex gap-x-8">
+            <div className="flex lg:gap-x-8 sm:gap-x-3">
               <h1 className="lg:text-2xl sm:text-14 font-bold">Projects Manager</h1>
               <div className="">
                 <button
@@ -79,15 +79,15 @@ const Project = () => {
               <input
                 placeholder="Search..."
                 type="text"
-                className="h-10 p-2 border-y-1 w-64 focus:border-none  rounded-l-lg outline-none border-y-gray-300 border-l-1 border-l-gray-300 placeholder:pl-2"
+                className="lg:h-10 sm:h-6 p-2 border-y-1 lg:w-64 sm:w-20 focus:border-none  rounded-l-lg outline-none border-y-gray-300 border-l-1 border-l-gray-300 placeholder:lg:pl-2 placeholder:sm:pl-[1px] lg:text-16 sm:text-10"
                 onChange={(e) => setParam(e.target.value)}
               />
-              <button className="bg-white pr-1 h-10 border-y-1 rounded-r-lg border-y-gray-300 border-r-1 border-r-gray-300">
-                <IoSearchOutline className="text-gray-500 w-5 h-5" />
+              <button className="bg-white pr-1 border-y-1 rounded-r-lg border-y-gray-300 sm:h-6 lg:h-10 border-r-1 border-r-gray-300">
+                <IoSearchOutline className="text-gray-500 lg:w-5 lg:h-5 sm:w-3 sm:h-3" />
               </button>
             </div>
           </div>
-          <div className="grid lg:grid-cols-4 sm:grid-cols-2 lg:gap-x-10 sm:gap-x-5 gap-y-5 pt-5 px-10">
+          <div className="grid lg:grid-cols-4 sm:grid-cols-2 lg:gap-x-10 sm:gap-x-5 gap-y-5 pt-5 lg:px-10 sm:px-2">
             {projects.length ? (
               projects.map((project) => (
                 <div key={project.id}>

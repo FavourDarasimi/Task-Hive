@@ -6,7 +6,7 @@ const ProjectTaskDue = ({ taskDue, getDate, darkMode }) => {
   };
   return (
     <div>
-      <h1 className="text-19 font-semibold">Task Due Today</h1>
+      <h1 className="lg:text-19 sm:text-15 font-semibold">Task Due Today</h1>
       <div className="flex flex-col gap-y-7 pt-5">
         {taskDue.length >= 1 ? (
           taskDue.map((task, index) => (

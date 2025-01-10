@@ -120,15 +120,17 @@ const Header = ({
       <div
         className={`flex justify-between items-center ${
           darkMode == "dark" ? "bg-myblack text-anti-flash-white" : "bg-white"
-        } lg:px-10 sm:px-3 lg:py-2 sm:py-2 `}
+        } lg:px-10 sm:px-2 lg:py-2 sm:py-2 `}
       >
-        <h1 className="lg:hidden text-blue-600 font-[1000] text-16">TASKHIVE</h1>
-        <h1 className="lg:text-16 font-bold sm:text-11">{getTodaysDate()}</h1>
+        <h1 className="lg:hidden text-blue-600 font-[1000] text-16">
+          <span className="font-[500]">TASK</span>HIVE
+        </h1>
+        <h1 className="lg:text-16 font-bold sm:text-11 sm:-ml-20">{getTodaysDate()}</h1>
         <div className="flex space-x-4 items-center">
           <div className="relative">
             <IoIosNotifications
               onClick={() => handleClick()}
-              className="lg:w-6 lg:h-6 sm:w-[16px] sm:h-[16px] sm:mt-1"
+              className="lg:w-6 lg:h-6 sm:w-[17px] sm:h-[17px] sm:mt-1"
             />
             {notifications.length > 0 && (
               <div className="absolute top-0 right-0 bg-red-600 rounded-full lg:w-2 lg:h-2 sm:w-[5px] sm:h-[5px] sm:mt-1"></div>
@@ -154,7 +156,7 @@ const Header = ({
 
           <div className="relative">
             <div className="flex items-center lg:gap-x-1 sm:gap-x-[2px]">
-              <div className="lg:h-6 lg:w-6 sm:w-4 sm:h-4 sm:text-[8px] lg:text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
+              <div className="lg:h-6 lg:w-6 sm:w-5 sm:h-5 sm:text-[9px] lg:text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
                 {activeWorkspace ? getFirstLetter(activeWorkspace.name) : ""}
               </div>
               {showMenu ? (

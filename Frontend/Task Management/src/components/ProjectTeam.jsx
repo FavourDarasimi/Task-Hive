@@ -38,12 +38,12 @@ const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
       } rounded-xl w-fit px-3   `}
     >
       <div className="flex justify-between">
-        <h1 className="text-16 text-center pb-3 font-semibold">Assigned Team</h1>
+        <h1 className="lg:text-16 sm:text-13 text-center pb-3 font-semibold">Assigned Team</h1>
         {project.user.username == username && project.name !== "Personal Tasks" ? (
           <div className="relative">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className=" px-4 py-[3px] font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center text-13"
+              className="lg:px-4 lg:py-[3px] sm:px-2 sm:py-[1px] font-medium w-fit text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 flex gap-x-1 items-center lg:text-13 sm:text-11"
             >
               {status}
             </button>
@@ -96,13 +96,13 @@ const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
             ) : member.profile.avatar ? (
               <img
                 src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
+                className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-8 sm:h-8 rounded-full border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
             ) : (
               <FaUserCircle
-                className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-24 sm:h-24 rounded-full border-2 ${
+                className={`lg:w-10 lg:h-10 md:w-44 md:h-44 sm:w-8 sm:h-8 rounded-full border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
@@ -114,16 +114,16 @@ const ProjectTeam = ({ project, setAdded, setRemoved, added, removed }) => {
         ) : project.user.username == username ? (
           <div className="flex ">
             <input
-              className={`border-1 placeholder:text-12 text-14 ${
+              className={`border-1 lg:text-12 sm:text-10 ${
                 darkMode == "dark" ? "border-myblack bg-myblack2" : "border-mygrey2 bg-white"
-              } rounded-l-md p-2 outline-none focus:border-2 w-40 h-9  focus:border-blue-600`}
+              } rounded-l-md p-2 outline-none focus:border-2 lg:w-40 sm:w-20 lg:h-9 sm:h-7  focus:border-blue-600`}
               type="email"
               placeholder="Email Address/Username"
               onChange={(e) => setParam(e.target.value)}
             />{" "}
             <button
               onClick={() => (status == "Add" ? addSubmit() : removeSubmit())}
-              className="bg-blue-600 text-white text-14 px-3 font-semibold rounded-r-md outline-none"
+              className="bg-blue-600 text-white lg:text-12 sm:text-10 lg:px-3 sm:px-[6px] font-semibold rounded-r-md outline-none"
             >
               {status == "Add" ? "Add" : "Remove"}
             </button>

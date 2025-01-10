@@ -62,7 +62,7 @@ const Task = () => {
               New Task
             </button>
           </div>
-          <div className="grid grid-cols-3 px-3 gap-x-10 pt-5">
+          <div className="grid grid-cols-3 lg:px-3 lg:gap-x-10 sm:gap-x-3 pt-5">
             <div
               className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
@@ -93,7 +93,7 @@ const Task = () => {
             </div>
           </div>
           {tasks && tasks.length > 0 ? (
-            <div className="grid lg:grid-cols-4 sm:grid-cols-2 pt-5 lg:gap-x-7 sm:gap-x-4 gap-y-5 px-10">
+            <div className="grid lg:grid-cols-4 sm:grid-cols-2 pt-5 lg:gap-x-7 sm:gap-x-4 gap-y-5 lg:px-10 sm:px-3">
               {tasks.map((task) => (
                 <div key={task.id}>
                   <TaskList

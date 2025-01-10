@@ -183,7 +183,7 @@ const ContextProvider = (props) => {
 
       return response;
     } catch (error) {
-      throw error;
+      throw error.response.data;
     }
   };
 
@@ -576,6 +576,24 @@ const ContextProvider = (props) => {
       throw error.response.data;
     }
   };
+  const addMemberToTask = async (pk, members) => {
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/add/member/task/${pk}`,
+        { members: members },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token.access}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
+    }
+  };
   const removeMemberToProject = async (pk, param) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
     try {
@@ -782,6 +800,7 @@ const ContextProvider = (props) => {
     removeMemberToProject,
     searchResult,
     addToFavourite,
+    addMemberToTask,
   };
   useEffect(() => {
     const four = 1000 * 60 * 4;
