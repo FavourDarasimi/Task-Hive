@@ -77,13 +77,13 @@ function App() {
       ) : (
         <div className="sm:relative">
           <div
-            className={`lg:w-[15%] sm:w-[100%] ${
+            className={`3xl:w-[15%] 2xl:w-[15%] xl:w-[15%] lg:w-[100%] border-r-1 border-r-mygrey3  sm:w-[100%] ${
               darkMode == "dark" ? "bg-myblack" : ""
-            }  lg:left-0 lg:top-0 z-10 h-full  fixed sm:px-1`}
+            }  3xl:left-0 3xl:top-0 2xl:left-0 2xl:top-0 lg:top-0 lg:left-0 z-10 h-full  fixed sm:px-1`}
           >
             <Navbar />
           </div>
-          <div className="lg:w-85% sm:w-100% lg:ml-15%  fixed z-1 top-0 ">
+          <div className="3xl:w-[85%] 2xl:w-[85%] xl:w-[85%] lg:w-[95%] sm:w-100% 3xl:ml-[15%] 2xl:ml-[15%] xl:ml-[15%] lg:ml-[5%] fixed z-1 top-0 ">
             <Header
               specificElementRef={specificElementRef}
               setShowInvites={setShowInvites}
@@ -104,7 +104,9 @@ function App() {
       <div
         className={`sm:w-[100%] sm:pb-16 ${
           darkMode == "dark" ? "bg-myblack min-h-screen" : "bg-anti-flash-white min-h-screen"
-        }  ${isLoggedIn ? "lg:ml-[15%] sm:px-2 pt-24" : " "}  `}
+        }  ${
+          isLoggedIn ? "3xl:ml-[15%] 2xl:ml-[15%] xl:ml-[15%] lg:ml-[5%] sm:px-2 pt-24" : " "
+        }  `}
       >
         <Routes>
           <Route path="/" element={<LandingPage />} exact />

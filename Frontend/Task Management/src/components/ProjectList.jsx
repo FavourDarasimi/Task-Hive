@@ -43,26 +43,26 @@ const ProjectList = ({
       <div
         className={` ${
           darkMode == "dark" ? "bg-myblack2" : "bg-white"
-        } lg:px-5 lg:py-3 sm:p-2 rounded-xl  flex flex-col`}
+        } 3xl:px-5 3xl:py-3 sm:p-2 rounded-xl  flex flex-col`}
       >
         {showEdit ? <EditProject project={project} setShowEdit={setShowEdit} /> : ""}
         <div className="flex justify-between items-center">
           <h1
             className={` ${
               darkMode == "dark" ? "text-anti-flash-white" : ""
-            } lg:text-18 sm:text-10 font-bold   `}
+            } 3xl:text-18 sm:text-10 font-bold   `}
           >
             {project.name}
           </h1>
           <div className="flex items-center">
             {project.favourite == true ? (
               <StarSolid
-                className="text-yellow-400 lg:w-5 lg:h-5 sm:w-3 sm:h-3 mb-2 cursor-pointer"
+                className="text-yellow-400 3xl:w-5 3xl:h-5 sm:w-3 sm:h-3 mb-2 cursor-pointer"
                 onClick={() => addFavourite(false)}
               />
             ) : (
               <StarOutline
-                className="lg:w-5 lg:h-5 sm:w-3 sm:h-3 mb-2 text-gray-400  cursor-pointer"
+                className="3xl:w-5 3xl:h-5 sm:w-3 sm:h-3 mb-2 text-gray-400  cursor-pointer"
                 onClick={() => addFavourite(true)}
               />
             )}
@@ -71,7 +71,7 @@ const ProjectList = ({
                 <button
                   onClick={() => (showMenu == project.id ? setShowMenu() : setShowMenu(project.id))}
                 >
-                  <HiOutlineDotsVertical className="lg:w-5 lg:h-5 sm:w-3 sm:h-3" />
+                  <HiOutlineDotsVertical className="3xl:w-5 3xl:h-5 sm:w-3 sm:h-3" />
                 </button>
 
                 <div
@@ -102,15 +102,15 @@ const ProjectList = ({
             )}
           </div>
         </div>
-        <p className="lg:text-13 sm:text-[8px] text-gray-400 pl-2 lg:pt-1 sm:-mt-[4px]">
+        <p className="3xl:text-13 sm:text-[8px] text-gray-400 pl-2 3xl:pt-1 sm:-mt-[4px]">
           {getDate(project.created_at)}
         </p>
 
-        <div className="lg:pt-5 sm:pt-2 flex lg:gap-x-5 sm:gap-x-1 items-center">
-          <div className="flex justify-end  lg:text-18 sm:text-[9px] font-semibold sm:font-bold">
+        <div className="3xl:pt-5 sm:pt-2 flex 3xl:gap-x-5 sm:gap-x-1 items-center">
+          <div className="flex justify-end  3xl:text-18 sm:text-[9px] font-semibold sm:font-bold">
             <h1>{project.percentage}%</h1>
           </div>
-          <svg height={10} className="w-100% lg:stroke-[4] sm:stroke-[2]">
+          <svg height={10} className="w-100% 3xl:stroke-[4] sm:stroke-[2]">
             <line x1="0" y1={10 / 2} x2={370} y2={10 / 2} stroke="#f0f0f0" strokeLinecap="round" />
             <line
               x1="0"
@@ -131,13 +131,13 @@ const ProjectList = ({
           </svg>
         </div>
 
-        <div className="flex items-center lg:-space-x-3 sm:-space-x-2 lg:pt-1 sm:pt-[2px] ">
+        <div className="flex items-center 3xl:-space-x-3 sm:-space-x-2 3xl:pt-1 sm:pt-[2px] ">
           {project.assigned_members.map((member, index) =>
             index >= 4 ? (
               index == 4 ? (
                 <h1
                   key={member.id}
-                  className={`bg-anti-flash-white  lg:text-19 font-bold  lg:w-[48px] lg:h-[48px] sm:w-6 sm:h-6 sm:text-10 border-2 rounded-full flex items-center justify-center ${
+                  className={`bg-anti-flash-white  3xl:text-19 font-bold  3xl:w-[48px] 3xl:h-[48px] sm:w-6 sm:h-6 sm:text-10 border-2 rounded-full flex items-center justify-center ${
                     darkMode == "dark" ? "text-black border-myblack" : "border-white"
                   }`}
                 >
@@ -151,14 +151,14 @@ const ProjectList = ({
               <img
                 key={member.id}
                 src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                className={`lg:w-[48px] lg:h-[48px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
+                className={`3xl:w-[48px] 3xl:h-[48px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
             ) : (
               <FaUserCircle
                 key={member.id}
-                className={`lg:w-[48px] lg:h-[48px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
+                className={`3xl:w-[48px] 3xl:h-[48px] md:w-44 md:h-44 sm:w-6 sm:h-6 rounded-full  border-2 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
@@ -167,7 +167,7 @@ const ProjectList = ({
         </div>
 
         <div className="flex justify-end  sm:pt-2">
-          <div className="flex  items-center  text-blue-500 lg:text-15 sm:text-10 font-semibold">
+          <div className="flex  items-center  text-blue-500 3xl:text-15 sm:text-10 font-semibold">
             <Link to={`/project/${project.id}`}>
               <h1>View</h1>
             </Link>

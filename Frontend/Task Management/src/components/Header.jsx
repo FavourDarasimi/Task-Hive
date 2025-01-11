@@ -120,20 +120,22 @@ const Header = ({
       <div
         className={`flex justify-between items-center ${
           darkMode == "dark" ? "bg-myblack text-anti-flash-white" : "bg-white"
-        } lg:px-10 sm:px-2 lg:py-2 sm:py-2 `}
+        } px-10 sm:px-2 3xl:py-2 2xl:py-2 sm:py-2 `}
       >
-        <h1 className="lg:hidden text-blue-600 font-[1000] text-16">
+        <h1 className="3xl:hidden 2xl:hidden xl:hidden lg:hidden text-blue-600 font-[1000] text-16">
           <span className="font-[500]">TASK</span>HIVE
         </h1>
-        <h1 className="lg:text-16 font-bold sm:text-11 sm:-ml-20">{getTodaysDate()}</h1>
+        <h1 className="3xl:text-16 2xl:text-14 xl:text-13 lg:text-12 font-bold sm:text-11 3xl:m-0 2xl:m-0 xl:m-0 lg:m-0 ">
+          {getTodaysDate()}
+        </h1>
         <div className="flex space-x-4 items-center">
           <div className="relative">
             <IoIosNotifications
               onClick={() => handleClick()}
-              className="lg:w-6 lg:h-6 sm:w-[17px] sm:h-[17px] sm:mt-1"
+              className="3xl:w-6 3xl:h-6 2xl:w-[20px] 2xl:h-[20px] xl:w-[19px] xl:h-[19px] lg:w-[18px] lg:h-[18px] sm:w-[17px] sm:h-[17px] sm:mt-1"
             />
             {notifications.length > 0 && (
-              <div className="absolute top-0 right-0 bg-red-600 rounded-full lg:w-2 lg:h-2 sm:w-[5px] sm:h-[5px] sm:mt-1"></div>
+              <div className="absolute top-0 right-0 bg-red-600 rounded-full 3xl:w-2 3xl:h-2 2xl:w-[7px] 2xl:h-[7px] xl:w-[6px] xl:h-[6px] sm:w-[5px]  sm:h-[5px] sm:mt-1"></div>
             )}
             {showNotification ? (
               <div
@@ -155,18 +157,18 @@ const Header = ({
           </div>
 
           <div className="relative">
-            <div className="flex items-center lg:gap-x-1 sm:gap-x-[2px]">
-              <div className="lg:h-6 lg:w-6 sm:w-5 sm:h-5 sm:text-[9px] lg:text-12 rounded-full text-white flex justify-center items-center bg-purple-700">
+            <div className="flex items-center 3xl:gap-x-1 sm:gap-x-[2px]">
+              <div className="3xl:h-6 3xl:w-6 2xl:h-5 2xl:w-5 xl:h-5 xl:w-5 sm:w-5 sm:h-5 sm:text-[9px] 3xl:text-12 2xl:text-11 xl:text-10 lg:text-10 rounded-full text-white flex justify-center items-center bg-purple-700">
                 {activeWorkspace ? getFirstLetter(activeWorkspace.name) : ""}
               </div>
               {showMenu ? (
                 <IoIosArrowUp
-                  className="cursor-pointer lg:w-4 lg:h-4 sm:w-2 sm:h-2"
+                  className="cursor-pointer 3xl:w-4 3xl:h-4 2xl:w-3 2xl:h-3 xl:w-3 xl:h-3  sm:w-2 sm:h-2"
                   onClick={() => setShowMenu(false)}
                 />
               ) : (
                 <IoIosArrowDown
-                  className="cursor-pointer lg:w-4 lg:h-4 sm:w-2 sm:h-2"
+                  className="cursor-pointer 3xl:w-4 3xl:h-4 s 2xl:w-3 2xl:h-3 xl:w-3 xl:h-3 m:w-2 sm:h-2"
                   onClick={() => setShowMenu(true)}
                 />
               )}

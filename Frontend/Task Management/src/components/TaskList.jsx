@@ -20,14 +20,14 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
     <div
       className={`${
         darkMode == "dark" ? "bg-myblack2" : "bg-white"
-      } lg:p-4 sm:p-2 flex flex-col  rounded-2xl `}
+      } 3xl:p-4 sm:p-2 flex flex-col  rounded-2xl `}
     >
       {showEdit ? <EditTask task={task} setShowEdit={setShowEdit} /> : ""}
 
       <div className="flex justify-between items-start">
-        <div className="flex lg:gap-x-2 sm:gap-x-1 items-center">
+        <div className="flex 3xl:gap-x-2 sm:gap-x-1 items-center">
           <div
-            className={` lg:h-3 lg:w-3 sm:w-2 sm:h-2 rounded-full ${
+            className={` 3xl:h-3 3xl:w-3 sm:w-2 sm:h-2 rounded-full ${
               task.status == "Completed"
                 ? "bg-green-600"
                 : task.status == "Pending"
@@ -35,11 +35,11 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
                 : "bg-yellow-600"
             }`}
           ></div>
-          <h1 className="lg:text-18 sm:text-10 font-semibold">{task.title}</h1>
+          <h1 className="3xl:text-18 sm:text-10 font-semibold">{task.title}</h1>
         </div>
         <div className="flex">
           {task.is_due ? (
-            <MdError className="text-red-600 lg:w-5 lg:h-5 sm:w-[13px] sm:h-[13px]" />
+            <MdError className="text-red-600 3xl:w-5 3xl:h-5 sm:w-[13px] sm:h-[13px]" />
           ) : (
             ""
           )}
@@ -74,7 +74,7 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
         </div>
       </div>
       <h1
-        className={`lg:text-14  sm:text-10 font-semibold lg:pl-6 sm:pl-3 ${
+        className={`3xl:text-14  sm:text-10 font-semibold 3xl:pl-6 sm:pl-3 ${
           task.priority == "High"
             ? "text-red-600"
             : task.priority == "Medium"
@@ -84,18 +84,18 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
       >
         {task.priority}
       </h1>
-      <div className="flex items-center lg:gap-x-2 sm:gap-x-[2px]  lg:py-4 sm:py-2">
-        <h1 className="font-semibold lg:text-15 sm:text-10 whitespace-nowrap">Deadline:</h1>
-        <h1 className="lg:text-13 sm:text-[9px] whitespace-nowrap">{getDate(task.due_date)}</h1>
+      <div className="flex items-center 3xl:gap-x-2 sm:gap-x-[2px]  3xl:py-4 sm:py-2">
+        <h1 className="font-semibold 3xl:text-15 sm:text-10 whitespace-nowrap">Deadline:</h1>
+        <h1 className="3xl:text-13 sm:text-[9px] whitespace-nowrap">{getDate(task.due_date)}</h1>
       </div>
-      <div className="flex lg:text-16 sm:text-13 justify-between items-center lg:pb-2 sm:pb-1">
+      <div className="flex 3xl:text-16 sm:text-13 justify-between items-center 3xl:pb-2 sm:pb-1">
         <div className="flex -space-x-2 ">
           {task.assigned_members.map((member, index) =>
             index >= 3 ? (
               index == 3 ? (
                 <div
                   key={member.id}
-                  className={`bg-anti-flash-white lg:text-17 sm:text-10 font-bold  lg:w-10 lg:h-10 sm:w-5 sm:h-5 shadow-2xl rounded-full border-1 flex items-center justify-center ${
+                  className={`bg-anti-flash-white 3xl:text-17 sm:text-10 font-bold  3xl:w-10 3xl:h-10 sm:w-5 sm:h-5 shadow-2xl rounded-full border-1 flex items-center justify-center ${
                     darkMode == "dark" ? "text-black border-myblack" : "border-white"
                   }`}
                 >
@@ -108,21 +108,21 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
               <img
                 key={member.id}
                 src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                className={`lg:w-10 lg:h-10 md:w-4 md:h-4 sm:w-5 sm:h-5 rounded-full lg:ml-3 border-1 ${
+                className={`3xl:w-10 3xl:h-10 md:w-4 md:h-4 sm:w-5 sm:h-5 rounded-full 3xl:ml-3 border-1 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
             ) : (
               <FaUserCircle
                 key={member.id}
-                className={`lg:w-10 lg:h-10 md:w-4 md:h-4 sm:w-5 sm:h-5 rounded-full lg:ml-3 border-1 ${
+                className={`3xl:w-10 3xl:h-10 md:w-4 md:h-4 sm:w-5 sm:h-5 rounded-full 3xl:ml-3 border-1 ${
                   darkMode == "dark" ? "border-myblack" : "border-white"
                 }`}
               />
             )
           )}
         </div>
-        <h1 className="lg:text-14 sm:text-10 whitespace-nowrap">{getDate(task.created_at)}</h1>
+        <h1 className="3xl:text-14 sm:text-10 whitespace-nowrap">{getDate(task.created_at)}</h1>
       </div>
     </div>
   );

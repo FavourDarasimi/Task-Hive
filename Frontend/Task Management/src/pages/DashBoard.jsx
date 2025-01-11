@@ -96,9 +96,9 @@ const DashBoard = () => {
           />
         </div>
       ) : (
-        <div className="lg:flex lg:flex-row sm:flex sm:flex-col lg:gap-x-10 lg:-mt-5 sm:-mt-10">
-          <div className="lg:w-65% ">
-            <h1 className="lg:text-17 sm:text-12 font-bold  ">
+        <div className="3xl:flex 3xl:flex-row 2xl:flex 2xl:flex-row xl:flex xl:flex-row lg:flex lg:flex-row lg:gap-x-7 sm:flex sm:flex-col 3xl:gap-x-5 3xl:-mt-5 2xl:gap-x-5 2xl:-mt-5 xl:gap-x-4 xl:-mt-8 lg:-mt-10 sm:-mt-10">
+          <div className="3xl:w-65% 2xl:w-65% xl:w-65% lg:w-65%">
+            <h1 className="3xl:text-15 2xl:text-14 xl:text-14 lg:text-12 4xl:text-17 sm:text-12 font-bold  ">
               Hello {getNewName(username)} &#128512; ({activeWorkspace ? activeWorkspace.name : ""})
             </h1>
             <div className="sm:flex sm:justify-center">
@@ -128,7 +128,7 @@ const DashBoard = () => {
             />
           </div>
 
-          <div className="sm:mt-10 ">
+          <div className="sm:mt-10 flex 3xl:flex-col xl:flex-col 2xl:flex-col lg:flex-col 4xl:flex-col md:flex-row sm:flex-col md:gap-x-10 md:px-5 md:justify-center">
             <div className="sm:flex justify-center">
               <Calendar className={`${darkMode == "dark" ? "bg-myblack2" : "bg-white"}`} />
             </div>

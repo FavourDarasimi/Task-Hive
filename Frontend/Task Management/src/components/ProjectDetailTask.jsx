@@ -144,17 +144,17 @@ const ProjectDetailTask = ({
             : task.status == "Pending"
             ? "border-l-[6px] border-red-600"
             : "border-l-[6px] border-yellow-600"
-        } lg:p-3 sm:p-2 flex flex-col  rounded-2xl `}
+        } 3xl:p-3 sm:p-2 flex flex-col  rounded-2xl `}
       >
         {showEdit == task.id ? <EditTask task={task} setShowEdit={setShowEdit} /> : ""}
 
         <div className="flex justify-between items-start">
-          <div className="flex lg:gap-x-2 sm:gap-x-1 items-center">
-            <h1 className="lg:text-16 sm:text-10 font-semibold">{task.title}</h1>
+          <div className="flex 3xl:gap-x-2 sm:gap-x-1 items-center">
+            <h1 className="3xl:text-16 sm:text-10 font-semibold">{task.title}</h1>
           </div>
           <div className="flex ">
             {task.is_due ? (
-              <MdError className="text-red-600 lg:w-5 lg:h-5 sm:w-[13px] sm:h-[13px]" />
+              <MdError className="text-red-600 3xl:w-5 3xl:h-5 sm:w-[13px] sm:h-[13px]" />
             ) : (
               ""
             )}
@@ -198,7 +198,7 @@ const ProjectDetailTask = ({
           </div>
         </div>
         <h1
-          className={`lg:text-13  sm:text-10 font-semibold lg:pl-6 sm:pl-3 ${
+          className={`3xl:text-13  sm:text-10 font-semibold 3xl:pl-6 sm:pl-3 ${
             task.priority == "High"
               ? "text-red-600"
               : task.priority == "Medium"
@@ -208,18 +208,18 @@ const ProjectDetailTask = ({
         >
           {task.priority}
         </h1>
-        <div className="flex items-center lg:gap-x-2 sm:gap-x-[2px]  lg:py-3 sm:py-2">
-          <h1 className="font-semibold lg:text-14 sm:text-10 whitespace-nowrap">Deadline:</h1>
-          <h1 className="lg:text-13 sm:text-[9px] whitespace-nowrap">{getDate(task.due_date)}</h1>
+        <div className="flex items-center 3xl:gap-x-2 sm:gap-x-[2px]  3xl:py-3 sm:py-2">
+          <h1 className="font-semibold 3xl:text-14 sm:text-10 whitespace-nowrap">Deadline:</h1>
+          <h1 className="3xl:text-13 sm:text-[9px] whitespace-nowrap">{getDate(task.due_date)}</h1>
         </div>
-        <div className="flex lg:text-16 sm:text-13 justify-between items-center lg:pb-2 sm:pb-1">
+        <div className="flex 3xl:text-16 sm:text-13 justify-between items-center 3xl:pb-2 sm:pb-1">
           <div className="flex -space-x-2 ">
             {task.assigned_members.map((member, index) =>
               index >= 3 ? (
                 index == 3 ? (
                   <div
                     key={member.id}
-                    className={`bg-anti-flash-white lg:text-17 sm:text-10 font-bold  lg:w-9 lg:h-9 sm:w-5 sm:h-5 shadow-2xl rounded-full border-1 flex items-center justify-center ${
+                    className={`bg-anti-flash-white 3xl:text-17 sm:text-10 font-bold  3xl:w-9 3xl:h-9 sm:w-5 sm:h-5 shadow-2xl rounded-full border-1 flex items-center justify-center ${
                       darkMode == "dark" ? "text-black border-myblack" : "border-white"
                     }`}
                   >
@@ -232,21 +232,21 @@ const ProjectDetailTask = ({
                 <img
                   key={member.id}
                   src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                  className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                  className={`3xl:w-9 3xl:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full 3xl:ml-3 border-1 ${
                     darkMode == "dark" ? "border-myblack" : "border-white"
                   }`}
                 />
               ) : (
                 <FaUserCircle
                   key={member.id}
-                  className={`lg:w-9 lg:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full lg:ml-3 border-1 ${
+                  className={`3xl:w-9 3xl:h-9 md:w-4 md:h-4 sm:w-4 sm:h-4 rounded-full 3xl:ml-3 border-1 ${
                     darkMode == "dark" ? "border-myblack" : "border-white"
                   }`}
                 />
               )
             )}
           </div>
-          <h1 className="lg:text-13 sm:text-10 whitespace-nowrap">{getDate(task.created_at)}</h1>
+          <h1 className="3xl:text-13 sm:text-10 whitespace-nowrap">{getDate(task.created_at)}</h1>
         </div>
       </div>
     </div>

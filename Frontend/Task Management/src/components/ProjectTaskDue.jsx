@@ -6,14 +6,14 @@ const ProjectTaskDue = ({ taskDue, getDate, darkMode }) => {
   };
   return (
     <div>
-      <h1 className="lg:text-19 sm:text-15 font-semibold">Task Due Today</h1>
+      <h1 className="3xl:text-19 sm:text-15 font-semibold">Task Due Today</h1>
       <div className="flex flex-col gap-y-7 pt-5">
         {taskDue.length >= 1 ? (
           taskDue.map((task, index) => (
             <div key={task.id}>
               {!even(index) ? (
                 <div
-                  className={` ml-24 lg:p-4 sm:p-3 w-fit lg:border-l-[5px] sm:border-l-[3px] hover:scale-125 duration-500 rounded-r-2xl ${
+                  className={` ml-24 3xl:p-4 sm:p-3 w-fit 3xl:border-l-[5px] sm:border-l-[3px] hover:scale-125 duration-500 rounded-r-2xl ${
                     darkMode == "dark" ? "bg-myblack2" : "bg-white"
                   } ${
                     task.priority == "High"
@@ -23,12 +23,12 @@ const ProjectTaskDue = ({ taskDue, getDate, darkMode }) => {
                       : "border-l-green-600"
                   }`}
                 >
-                  <h1 className="font-semibold lg:text-15 sm:text-13">{task.title}</h1>
-                  <h1 className="lg:text-13 sm:text-10">{getDate(task.due_date)}</h1>
+                  <h1 className="font-semibold 3xl:text-15 sm:text-13">{task.title}</h1>
+                  <h1 className="3xl:text-13 sm:text-10">{getDate(task.due_date)}</h1>
                 </div>
               ) : (
                 <div
-                  className={` lg:p-4 sm:p-3 w-fit lg:border-l-[5px] sm:border-l-[3px] hover:scale-125 duration-500 rounded-r-2xl ${
+                  className={` 3xl:p-4 sm:p-3 w-fit 3xl:border-l-[5px] sm:border-l-[3px] hover:scale-125 duration-500 rounded-r-2xl ${
                     darkMode == "dark" ? "bg-myblack2" : "bg-white"
                   } ${
                     task.priority == "High"
@@ -38,14 +38,14 @@ const ProjectTaskDue = ({ taskDue, getDate, darkMode }) => {
                       : "border-l-green-600"
                   }`}
                 >
-                  <h1 className="font-semibold lg:text-15 sm:text-13">{task.title}</h1>
-                  <h1 className="lg:text-13 sm:text-10">{getDate(task.due_date)}</h1>
+                  <h1 className="font-semibold 3xl:text-15 sm:text-13">{task.title}</h1>
+                  <h1 className="3xl:text-13 sm:text-10">{getDate(task.due_date)}</h1>
                 </div>
               )}
             </div>
           ))
         ) : (
-          <h1 className="lg:text-xl sm:text-18 font-semibold">No taskDue Deadlines</h1>
+          <h1 className="3xl:text-xl sm:text-18 font-semibold">No taskDue Deadlines</h1>
         )}
       </div>
     </div>

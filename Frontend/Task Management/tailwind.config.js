@@ -5,8 +5,12 @@ export default {
   theme: {
     screens: {
       sm: "0px",
-      md: "750px",
-      lg: "1050px",
+      md: "768px",
+      lg: "1025px",
+      xl: "1281px",
+      "2xl": "1441px",
+      "3xl": "1601px",
+      "4xl": "1921px",
     },
     extend: {
       width: {

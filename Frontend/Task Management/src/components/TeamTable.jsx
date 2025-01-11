@@ -26,7 +26,7 @@ const TeamTable = ({ members, team, leader, setRemoved }) => {
   };
   return (
     <div
-      className={`lg:p-5 sm:p-2 mt-5 rounded-lg lg:w-70%  ${
+      className={`3xl:p-5 sm:p-2 mt-5 rounded-lg 3xl:w-70%  ${
         darkMode == "dark" ? "bg-myblack2" : "bg-white"
       } `}
     >
@@ -34,47 +34,47 @@ const TeamTable = ({ members, team, leader, setRemoved }) => {
         <p>{team}</p>
       ) : (
         <div className="overflow-x-auto w-100%">
-          <h1 className="lg:text-2xl sm:text-18 font-semibold pb-5">Members</h1>
+          <h1 className="3xl:text-2xl sm:text-18 font-semibold pb-5">Members</h1>
           <div
-            className={`flex border-b-2 lg:pb-3 sm:pb-1 ${
+            className={`flex border-b-2 3xl:pb-3 sm:pb-1 ${
               darkMode == "dark" ? "border-black" : "border-mygrey"
             }`}
           >
-            <h1 className="w-[45%] lg:text-17 sm:text-11 font-semibold">Name</h1>
-            <h1 className="lg:text-17 sm:text-11 font-semibold w-[35%]">Email</h1>
-            <h1 className="lg:text-17 sm:text-11 font-semibold w-10%">Role</h1>
-            <h1 className="lg:text-17 sm:text-11 font-semibold w-10% flex justify-end">Action</h1>
+            <h1 className="w-[45%] 3xl:text-17 sm:text-11 font-semibold">Name</h1>
+            <h1 className="3xl:text-17 sm:text-11 font-semibold w-[35%]">Email</h1>
+            <h1 className="3xl:text-17 sm:text-11 font-semibold w-10%">Role</h1>
+            <h1 className="3xl:text-17 sm:text-11 font-semibold w-10% flex justify-end">Action</h1>
           </div>
 
           {leader ? (
             <div
-              className={`flex  items-center lg:py-2 sm:py-1 border-b-2  ${
+              className={`flex  items-center 3xl:py-2 sm:py-1 border-b-2  ${
                 darkMode == "dark" ? "border-black" : "border-mygrey"
               } `}
             >
-              <div className="flex lg:gap-x-1 w-[45%]   items-center">
+              <div className="flex 3xl:gap-x-1 w-[45%]   items-center">
                 {leader.profile.avatar ? (
                   <img
                     src={`http://127.0.0.1:8000/${leader.profile.avatar}`}
-                    className={`lg:w-14 lg:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full lg:ml-3 border-3 ${
+                    className={`3xl:w-14 3xl:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full 3xl:ml-3 border-3 ${
                       darkMode == "dark" ? "border-myblack" : "border-white"
                     }`}
                   />
                 ) : (
                   <FaUserCircle
-                    className={`lg:w-14 lg:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full lg:ml-3 border-3 ${
+                    className={`3xl:w-14 3xl:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full 3xl:ml-3 border-3 ${
                       darkMode == "dark" ? "border-myblack" : "border-white"
                     }`}
                   />
                 )}
                 <div className="flex items-center ">
-                  <h1 className="lg:text-15 sm:text-11 font-semibold">
+                  <h1 className="3xl:text-15 sm:text-11 font-semibold">
                     {getFullName(leader.first_name, leader.last_name)}
                   </h1>
                 </div>
                 {user ? (
                   user.username == leader.username ? (
-                    <MdStars className="lg:w-5 lg:h-5 sm:w-3 sm:h-3 text-blue-600" />
+                    <MdStars className="3xl:w-5 3xl:h-5 sm:w-3 sm:h-3 text-blue-600" />
                   ) : (
                     ""
                   )
@@ -82,9 +82,9 @@ const TeamTable = ({ members, team, leader, setRemoved }) => {
                   ""
                 )}
               </div>
-              <h1 className="lg:text-15 w-[35%] sm:text-11">{leader.email}</h1>
+              <h1 className="3xl:text-15 w-[35%] sm:text-11">{leader.email}</h1>
 
-              <h1 className="w-10% font-semibold lg:text-15 sm:text-11 ">Leader</h1>
+              <h1 className="w-10% font-semibold 3xl:text-15 sm:text-11 ">Leader</h1>
             </div>
           ) : (
             ""
@@ -97,45 +97,45 @@ const TeamTable = ({ members, team, leader, setRemoved }) => {
                     ""
                   ) : (
                     <div
-                      className={`flex  items-center lg:py-2 sm:py-1 border-b-2  ${
+                      className={`flex  items-center 3xl:py-2 sm:py-1 border-b-2  ${
                         darkMode == "dark" ? "border-black" : "border-mygrey"
                       }`}
                     >
-                      <div className="flex lg:gap-x-1 w-[45%]  items-center">
+                      <div className="flex 3xl:gap-x-1 w-[45%]  items-center">
                         {member.profile.avatar ? (
                           <img
                             src={`http://127.0.0.1:8000/${member.profile.avatar}`}
-                            className={`lg:w-14 lg:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full lg:ml-3 border-3 ${
+                            className={`3xl:w-14 3xl:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full 3xl:ml-3 border-3 ${
                               darkMode == "dark" ? "border-myblack" : "border-white"
                             }`}
                           />
                         ) : (
                           <FaUserCircle
-                            className={`lg:w-14 lg:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full lg:ml-3 border-3 ${
+                            className={`3xl:w-14 3xl:h-14 md:w-44 md:h-44 sm:w-9 sm:h-9 rounded-full 3xl:ml-3 border-3 ${
                               darkMode == "dark" ? "border-myblack" : "border-white"
                             }`}
                           />
                         )}
                         <div className="flex items-center">
-                          <h1 className="lg:text-15 sm:text-11 font-semibold whitespace-nowrap">
+                          <h1 className="3xl:text-15 sm:text-11 font-semibold whitespace-nowrap">
                             {getFullName(member.first_name, member.last_name)}
                           </h1>
                         </div>
                         {user && user.username == member.username ? (
-                          <MdStars className="lg:w-5 lg:h-5 sm:w-3 sm:h-3 text-blue-600" />
+                          <MdStars className="3xl:w-5 3xl:h-5 sm:w-3 sm:h-3 text-blue-600" />
                         ) : (
                           ""
                         )}
                       </div>
-                      <h1 className="w-[35%] lg:text-15 sm:text-11">{member.email}</h1>
+                      <h1 className="w-[35%] 3xl:text-15 sm:text-11">{member.email}</h1>
 
-                      <h1 className="w-10% font-semibold lg:text-15 sm:text-11 ">Member</h1>
+                      <h1 className="w-10% font-semibold 3xl:text-15 sm:text-11 ">Member</h1>
 
                       {user.username == leader.username ? (
                         <div className="w-10% flex justify-end">
                           <AiOutlineDelete
                             onClick={() => leaveTeamFunction(team.id, leader.id, member.id, true)}
-                            className={`lg:w-6 lg:h-6 sm:w-[14px] sm:h-[14px] ${
+                            className={`3xl:w-6 3xl:h-6 sm:w-[14px] sm:h-[14px] ${
                               darkMode == "dark" ? "text-white" : ""
                             }`}
                           />

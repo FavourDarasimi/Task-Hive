@@ -44,11 +44,13 @@ const LandingPage = () => {
   return (
     <div className="">
       <div className="flex justify-between pt-2 px-7">
-        <h1 className="lg:text-4xl  sm:text-xl  font-bold  text-blue-600 text-center ">TASKHIVE</h1>
+        <h1 className="3xl:text-4xl  sm:text-xl  font-bold  text-blue-600 text-center ">
+          TASKHIVE
+        </h1>
         <div>
           <Link to="/account/">
             <button
-              className=" lg:text-17 sm:text-14 lg:px-7 sm:px-4 rounded-full lg:py-2 sm:py-1 font-semibold text-blue-600 border-1 border-blue-600 hover:bg-blue-600 hover:text-white"
+              className=" 3xl:text-17 sm:text-14 3xl:px-7 sm:px-4 rounded-full 3xl:py-2 sm:py-1 font-semibold text-blue-600 border-1 border-blue-600 hover:bg-blue-600 hover:text-white"
               onClick={() => setCurrentStatus("login")}
             >
               Sign in
@@ -58,14 +60,14 @@ const LandingPage = () => {
       </div>
 
       <div
-        className={`mx-auto lg:w-60% sm:w-90% lg:pt-28 sm:pt-16 ${
+        className={`mx-auto 3xl:w-60% sm:w-90% 3xl:pt-28 sm:pt-16 ${
           darkMode == "dark" ? "text-anti-flash-white" : ""
         }`}
       >
-        <h1 className="lg:text-6xl sm:text-3xl font-medium  text-center leading-tight">
+        <h1 className="3xl:text-6xl sm:text-3xl font-medium  text-center leading-tight">
           Efficient <span className="text-blue-600 font-bold">Task Management</span> Strategies
         </h1>
-        <h1 className="text-center lg:pt-10 lg:w-60%  sm:pt-5 mx-auto font-semibold">
+        <h1 className="text-center 3xl:pt-10 3xl:w-60%  sm:pt-5 mx-auto font-semibold">
           Boosting Productivity and Achieving goals.{" "}
           <span className="text-blue-600 font-bold">TaskHive</span> helps you manage your tasks and
           time effectively, giving you the control to focus on what truly matters
@@ -81,7 +83,7 @@ const LandingPage = () => {
           </Link>
         </div>
       </div>
-      <div className="relative w-full mx-auto overflow-hidden lg:w-60%  rounded-lg shadow-2xl  mb-5 transition duration-500 ease-in-out transform hover:scale-105 mt-20">
+      <div className="relative w-full mx-auto overflow-hidden 3xl:w-60%  rounded-lg shadow-2xl  mb-5 transition duration-500 ease-in-out transform hover:scale-105 mt-20">
         <img
           src={images[currentIndex]}
           alt={`Slide ${currentIndex}`}
@@ -100,53 +102,53 @@ const LandingPage = () => {
           ❯
         </button>
       </div>
-      <div className="flex flex-col items-center sm:w-80% sm:mx-auto lg:w-100%">
+      <div className="flex flex-col items-center sm:w-80% sm:mx-auto 3xl:w-100%">
         <h1
-          className={`text-center lg:mt-40 sm:mt-20 font-bold text-2xl pb-10 ${
+          className={`text-center 3xl:mt-40 sm:mt-20 font-bold text-2xl pb-10 ${
             darkMode == "dark" ? "text-anti-flash-white" : ""
           }`}
         >
           Key Features
         </h1>
-        <div className="grid lg:grid-cols-3 sm:grid-cols-1 sm:gap-y-7 gap-x-10 mb-10">
-          <div className="bg-gradient-to-tl from-blue-600 to-blue-300 rounded-lg lg:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
+        <div className="grid 3xl:grid-cols-3 sm:grid-cols-1 sm:gap-y-7 gap-x-10 mb-10">
+          <div className="bg-gradient-to-tl from-blue-600 to-blue-300 rounded-lg 3xl:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
             <div className="bg-blue-200 p-10 rounded-full w-fit h-fit mx-auto">
               <GrTasks className="text-blue-600 w-5 h-5" />
             </div>
-            <h1 className="text-center font-bold lg:text-xl sm:text-19 text-white lg:pt-5 sm:pt-4">
+            <h1 className="text-center font-bold 3xl:text-xl sm:text-19 text-white 3xl:pt-5 sm:pt-4">
               Task Creation and Management
             </h1>
-            <h1 className="pt-2 sm:text-14 lg:text-15 font-semibold text-white text-center">
+            <h1 className="pt-2 sm:text-14 3xl:text-15 font-semibold text-white text-center">
               Easily create, edit, and delete tasks with intuitive controls.
             </h1>
           </div>
 
-          <div className="bg-gradient-to-tl from-blue-400 to-fuchsia-600 rounded-lg lg:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
+          <div className="bg-gradient-to-tl from-blue-400 to-fuchsia-600 rounded-lg 3xl:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
             <div className="bg-blue-200 p-4 rounded-full w-fit h-fit mx-auto">
               <DiResponsive className="text-blue-600 w-16 h-16" />
             </div>
-            <h1 className="text-center font-bold lg:text-xl sm:text-19 text-white lg:pt-5 sm:pt-4">
+            <h1 className="text-center font-bold 3xl:text-xl sm:text-19 text-white 3xl:pt-5 sm:pt-4">
               User Friendly Interface
             </h1>
-            <h1 className="pt-2 sm:text-14 lg:text-15 font-semibold text-white text-center">
+            <h1 className="pt-2 sm:text-14 3xl:text-15 font-semibold text-white text-center">
               Enjoy a clean, intuitive interface designed for ease of use.
             </h1>
           </div>
 
-          <div className="bg-gradient-to-tl from-fuchsia-500 to-blue-800  rounded-lg lg:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
+          <div className="bg-gradient-to-tl from-fuchsia-500 to-blue-800  rounded-lg 3xl:p-6 sm:p-4 shadow-2xl transition duration-500 ease-in-out hover:scale-110">
             <div className="bg-blue-200 p-9 rounded-full w-fit h-fit mx-auto">
               <MdOutlineNotificationsActive className="text-blue-600 w-6 h-6" />
             </div>
-            <h1 className="text-center font-bold lg:text-xl sm:text-19 text-white lg:pt-5 sm:pt-4">
+            <h1 className="text-center font-bold 3xl:text-xl sm:text-19 text-white 3xl:pt-5 sm:pt-4">
               Reminders and Notifications
             </h1>
-            <h1 className="pt-2 sm:text-14 lg:text-15 font-semibold text-white text-center">
+            <h1 className="pt-2 sm:text-14 3xl:text-15 font-semibold text-white text-center">
               Stay on track with timely reminders and notifications.
             </h1>
           </div>
         </div>
       </div>
-      <h1 className="mt-auto mx-auto p-2 sm:text-14 lg:text-18  font-semibold w-fit">
+      <h1 className="mt-auto mx-auto p-2 sm:text-14 3xl:text-18  font-semibold w-fit">
         The Everything app for task Management
       </h1>
     </div>
