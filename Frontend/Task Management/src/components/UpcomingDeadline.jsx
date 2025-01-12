@@ -71,7 +71,7 @@ const UpcomingDeadline = ({ upcoming }) => {
             </div>
           ))
         ) : (
-          <h1 className="3xl:text-xl sm:text-18 font-semibold">No Upcoming Deadlines</h1>
+          <h1 className="3xl:text-xl md:text-16 sm:text-18 font-semibold">No Upcoming Deadlines</h1>
         )}
       </div>
     </div>

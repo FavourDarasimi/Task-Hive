@@ -1,6 +1,5 @@
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import Invitations from "./components/Invitations";
 import Account from "./pages/Account";
 import DashBoard from "./pages/DashBoard";
 import Task from "./pages/Task";
@@ -28,7 +27,6 @@ function App() {
     getTeamMembers,
   } = useContext(Context);
   const [authenticated, setAuthenticated] = useState();
-  const [showInvites, setShowInvites] = useState(false);
   const [showInbox, setShowInbox] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showCreateWorkspace, setShowCreateWorkspace] = useState(false);
@@ -70,8 +68,11 @@ function App() {
         ""
       )}
       {showProfile ? <Profile setShowProfile={setShowProfile} /> : ""}
-      {showInvites ? <Invitations setShowInvites={setShowInvites} setStatus={setStatus} /> : ""}
-      {showInbox ? <Inbox setShowInbox={setShowInbox} /> : ""}
+      {showInbox ? (
+        <Inbox setShowInbox={setShowInbox} setStatuss={setStatus} statuss={status} />
+      ) : (
+        ""
+      )}
       {!isLoggedIn ? (
         ""
       ) : (
@@ -86,7 +87,6 @@ function App() {
           <div className="3xl:w-[85%] 2xl:w-[85%] xl:w-[85%] lg:w-[95%] sm:w-100% 3xl:ml-[15%] 2xl:ml-[15%] xl:ml-[15%] lg:ml-[5%] fixed z-1 top-0 ">
             <Header
               specificElementRef={specificElementRef}
-              setShowInvites={setShowInvites}
               setShowInbox={setShowInbox}
               setShowCreateWorkspace={setShowCreateWorkspace}
               showCreateWorkspace={showCreateWorkspace}

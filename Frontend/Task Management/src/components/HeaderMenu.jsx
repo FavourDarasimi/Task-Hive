@@ -13,22 +13,19 @@ const HeaderMenu = ({
   workspaces,
   setShowProfile,
   setShowInbox,
-  setShowInvites,
   setDarkMode,
   setShowCreateWorkspace,
   showMenu,
   setSwitched,
 }) => {
-  const { darkMode, switchWorkspace, logout, getFirstLetter, user, setIsLoggedIn } =
+  const { darkMode, switchWorkspace, logout, getFirstLetter, user, username, setIsLoggedIn } =
     useContext(Context);
   const navigate = useNavigate();
 
   const getTrue = (data) => {
-    let result = false;
-    if (data.includes(JSON.stringify(user))) {
-      result = true;
-    }
-    return result;
+    let result = [];
+    data.map((value) => result.push(value.username));
+    return result.includes(username);
   };
   const handlelogout = async (e) => {
     e.preventDefault();
@@ -88,7 +85,7 @@ const HeaderMenu = ({
         )}
         {workspaces && workspaces.length > 1
           ? workspaces.map((workspace) =>
-              getTrue(JSON.stringify(workspace.active)) ? (
+              getTrue(workspace.active) ? (
                 ""
               ) : (
                 <div
@@ -129,27 +126,20 @@ const HeaderMenu = ({
           onClick={() => setShowProfile(true)}
         >
           <FaRegUserCircle className="w-5 h-5" />
-          <h1 className="text-15 font-semibold">Profile</h1>
+          <h1 className="text-[14px] font-semibold">Profile</h1>
         </div>
         <div
           className="flex gap-x-2 items-center cursor-pointer"
           onClick={() => setShowInbox(true)}
         >
           <IoMailOutline className="w-5 h-5" />
-          <h1 className="text-15 font-semibold">Inbox</h1>
-        </div>
-        <div
-          className="flex gap-x-2 items-center cursor-pointer"
-          onClick={() => setShowInvites(true)}
-        >
-          <FcInvite className="w-5 h-5" />
-          <h1 className="text-15 font-semibold">Invites</h1>
+          <h1 className="text-[14px] font-semibold">Inbox</h1>
         </div>
 
         <div className="flex justify-between items-center">
           <div className="flex gap-x-2 items-center">
             <IoMoonOutline className="w-5 h-5" />
-            <h1 className="text-15 font-semibold">Dark</h1>
+            <h1 className="text-[14px] font-semibold">Dark</h1>
           </div>
           <Switch
             checked={darkMode == "dark" ? true : false}
@@ -173,12 +163,12 @@ const HeaderMenu = ({
           onClick={() => setShowCreateWorkspace(true)}
         >
           <GoPlus className="w-5 h-5" />
-          <h1 className="text-15 font-semibold">New Workspace</h1>
+          <h1 className="text-[14px] font-semibold">New Workspace</h1>
         </div>
 
         <div className="flex gap-x-2 items-center cursor-pointer" onClick={(e) => handlelogout(e)}>
           <MdLogout className="w-5 h-5" />
-          <h1 className="text-15 font-semibold">Log Out</h1>
+          <h1 className="text-[14px] font-semibold">Log Out</h1>
         </div>
       </div>
     </div>

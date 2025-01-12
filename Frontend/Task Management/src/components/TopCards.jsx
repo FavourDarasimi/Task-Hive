@@ -11,7 +11,7 @@ const TopCards = ({ all, completed, inProgress, projects }) => {
           <IoMdCheckmarkCircleOutline className=" 3xl:w-7 3xl:h-7 2xl:w-7 2xl:h-7 xl:w-7 xl:h-7 lg:w-7 lg:h-7 md:w-7 md:h-7   sm:w-6 sm:h-6 4xl:w-10 4xl:h-10" />
         </div>
         <div>
-          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[75px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
+          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[78px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
             {all ? all.length : 0}
           </h1>
           <h1 className="sm:text-10 3xl:text-14 2xl:text-13 xl:text-12 lg:text-11 md:text-11 4xl:text-16">
@@ -25,7 +25,7 @@ const TopCards = ({ all, completed, inProgress, projects }) => {
           <MdAlarmOn className=" 3xl:w-7 3xl:h-7 2xl:w-7 2xl:h-7 xl:w-7 xl:h-7 lg:w-7 lg:h-7 md:w-7 md:h-7  sm:w-6 sm:h-6 4xl:w-10 4xl:h-10" />
         </div>
         <div>
-          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[75px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
+          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[78px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
             {completed ? completed.length : 0}
           </h1>
           <h1 className="sm:text-10 3xl:text-14 2xl:text-13 xl:text-12 lg:text-11 md:text-11 4xl:text-16">
@@ -38,7 +38,7 @@ const TopCards = ({ all, completed, inProgress, projects }) => {
           <MdAccessAlarm className=" 3xl:w-7 3xl:h-7 2xl:w-7 2xl:h-7 xl:w-7 xl:h-7 lg:w-7 lg:h-7 md:w-7 md:h-7  sm:w-6 sm:h-6 4xl:w-10 4xl:h-10" />
         </div>
         <div>
-          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[75px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
+          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[78px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
             {inProgress ? inProgress.length : 0}
           </h1>
           <h1 className="sm:text-10 3xl:text-14 2xl:text-13 xl:text-12 lg:text-11 md:text-11 4xl:text-16">
@@ -51,7 +51,7 @@ const TopCards = ({ all, completed, inProgress, projects }) => {
           <GoProject className=" 3xl:w-7 3xl:h-7 2xl:w-7 2xl:h-7 xl:w-7 xl:h-7 lg:w-7 lg:h-7 md:w-7 md:h-7  sm:w-6 sm:h-6 4xl:w-10 4xl:h-10" />
         </div>
         <div>
-          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[75px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
+          <h1 className="3xl:text-xl 2xl:text-xl xl:text-19 sm:text-15 4xl:text-[27px] lg:text-18 md:text-18  pl-2 3xl:w-[94px] xl:w-[82px] lg:w-[78px] 2xl:w-[94px] md:w-[75px] sm:w-[67px] font-semibold">
             {projects ? projects.length : 0}
           </h1>
           <h1 className="sm:text-10 3xl:text-14 2xl:text-13 xl:text-12 lg:text-11 md:text-11 4xl:text-16">

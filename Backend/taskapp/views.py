@@ -77,10 +77,10 @@ class CreateProjectView(APIView):
             serializer.validated_data['assigned_members'] = members
             serializer.validated_data['status'] = "In Progress"    
             project = serializer.save(user=request.user)
-            notification = Notification.objects.create(user=request.user,message=f'You Created {project.name} Project')
+            notification = Notification.objects.create(initiator=request.user,user=request.user,message=f'You Created {project.name} Project')
             notification.save()
             for user in members:
-                notification = Notification.objects.create(user=user,message=f'{request.user.username} assigned you to a {project.name} Project')
+                notification = Notification.objects.create(initiator=request.user,user=user,message=f'{request.user.username} assigned you to a {project.name} Project')
                 notification.save()
             user = User.objects.get(id=request.user.id)
             project.assigned_members.add(request.user)
@@ -278,7 +278,7 @@ class CreateTaskView(APIView):
                 serializer.validated_data['status'] = "In Progress"
                 task = serializer.save(user=request.user)
                 for user in members:
-                    notification = Notification.objects.create(user=user,message=f'{request.user.username} assigned you to a task in the {task.project.name} project')
+                    notification = Notification.objects.create(initiator=request.user,user=user,message=f'{request.user.username} assigned you to a task in the {task.project.name} project')
                     notification.save()
                 if checked == True:
                     user = User.objects.get(id=request.user.id)
@@ -452,13 +452,13 @@ class LeaveTeam(APIView):
                 user_workspace.active.add(user)
                 user_workspace.save()
                 if remove == False:
-                    notification1 = Notification.objects.create(user=user,message=f'You left {workspace.name}')
-                    notification2 = Notification.objects.create(user=leader,message=f'{user.username} left {workspace.name}')
+                    notification1 = Notification.objects.create(initiator=request.user,user=user,message=f'You left {workspace.name}')
+                    notification2 = Notification.objects.create(initiator=request.user,user=leader,message=f'{user.username} left {workspace.name}')
                     notification1.save()
                     notification2.save()
                 else:
-                    notification1 = Notification.objects.create(user=user,message=f'{request.user.username} removed you from {workspace.name}')
-                    notification2 = Notification.objects.create(user=leader,message=f'You removed {user.username} from {workspace.name}')
+                    notification1 = Notification.objects.create(initiator=request.user,user=user,message=f'{request.user.username} removed you from {workspace.name}')
+                    notification2 = Notification.objects.create(initiator=request.user,user=leader,message=f'You removed {user.username} from {workspace.name}')
                     notification1.save()
                     notification2.save()    
 
@@ -480,7 +480,10 @@ class CompleteTaskView(APIView):
                 serializer.validated_data['status'] = 'Completed'
                 task = serializer.save()
                 for user in task.assigned_members.all():
-                    notification = Notification.objects.create(user=user,message=f'You Completed a Task in the {project.name} Project')
+                    if user == request.user:
+                        notification = Notification.objects.create(initiator=request.user,user=user,message=f'You Completed a Task in the {project.name} Project')
+                    else:
+                        notification = Notification.objects.create(initiator=request.user,user=user,message=f'{request.user.username} Completed a Task in the {project.name} Project')    
                     notification.save()
                 return Response(data=serializer.data,status=status.HTTP_200_OK)
             else:
@@ -504,7 +507,7 @@ class SendInvitationView(APIView):
                 team = Team.objects.get(members=receiver,id=workspace.team.id)
                 try:
                     
-                    team  = Team.objects.get(Q(leader=request.user) | Q(members=receiver),id=workspace.team.id)
+                    team  = Team.objects.get(Q(leader=request.user) | Q(members=receiver),id=workspace.team.id)[0]
                     
                     response = {
                             'message':'User is in your team'
@@ -525,8 +528,8 @@ class SendInvitationView(APIView):
                     serializer.validated_data['workspace'] = workspace
                     serializer.validated_data['sender'] = sender
                     serializer.validated_data['receiver'] = receiver
-                    serializer.save()
-                    notification = Notification.objects.create(user=receiver,message=f'{sender.username} invited you to join his Team(Workspace)')
+                    invite = serializer.save()
+                    notification = Notification.objects.create(initiator=request.user,user=receiver,invite=invite,message=f'{sender.username} invited you to join his Team(Workspace)')
                     notification.save()
                     response = {
                         'message':'Invitation sent Successfully'
@@ -546,14 +549,16 @@ class ResponseToInvitationView(APIView):
         sender_id = data.get('sender')
         workspace_id = data.get('workspace')
         active_workspace_id = data.get('active')
+        notification_id = data.get('notification_id')
         sender = User.objects.get(id=sender_id)
+        workspace = WorkSpace.objects.get(id=workspace_id)  
         if accepted is True:
             serializer = InvitationSerializer(instance=invitation,data=data,partial=True)
             if serializer.is_valid():
                 serializer.validated_data['responded'] = True
                 serializer.validated_data['status'] = 'Accepted'
                 serializer.save()
-                workspace = WorkSpace.objects.get(id=workspace_id)        
+                      
                 team = Team.objects.get(id=workspace.team.id)
                 team.members.add(request.user)
                 team.save()
@@ -562,10 +567,12 @@ class ResponseToInvitationView(APIView):
                 active_workspace.save()
                 workspace.active.add(request.user) 
                 workspace.save()
-                notification = Notification.objects.create(user=request.user,message=f'You Accepted {sender.username} invitation')
+                
+                notification = Notification.objects.create(initiator=request.user,user=sender,message=f'{request.user.username} Accepted your invite')
                 notification.save()
-                notification = Notification.objects.create(user=sender,message=f'{request.user.username} Accepted your invite')
-                notification.save()
+                new = Notification.objects.get(id=notification_id)
+                new.message = f'You Accepted {sender.username} invite to join {workspace.name}'
+                new.save()
                 response = {
                     'accepted': 'You Accepted the invite'
                 }
@@ -576,10 +583,12 @@ class ResponseToInvitationView(APIView):
                 serializer.validated_data['responded'] = True
                 serializer.validated_data['status'] = 'Declined'
                 serializer.save()
-                notification = Notification.objects.create(user=request.user,message=f'You Rejected {sender.username} invitation')
+                
+                notification = Notification.objects.create(initiator=request.user,user=sender,message=f'{request.user.username} Rejected your invite')
                 notification.save()
-                notification = Notification.objects.create(user=sender,message=f'{request.user.username} Rejected your invite')
-                notification.save()
+                new = Notification.objects.get(id=notification_id)
+                new.message = f'You Rejected {sender.username} invite to join {workspace.name}'
+                new.save()
             response = {
                 'rejected':'You Rejected the Invite'
             }
@@ -632,7 +641,7 @@ class MarkAllAsReadView(APIView):
 class SearchResult(APIView):
     def get(self,request:Request):
         search = request.query_params.get('search')
-        workspace = WorkSpace.objects.get(owner=request.user,active=request.user)
+        workspace = WorkSpace.objects.get(active=request.user)
         projects = Project.objects.filter(assigned_members=request.user,workspace=workspace)
         results = []
         for project in projects:

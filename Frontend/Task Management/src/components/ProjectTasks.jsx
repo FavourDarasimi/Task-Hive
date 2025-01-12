@@ -181,7 +181,7 @@ const ProjectTasks = ({
         ></div>
         <p className="3xl:text-15 sm:text-11 ">{task.priority}</p>
       </div>
-      <div className="flex 3xl:gap-x-2 sm:gap-x-1 items-center relative 3xl:text-15 sm:text-11">
+      <div className="flex w-12 3xl:gap-x-2 sm:gap-x-1 items-center relative 3xl:text-15 sm:text-11">
         <button onMouseEnter={() => setIsHover(task.id)} onMouseLeave={() => setIsHover(false)}>
           <HiOutlineUsers className="w-4 h-4" />
         </button>
@@ -219,41 +219,41 @@ const ProjectTasks = ({
             </div>
           </div>
         )}
-      </div>
-      {project.user.username == username || userInMembers(task.assigned_members) ? (
-        <div className="">
-          <button onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}>
-            <HiOutlineDotsVertical className="3xl:w-5 3xl:h-5 sm:w-3 sm:h-3" />
-          </button>
+        {project.user.username == username || userInMembers(task.assigned_members) ? (
+          <div className="">
+            <button onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}>
+              <HiOutlineDotsVertical className="3xl:w-5 3xl:h-5 sm:w-3 sm:h-3" />
+            </button>
 
-          <ProjectTaskMenu
-            project={project}
-            task={task}
-            showMenu={showMenu}
-            userInMembers={userInMembers}
-            openAdd={openAdd}
-            setOpenAdd={setOpenAdd}
-            setParam={setParam}
-            param={param}
-            searchedMembers={searchedMembers}
-            selectedMembers={selectedMembers}
-            selectedMembersId={selectedMembersId}
-            remove={remove}
-            removeSelectedUser={removeSelectedUser}
-            cancel={cancel}
-            setShowEdit={setShowEdit}
-            delTask={delTask}
-            update={update}
-            setUpdate={setUpdate}
-            dueDate={dueDate}
-            setDueDate={setDueDate}
-            updDueDate={updDueDate}
-            setAddedUser={setAddedUser}
-          />
-        </div>
-      ) : (
-        ""
-      )}
+            <ProjectTaskMenu
+              project={project}
+              task={task}
+              showMenu={showMenu}
+              userInMembers={userInMembers}
+              openAdd={openAdd}
+              setOpenAdd={setOpenAdd}
+              setParam={setParam}
+              param={param}
+              searchedMembers={searchedMembers}
+              selectedMembers={selectedMembers}
+              selectedMembersId={selectedMembersId}
+              remove={remove}
+              removeSelectedUser={removeSelectedUser}
+              cancel={cancel}
+              setShowEdit={setShowEdit}
+              delTask={delTask}
+              update={update}
+              setUpdate={setUpdate}
+              dueDate={dueDate}
+              setDueDate={setDueDate}
+              updDueDate={updDueDate}
+              setAddedUser={setAddedUser}
+            />
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };

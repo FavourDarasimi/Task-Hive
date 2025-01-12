@@ -294,7 +294,7 @@ const ContextProvider = (props) => {
     }
   };
 
-  const responseToInvite = async (id, res, pk, workspace, active) => {
+  const responseToInvite = async (id, res, pk, workspace, active, notification_id) => {
     const token = JSON.parse(sessionStorage.getItem("token"));
     try {
       const response = await axios.put(
@@ -304,6 +304,7 @@ const ContextProvider = (props) => {
           accepted: res,
           workspace: workspace,
           active: active,
+          notification_id: notification_id,
         },
         {
           headers: { Authorization: `Bearer ${token.access}` },

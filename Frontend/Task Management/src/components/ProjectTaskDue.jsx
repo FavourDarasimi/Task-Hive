@@ -45,7 +45,7 @@ const ProjectTaskDue = ({ taskDue, getDate, darkMode }) => {
             </div>
           ))
         ) : (
-          <h1 className="3xl:text-xl sm:text-18 font-semibold">No taskDue Deadlines</h1>
+          <h1 className="3xl:text-xl sm:text-18 font-semibold">No Task Due Deadlines</h1>
         )}
       </div>
     </div>

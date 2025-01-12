@@ -6,8 +6,6 @@ import NotificationMenu from "./NotificationMenu";
 import HeaderMenu from "./HeaderMenu";
 
 const Header = ({
-  setShowInvites,
-
   setShowInbox,
   setShowCreateWorkspace,
   showCreateWorkspace,
@@ -141,10 +139,14 @@ const Header = ({
               <div
                 className={`absolute ${
                   darkMode == "dark" ? "bg-myblack2" : "bg-white"
-                } mt-6 w-96 right-0 p-5 rounded-3xl shadow-2xl overflow-y-auto max-h-screen`}
+                } mt-6 w-96 right-0  p-5 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]`}
               >
                 {notifications.length > 0 ? (
-                  <NotificationMenu notifications={notifications} setRead={setRead} />
+                  <NotificationMenu
+                    notifications={notifications}
+                    setRead={setRead}
+                    setShowInbox={setShowInbox}
+                  />
                 ) : (
                   <h1 className="text-center text-18 font-semibold">
                     Nothing new here. Check back later!
@@ -178,7 +180,6 @@ const Header = ({
               workspaces={workspaces}
               setShowProfile={setShowProfile}
               setShowInbox={setShowInbox}
-              setShowInvites={setShowInvites}
               setDarkMode={setDarkMode}
               setShowCreateWorkspace={setShowCreateWorkspace}
               showMenu={showMenu}

@@ -21,10 +21,10 @@ const BottomCards = ({
 }) => {
   const { darkMode } = useContext(Context);
   return (
-    <div className="3xl:flex 3xl:flex-row 3xl:justify-center 3xl:gap-x-10 2xl:flex 2xl:flex-row 2xl:justify-center 2xl:gap-x-10 md:flex md:flex-row md:gap-x-7 md:justify-center xl:flex xl:flex-row xl:justify-center xl:gap-x-10 lg:flex lg:flex-row lg:gap-x-5 lg:justify-center mt-10 sm:flex sm:flex-col sm:gap-y-5">
-      <div className="flex 3xl:gap-x-10 sm:gap-x-4 sm:justify-center sm:items-center">
+    <div className="3xl:flex 3xl:flex-row 3xl:justify-center 3xl:gap-x-10 2xl:flex 2xl:flex-row 2xl:justify-center 2xl:gap-x-10 md:flex md:flex-row md:gap-x-10 md:justify-center xl:flex xl:flex-row xl:justify-center xl:gap-x-10 lg:flex lg:flex-row lg:gap-x-5 lg:justify-center mt-10 sm:flex sm:flex-col sm:gap-y-5">
+      <div className="flex 3xl:gap-x-10 md:gap-x-10 sm:gap-x-4 sm:justify-center sm:items-center">
         <div
-          className={`3xl:w-[200px] 2xl:w-[195px] xl:w-[191px] lg:w-[185px] 4xl:w-[260px] sm:w-fit h-fit 3xl:rounded-[40px] sm:rounded-3xl py-5 sm:px-5 ${
+          className={`3xl:w-[200px] 2xl:w-[195px] xl:w-[191px] md:w-[185px] lg:w-[185px] 4xl:w-[260px] sm:w-fit h-fit 3xl:rounded-[40px] sm:rounded-3xl py-5 sm:px-5 ${
             darkMode == "dark" ? "bg-myblack2" : "bg-white"
           }`}
         >
@@ -62,20 +62,20 @@ const BottomCards = ({
           <div className="flex gap-x-3 justify-center ">
             <div className="flex gap-x-1 items-center">
               <div className="3xl:w-[9px] 3xl:h-[9px] sm:w-2 sm:h-2 bg-green-500 rounded-[4px]"></div>
-              <h1 className="3xl:text-11 2xl:text-11 xl:text-11 4xl:text-14 sm:text-[8px]">
+              <h1 className="3xl:text-11 2xl:text-11 xl:text-11 md:text-10 4xl:text-14 sm:text-[8px]">
                 Completed <span className="font-semibold">{completed ? completed.length : 0}</span>
               </h1>
             </div>
             <div className="flex gap-x-1 items-center">
               <div className="3xl:w-[9px] 3xl:h-[9px] sm:w-2 sm:h-2 bg-yellow-500 rounded-[4px]"></div>
-              <h1 className="3xl:text-11 2xl:text-11 xl:text-11 4xl:text-14 sm:text-[8px]">
+              <h1 className="3xl:text-11 2xl:text-11 xl:text-11 md:text-10 4xl:text-14 sm:text-[8px]">
                 Ongoing <span className="font-semibold">{inProgress ? inProgress.length : 0}</span>
               </h1>
             </div>
           </div>
         </div>
         <div
-          className={` 3xl:w-[260px] 2xl:w-[230px] xl:w-[210px] lg:w-[207px] 4xl:w-[320px] sm:w-fit h-fit relative py-5 3xl:px-10 sm:px-5 3xl:rounded-[40px] sm:rounded-3xl ${
+          className={` 3xl:w-[260px] 2xl:w-[230px] xl:w-[210px] lg:w-[207px] md:w-[205px] 4xl:w-[320px] sm:w-fit h-fit relative py-5 3xl:px-10 sm:px-5 3xl:rounded-[40px] sm:rounded-3xl ${
             darkMode == "dark" ? "bg-myblack2" : "bg-white"
           }`}
         >
@@ -96,11 +96,11 @@ const BottomCards = ({
               style={{ transition: "stroke-dashoffset 0.5s ease-in-out" }}
             />
           </svg>
-          <div className="absolute  3xl:top-[43%] 3xl:left-[31%] xl:top-[43%] xl:left-[29%] lg:top-[43%] lg:left-[29%] sm:top-[45%] sm:left-[33%] font-semibold ">
-            <h1 className="3xl:text-19 2xl:text-18 xl:text-18 lg:text-18 4xl:text-2xl sm:text-14 text-center">
+          <div className="absolute  3xl:top-[43%] 3xl:left-[31%] xl:top-[43%] xl:left-[29%] lg:top-[43%] lg:left-[29%] sm:top-[45%] sm:left-[33%] md:top-[45%] md:left-[30%] font-semibold ">
+            <h1 className="3xl:text-19 2xl:text-18 xl:text-18 lg:text-18 md:text-16 4xl:text-2xl sm:text-14 text-center">
               {Math.ceil(projectPercentage)}%
             </h1>
-            <h1 className="3xl:text-11 xl:text-10 2xl:text-10 lg:text-10 4xl:text-14 sm:text-[6px] text-center">
+            <h1 className="3xl:text-11 xl:text-10 2xl:text-10 lg:text-10 md:text-[9px] 4xl:text-14 sm:text-[6px] text-center">
               Projects Completed
             </h1>
           </div>

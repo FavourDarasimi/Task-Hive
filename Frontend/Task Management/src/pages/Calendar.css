@@ -15,17 +15,17 @@
 }
 @media (min-width: 768px) {
   .react-calendar {
-    width: 400px;
+    width: 330px;
     font-size: 12px;
     height: fit-content;
-    line-height: 1.05rem;
+    line-height: 1rem;
   }
 }
 @media (min-width: 1025px) {
   .react-calendar {
     width: 300px;
     font-size: 12px;
-    height: 70%;
+    height: fit-content;
     line-height: 1.05rem;
   }
 }

@@ -1,3 +1,4 @@
+from datetime import date
 from .models import Task,Team,Project,Invitation,Notification, WorkSpace
 from rest_framework import serializers
 from accounts.serializers import UserSerializer
@@ -75,7 +76,12 @@ class InvitationSerializer(serializers.ModelSerializer):
     
 class NotificationSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True) 
+    initiator = UserSerializer(read_only=True) 
+    is_today = serializers.SerializerMethodField()
+    invite = InvitationSerializer()
     class Meta:
         model = Notification
-        fields = ['id','workspace','user','message','read','date_created']    
+        fields = ['id','workspace','user','initiator','message','read','date_created','invite','is_today']    
 
+    def get_is_today(self,obj):
+        return obj.date_created.date() == date.today()

@@ -53,47 +53,55 @@ const Task = () => {
       ) : (
         <div className="3xl:-mt-8 sm:-mt-10">
           <div className="flex justify-between">
-            <h1 className="3xl:text-2xl sm:text-14 font-bold">My Tasks</h1>
+            <h1 className="3xl:text-[22px] 2xl:text-xl xl:text-18 lg:text-17 md:text-16 4xl:text-[26px] sm:text-14 font-bold">
+              My Tasks
+            </h1>
             <button
-              className="bg-blue-600 rounded-lg 3xl:p-2 sm:p-[6px] 3xl:text-14 sm:text-10 text-white flex items-center 3xl:gap-x-2 sm:gap-x-1"
+              className="bg-blue-600 rounded-lg 3xl:p-[7px] 4xl:p-[8px] 2xl:p-[7px] xl:p-[7px] lg:p-[5px] md:p-[5px] sm:p-[6px] 3xl:text-13 2xl:text-12 4xl:text-15 xl:text-11 lg:text-11 md:text-10 sm:text-10 text-white flex items-center 3xl:gap-x-2 4xl:gap-x-2 sm:gap-x-1"
               onClick={() => setShow(true)}
             >
               <FaPlus />
               New Task
             </button>
           </div>
-          <div className="grid grid-cols-3 3xl:px-3 3xl:gap-x-10 sm:gap-x-3 pt-5">
+          <div className="grid grid-cols-3  3xl:gap-x-10 2xl:gap-x-9 xl:gap-x-7 lg:gap-x-5 md:gap-x-5 sm:gap-x-3 pt-5">
             <div
               className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
-              } rounded-lg 3xl:p-3 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
+              } rounded-lg 3xl:p-3 2xl:p-2 xl:p-2  lg:p-2 md:p-2 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
               onClick={() => setStatus("")}
             >
               <div className="3xl:h-4 3xl:w-4 sm:w-2 sm:h-2 bg-black rounded-full"></div>
-              <h1 className="font-semibold 3xl:text-14 sm:text-11">All</h1>
+              <h1 className="font-semibold 4xl:text-16 3xl:text-15 2xl:text-14 xl:text-14 lg:text-12 md:text-12 sm:text-11">
+                All
+              </h1>
             </div>
 
             <div
               className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
-              } rounded-lg 3xl:p-3 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
+              } rounded-lg 3xl:p-3 2xl:p-2 xl:p-2  lg:p-2 md:p-2 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
               onClick={() => setStatus("in progress")}
             >
               <div className="3xl:h-4 3xl:w-4 sm:w-2 sm:h-2 bg-yellow-600 rounded-full"></div>
-              <h1 className="font-semibold 3xl:text-14 sm:text-11">In Progress</h1>
+              <h1 className="font-semibold 4xl:text-16 3xl:text-15 2xl:text-14 xl:text-14 lg:text-12 md:text-12 sm:text-11">
+                In Progress
+              </h1>
             </div>
             <div
               className={` ${
                 darkMode == "dark" ? "bg-myblack2" : "bg-white"
-              } rounded-lg 3xl:p-3 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
+              } rounded-lg 3xl:p-3 2xl:p-2 xl:p-2  lg:p-2 md:p-2 sm:px-1 sm:py-2 flex gap-x-1 items-center cursor-pointer`}
               onClick={() => setStatus("completed")}
             >
               <div className="3xl:h-4 3xl:w-4 sm:w-2 sm:h-2 bg-green-600 rounded-full"></div>
-              <h1 className="font-semibold 3xl:text-14 sm:text-11">Completed</h1>
+              <h1 className="font-semibold 4xl:text-16 3xl:text-15 2xl:text-14 xl:text-14 lg:text-12 md:text-12 sm:text-11">
+                Completed
+              </h1>
             </div>
           </div>
           {tasks && tasks.length > 0 ? (
-            <div className="grid 3xl:grid-cols-4 sm:grid-cols-2 pt-5 3xl:gap-x-7 sm:gap-x-4 gap-y-5 3xl:px-10 sm:px-3">
+            <div className="grid 3xl:grid-cols-5 4xl:grid-cols-5 2xl:grid-cols-4 xl:grid-cols-4 xl:gap-x-3 sm:grid-cols-2 3xl:gap-x-3 2xl:gap-x-5 4xl:gap-x-4 lg:grid-cols-4 lg:gap-x-2 md:grid-cols-4 md:gap-x-3 sm:gap-x-2 gap-y-5 pt-5 3xl:px-3  sm:px-2">
               {tasks.map((task) => (
                 <div key={task.id}>
                   <TaskList

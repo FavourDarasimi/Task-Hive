@@ -64,7 +64,7 @@ const Navbar = () => {
         <ul
           className={`3xl:flex 3xl:flex-col 3xl:gap-y-5 xl:flex xl:flex-col xl:gap-y-5 lg:flex lg:flex-col lg:gap-y-7 2xl:flex 2xl:flex-col 2xl:gap-y-5 sm:gap-y-5 text-16 3xl:pt-12   2xl:pt-12 xl:pt-10 lg:pt-16 lg:px-1 sm:px-5 sm:py-[6px] sm:flex sm:absolute 3xl:relative 2xl:relative xl:relative lg:relative sm:w-full ${
             darkMode == "dark" ? "3xl:bg-myblack" : ""
-          } sm:bottom-0 sm:justify-around md:justify-around md:left-0 md:right-0 lg:bg-none 4xl:border-none 3xl:border-none 2xl:border-none xl:border-none lg:border-none md:border-t-1 md:border-t-mygrey3 sm:bg-white sm:h-fit`}
+          } sm:bottom-0 sm:justify-around md:justify-around md:left-0 md:right-0 lg:bg-none 4xl:border-transparent 3xl:border-transparent 2xl:border-transparent xl:border-transparent lg:border-transparent md:border-t-1 md:border-t-mygrey3 sm:bg-white sm:h-fit`}
         >
           <Link to="/dashboard/">
             <div
@@ -72,7 +72,7 @@ const Navbar = () => {
                 isOpen ? "lg:justify-start lg:rounded-xl" : "lg:justify-center lg:rounded-full"
               }  ${darkMode == "dark" ? "text-anti-flash-white" : ""}  cursor-pointer  ${
                 location.pathname == "/dashboard/"
-                  ? "text-blue-600 3xl:bg-blue-200 2xl:bg-blue-200 xl:bg-blue-200 lg:bg-blue-200  3xl:px-2  2xl:px-2  xl:px-2   sm:px-2 lg:px-0 3xl:w-full sm:w-full  2xl:rounded-xl xl:rounded-xl 3xl:rounded-xl font-semibold "
+                  ? "text-blue-600 3xl:border-l-2 2xl:border-l-2 xl:border-l-2 3xl:border-l-blue-600 2xl:border-l-blue-600 xl:border-l-blue-600 lg:border-l-blue  3xl:px-2  2xl:px-2  xl:px-2   sm:px-2 lg:px-0 3xl:w-full sm:w-full  2xl:rounded-none xl:rounded-none 3xl:rounded-none font-semibold "
                   : "3xl:px-2 2xl:px-2 xl:px-2 lg:px-1"
               }`}
             >
