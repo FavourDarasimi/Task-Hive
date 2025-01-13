@@ -43,7 +43,7 @@ const ProjectList = ({
       <div
         className={` ${
           darkMode == "dark" ? "bg-myblack2" : "bg-white"
-        } 3xl:px-5 3xl:py-3 2xl:px-4 2xl:py-2 xl:p-3 sm:p-2 rounded-xl  flex flex-col`}
+        } 3xl:px-5 3xl:py-3 2xl:px-4 2xl:py-2 xl:p-3 sm:p-[6px] rounded-xl  flex flex-col`}
       >
         {showEdit ? <EditProject project={project} setShowEdit={setShowEdit} /> : ""}
         <div className="flex justify-between items-center">
@@ -57,43 +57,45 @@ const ProjectList = ({
           <div className="flex items-center">
             {project.favourite == true ? (
               <StarSolid
-                className="text-yellow-400 3xl:w-5 3xl:h-5 2xl:w-5 2xl:h-5 xl:w-5 xl:h-5 lg:w-4 lg:h-4 md:w-4 md:h-4 sm:w-3 sm:h-3  cursor-pointer"
+                className="text-yellow-400 3xl:w-5 3xl:h-5 2xl:w-5 2xl:h-5 xl:w-5 xl:h-5 lg:w-4 lg:h-4 md:w-4 md:h-4 sm:w-[10px] sm:h-[10px]  cursor-pointer"
                 onClick={() => addFavourite(false)}
               />
             ) : (
               <StarOutline
-                className="3xl:w-5 3xl:h-5 2xl:w-5 2xl:h-5 xl:w-5 xl:h-5 lg:w-4 lg:h-4 md:w-4 md:h-4 sm:w-3 sm:h-3  text-gray-400  cursor-pointer"
+                className="3xl:w-5 3xl:h-5 2xl:w-5 2xl:h-5 xl:w-5 xl:h-5 lg:w-4 lg:h-4 md:w-4 md:h-4 sm:w-[10px] sm:h-[10px]  text-gray-400  cursor-pointer"
                 onClick={() => addFavourite(true)}
               />
             )}
             {project.user.username == username ? (
               <div className="">
-                <button
+                <HiOutlineDotsVertical
                   onClick={() => (showMenu == project.id ? setShowMenu() : setShowMenu(project.id))}
-                >
-                  <HiOutlineDotsVertical className="3xl:w-5 3xl:h-5 mt-1 2xl:w-5 2xl:h-5 xl:w-4 xl:h-4 lg:w-[13px] lg:h-[13px] md:w-[13px] md:h-[13px] sm:w-3 sm:h-3" />
-                </button>
-
+                  className="3xl:w-5 3xl:h-5  2xl:w-5 2xl:h-5 xl:w-4 xl:h-4 lg:w-[13px] lg:h-[13px] md:w-[13px] md:h-[13px] sm:w-[10px] sm:h-[10px] "
+                />
                 <div
                   className={`${
                     darkMode == "dark" ? "bg-myblack" : "bg-white"
-                  }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-3 font-semibold  ${
+                  }  shadow-2xl py-2 absolute rounded-lg flex flex-col 4xl:gap-y-3 3xl:gap-y-3 2xl:gap-y-3 xl:gap-y-3 lg:gap-y-3 md:gap-y-1  font-semibold  ${
                     showMenu == project.id ? "block" : "hidden"
                   }`}
                 >
                   <div
-                    className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
+                    className="flex gap-x-1 items-center 3xl:pl-2 2xl:pl-2 xl:pl-2 lg:pl-2 md:pl-[6px] py-1 3xl:pr-8 2xl:pr-7 xl:pr-6 lg:pr-5 md:pr-[18px] sm:pr-4 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
                     onClick={() => setShowEdit(true)}
                   >
-                    <MdEdit />
-                    <h1 className="">Edit</h1>
+                    <MdEdit className="3xl:w-4 3xl:h-4 2xl:w-4 2xl:h-4 xl:w-[15px] xl:h-[15px] lg:w-[14px] lg:h-[14px] md:w-[13px] md:h-[13px] sm:w-[11px] sm:h-[11px]" />
+                    <h1 className="3xl:text-16 2xl:text-16 xl:text-15 lg:text-14 md:text-13 sm:text-11">
+                      Edit
+                    </h1>
                   </div>
                   <div
-                    className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
+                    className="flex gap-x-1 items-center 3xl:pl-2 2xl:pl-2 xl:pl-2 lg:pl-2 md:pl-[6px] py-1 3xl:pr-8 2xl:pr-7 xl:pr-6 lg:pr-5 md:pr-[18px] sm:pr-4 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
                     onClick={() => delProject(project.id)}
                   >
-                    <MdDelete />
-                    <h1 className="">Delete</h1>
+                    <MdDelete className="3xl:w-4 3xl:h-4 2xl:w-4 2xl:h-4 xl:w-[15px] xl:h-[15px] lg:w-[14px] lg:h-[14px] md:w-[13px] md:h-[13px] sm:w-[11px] sm:h-[11px]" />
+                    <h1 className="3xl:text-16 2xl:text-16 xl:text-15 lg:text-14 md:text-13 sm:text-11">
+                      Delete
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -102,7 +104,7 @@ const ProjectList = ({
             )}
           </div>
         </div>
-        <p className="3xl:text-13 4xl:text-[14px] 2xl:text-12 xl:text-11 lg:text-10 md:text-[9px] md:pt-1 sm:text-[8px] text-gray-400 pl-2 3xl:pt-1 sm:-mt-[4px]">
+        <p className="3xl:text-13 4xl:text-[14px] 2xl:text-12 xl:text-11 lg:text-10 md:text-[9px] md:pt-1 sm:pt-1 sm:text-[7px] text-gray-400 pl-2 3xl:pt-1 sm:-mt-[4px]">
           {getDate(project.created_at)}
         </p>
 
@@ -170,7 +172,7 @@ const ProjectList = ({
         </div>
 
         <div className="flex justify-end  ">
-          <div className="flex  items-center  text-blue-500 3xl:text-13 4xl:text-14 2xl:text-13 xl:text-12 lg:text-11 md:text-10 sm:text-10 font-semibold">
+          <div className="flex  items-center  text-blue-500 3xl:text-13 4xl:text-14 2xl:text-13 xl:text-12 lg:text-11 md:text-10 sm:text-[8px] font-semibold">
             <Link to={`/project/${project.id}`}>
               <h1>View</h1>
             </Link>

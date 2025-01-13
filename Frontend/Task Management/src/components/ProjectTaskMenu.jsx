@@ -32,7 +32,7 @@ const ProjectTaskMenu = ({
     <div
       className={`${
         darkMode == "dark" ? "bg-myblack" : "bg-white"
-      }  shadow-2xl py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
+      }  shadow-2xl z-1 py-2 absolute rounded-lg flex flex-col gap-y-1 font-semibold  ${
         showMenu == task.id ? "block" : "hidden"
       }`}
     >
@@ -102,7 +102,7 @@ const ProjectTaskMenu = ({
             onClick={() => (update == task.id ? setUpdate() : setUpdate(task.id))}
           >
             <MdOutlineAlarmAdd className="w-3 h-3" />
-            <h1 className="text-14">New Deadline</h1>
+            <h1 className="text-14 whitespace-nowrap">New Deadline</h1>
           </div>
           {update == task.id ? (
             <div className="absolute right-0 mt-5 bg-white shadow-2xl p-3 rounded-xl">

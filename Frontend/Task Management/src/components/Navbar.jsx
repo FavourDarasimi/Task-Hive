@@ -62,24 +62,24 @@ const Navbar = () => {
 
       {isLoggedIn ? (
         <ul
-          className={`3xl:flex 3xl:flex-col 3xl:gap-y-5 xl:flex xl:flex-col xl:gap-y-5 lg:flex lg:flex-col lg:gap-y-7 2xl:flex 2xl:flex-col 2xl:gap-y-5 sm:gap-y-5 text-16 3xl:pt-12   2xl:pt-12 xl:pt-10 lg:pt-16 lg:px-1 sm:px-5 sm:py-[6px] sm:flex sm:absolute 3xl:relative 2xl:relative xl:relative lg:relative sm:w-full ${
+          className={`3xl:flex 3xl:flex-col 3xl:gap-y-5 xl:flex xl:flex-col xl:gap-y-5 lg:flex lg:flex-col lg:gap-y-7 2xl:flex 2xl:flex-col 2xl:gap-y-5 sm:gap-y-5 text-16 3xl:pt-12   2xl:pt-12 xl:pt-10 lg:pt-16 lg:px-1 sm:px-5  sm:flex sm:absolute 3xl:relative 2xl:relative xl:relative lg:relative sm:w-full ${
             darkMode == "dark" ? "3xl:bg-myblack" : ""
           } sm:bottom-0 sm:justify-around md:justify-around md:left-0 md:right-0 lg:bg-none 4xl:border-transparent 3xl:border-transparent 2xl:border-transparent xl:border-transparent lg:border-transparent md:border-t-1 md:border-t-mygrey3 sm:bg-white sm:h-fit`}
         >
           <Link to="/dashboard/">
             <div
-              className={`flex items-center 3xl:justify-start xl:justify-start gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
-                isOpen ? "lg:justify-start lg:rounded-xl" : "lg:justify-center lg:rounded-full"
+              className={`flex items-center lg:flex-row sm:flex-col 3xl:justify-start xl:justify-start sm:py-[6px] gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
+                isOpen ? "lg:justify-start " : "lg:justify-center"
               }  ${darkMode == "dark" ? "text-anti-flash-white" : ""}  cursor-pointer  ${
                 location.pathname == "/dashboard/"
-                  ? "text-blue-600 3xl:border-l-2 2xl:border-l-2 xl:border-l-2 3xl:border-l-blue-600 2xl:border-l-blue-600 xl:border-l-blue-600 lg:border-l-blue  3xl:px-2  2xl:px-2  xl:px-2   sm:px-2 lg:px-0 3xl:w-full sm:w-full  2xl:rounded-none xl:rounded-none 3xl:rounded-none font-semibold "
-                  : "3xl:px-2 2xl:px-2 xl:px-2 lg:px-1"
+                  ? "text-blue-600 3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2  lg:border-t-white sm:border-t-2 3xl:border-l-blue-600 2xl:border-l-blue-600 xl:border-l-blue-600 lg:border-l-blue-600 sm:border-t-blue-600  3xl:px-2  2xl:px-2  xl:px-2    lg:px-0  3xl:w-full sm:w-full  2xl:rounded-none xl:rounded-none 3xl:rounded-none font-semibold "
+                  : "3xl:px-2 2xl:px-2 xl:px-2 lg:px-1  3xl:border-l-2 2xl:border-l-2 xl:border-l-2  lg:border-l-2 sm:border-t-2  sm:border-white lg:border-t-white "
               }`}
             >
               <MdDashboard className="3xl:w-5 3xl:h-5 lg:w-4 lg:h-4 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               <li
-                className={`3xl:block 2xl:block xl:block 3xl:text-15 2xl:text-14 xl:text-13 lg:text-13 sm:hidden ${
-                  isOpen ? "lg:block text-14" : ""
+                className={`3xl:block 2xl:block xl:block 3xl:text-15  2xl:text-14 xl:text-13 lg:text-13 sm:block sm:text-10 ${
+                  isOpen ? "lg:block text-14" : "lg:hidden"
                 }`}
               >
                 Dashboard
@@ -88,18 +88,18 @@ const Navbar = () => {
           </Link>
           <Link to="/projects/">
             <div
-              className={`flex items-center 3xl:justify-start xl:justify-start gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
-                isOpen ? "lg:justify-start lg:rounded-xl" : "lg:justify-center lg:rounded-full"
+              className={`flex items-center lg:flex-row sm:flex-col 3xl:justify-start xl:justify-start sm:py-[6px] gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
+                isOpen ? "lg:justify-start " : "lg:justify-center"
               }${darkMode == "dark" ? "text-anti-flash-white" : ""}  cursor-pointer  ${
                 location.pathname == "/projects/"
-                  ? "text-blue-600 3xl:bg-blue-200 2xl:bg-blue-200 xl:bg-blue-200 lg:bg-blue-200  3xl:px-2  2xl:px-2  xl:px-2   sm:px-2 lg:px-0 3xl:w-full sm:w-full   2xl:rounded-xl xl:rounded-xl 3xl:rounded-xl font-semibold "
-                  : " 3xl:px-2 2xl:px-2 xl:px-2 lg:px-1"
+                  ? "text-blue-600 3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2  lg:border-t-white sm:border-t-2 3xl:border-l-blue-600 2xl:border-l-blue-600 xl:border-l-blue-600 lg:border-l-blue-600 sm:border-t-blue-600  3xl:px-2  2xl:px-2  xl:px-2    lg:px-0 3xl:w-full sm:w-full  2xl:rounded-none xl:rounded-none 3xl:rounded-none font-semibold "
+                  : " 3xl:px-2 2xl:px-2 xl:px-2 lg:px-1  3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2 sm:border-t-2  sm:border-white lg:border-t-white"
               }`}
             >
               <GrProjects className="3xl:w-5 3xl:h-5 lg:w-4 lg:h-4 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               <li
-                className={`3xl:block 2xl:block xl:block 3xl:text-15 2xl:text-14 xl:text-13 lg:text-13 sm:hidden ${
-                  isOpen ? "lg:block text-14" : ""
+                className={`3xl:block 2xl:block xl:block 3xl:text-15  2xl:text-14 xl:text-13 lg:text-13 sm:block sm:text-10  ${
+                  isOpen ? "lg:block text-14" : "lg:hidden"
                 }`}
               >
                 Projects
@@ -109,18 +109,18 @@ const Navbar = () => {
 
           <Link to="/task/">
             <div
-              className={`flex items-center 3xl:justify-start xl:justify-start gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
-                isOpen ? "lg:justify-start lg:rounded-xl" : "lg:justify-center lg:rounded-full"
+              className={`flex items-center lg:flex-row sm:flex-col 3xl:justify-start xl:justify-start sm:py-[6px] gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
+                isOpen ? "lg:justify-start " : "lg:justify-center"
               }${darkMode == "dark" ? "text-anti-flash-white" : ""}  cursor-pointer  ${
                 location.pathname == "/task/"
-                  ? "text-blue-600 3xl:bg-blue-200 2xl:bg-blue-200 xl:bg-blue-200 lg:bg-blue-200  3xl:px-2  2xl:px-2  xl:px-2   sm:px-2 lg:px-0 3xl:w-full sm:w-full   2xl:rounded-xl xl:rounded-xl 3xl:rounded-xl font-semibold "
-                  : " 3xl:px-2 2xl:px-2 xl:px-2 lg:px-1"
+                  ? "text-blue-600 3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2 lg:border-t-none lg:border-t-white sm:border-t-2 3xl:border-l-blue-600 2xl:border-l-blue-600 xl:border-l-blue-600 lg:border-l-blue-600 sm:border-t-blue-600  3xl:px-2  2xl:px-2  xl:px-2    lg:px-0 3xl:w-full sm:w-full  2xl:rounded-none xl:rounded-none 3xl:rounded-none font-semibold "
+                  : " 3xl:px-2 2xl:px-2 xl:px-2 lg:px-1  3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2 sm:border-t-2  sm:border-white lg:border-t-white"
               }`}
             >
               <FaTasks className="3xl:w-5 3xl:h-5 lg:w-4 lg:h-4 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               <li
-                className={`3xl:block 2xl:block xl:block 3xl:text-15 2xl:text-14 xl:text-13 lg:text-13 sm:hidden ${
-                  isOpen ? "lg:block text-14" : ""
+                className={`3xl:block 2xl:block xl:block 3xl:text-15  2xl:text-14 xl:text-13 lg:text-13 sm:block sm:text-10  ${
+                  isOpen ? "lg:block text-14" : "lg:hidden"
                 }`}
               >
                 Tasks
@@ -130,18 +130,18 @@ const Navbar = () => {
 
           <Link to="/team/">
             <div
-              className={`flex items-center 3xl:justify-start xl:justify-start gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
-                isOpen ? "lg:justify-start lg:rounded-xl" : "lg:justify-center lg:rounded-full"
+              className={`flex items-center lg:flex-row sm:flex-col 3xl:justify-start xl:justify-start sm:py-[6px] gap-x-1 3xl:py-3 2xl:py-3 xl:py-3 lg:px-1 lg:py-2 ${
+                isOpen ? "lg:justify-start " : "lg:justify-center"
               }${darkMode == "dark" ? "text-anti-flash-white" : ""}  cursor-pointer  ${
                 location.pathname == "/team/"
-                  ? "text-blue-600 3xl:bg-blue-200 2xl:bg-blue-200 xl:bg-blue-200 lg:bg-blue-200  3xl:px-2  2xl:px-2  xl:px-2   sm:px-2 lg:px-0 3xl:w-full sm:w-full   2xl:rounded-xl xl:rounded-xl 3xl:rounded-xl font-semibold "
-                  : " 3xl:px-2 2xl:px-2 xl:px-2 lg:px-1"
+                  ? "text-blue-600 3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2 lg:border-t-none lg:border-t-white sm:border-t-2 3xl:border-l-blue-600 2xl:border-l-blue-600 xl:border-l-blue-600 lg:border-l-blue-600 sm:border-t-blue-600  3xl:px-2  2xl:px-2  xl:px-2    lg:px-0 3xl:w-full sm:w-full  2xl:rounded-none xl:rounded-none 3xl:rounded-none font-semibold "
+                  : " 3xl:px-2 2xl:px-2 xl:px-2 lg:px-1  3xl:border-l-2 2xl:border-l-2 xl:border-l-2 lg:border-l-2 sm:border-t-2  sm:border-white lg:border-t-white"
               }`}
             >
               <RiTeamFill className="3xl:w-5 3xl:h-5 lg:w-4 lg:h-4 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               <li
-                className={`3xl:block 2xl:block xl:block 3xl:text-15 2xl:text-14 xl:text-13 lg:text-13 sm:hidden ${
-                  isOpen ? "lg:block text-14" : ""
+                className={`3xl:block 2xl:block xl:block 3xl:text-15  2xl:text-14 xl:text-13 lg:text-13 sm:block sm:text-10  ${
+                  isOpen ? "lg:block text-14" : "lg:hidden"
                 }`}
               >
                 Team

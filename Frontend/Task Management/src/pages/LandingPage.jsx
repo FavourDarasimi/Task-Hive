@@ -12,6 +12,7 @@ const LandingPage = () => {
   const { currentStatus, setCurrentStatus, darkMode, setDarkMode } = useContext(Context);
   const images = [img1, img2, img3];
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [status, setStatus] = useState(1);
 
   //circle percentage completion
   const completionPercentage = 70;
@@ -101,6 +102,140 @@ const LandingPage = () => {
         >
           ❯
         </button>
+      </div>
+      <div className="flex flex-col items-center mt-14">
+        <h1 className="text-3xl font-semibold">How does it work?</h1>
+        <div className="flex  mt-10">
+          <div className="">
+            <div className="flex">
+              <h1
+                onClick={() => setStatus(1)}
+                className={`text-center mx-auto bg-blue-600 px-[25px] py-[14px] cursor-pointer text-4xl text-white w-fit rounded-full ${
+                  status == 1 ? "scale-125 duration-700" : "scale-100 duration-700"
+                }`}
+              >
+                1
+              </h1>
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+            </div>
+            <h1 className="text-xl font-semibold pt-5 flex justify-center">Create Acccount</h1>
+            <h1
+              className={`w-72 bg-white shadow-2xl p-5 mt-5 rounded-xl text-14 transition-opacity duration-700 ${
+                status == 1 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              Creating an account on TaskHive is the first step towards efficient task management.
+              By signing up, you gain access to a user-friendly interface designed to help you
+              organize and prioritize your tasks effectively. Once your account is set up, you can
+              start exploring the various features that TaskHive offers to streamline your workflow
+              and boost productivity.
+            </h1>
+          </div>
+          <div className="">
+            <div className="flex">
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+
+              <h1
+                onClick={() => setStatus(2)}
+                className={`text-center mx-auto bg-blue-600 px-[25px] py-[14px] cursor-pointer text-4xl text-white w-fit rounded-full ${
+                  status == 2 ? "scale-125 duration-700" : "scale-100 duration-700"
+                }`}
+              >
+                2
+              </h1>
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+            </div>
+            <h1 className="text-xl font-semibold pt-5 flex justify-center">Add Team Members</h1>
+            <h1
+              className={`w-72 bg-white shadow-2xl p-5 mt-5 rounded-xl text-14 transition-opacity duration-700 ${
+                status == 2 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              Collaboration is key to successful project management. With TaskHive, you can easily
+              invite team members to join your Workspace. This enables seamless communication and
+              coordination, ensuring that everyone is on the same page and working towards common
+              goals. You can assign tasks, set deadlines, and monitor progress, all within the
+              platform.
+            </h1>
+          </div>
+          <div className="">
+            <div className="flex">
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+
+              <h1
+                onClick={() => setStatus(3)}
+                className={`text-center mx-auto bg-blue-600 px-[25px] py-[14px] cursor-pointer text-4xl text-white w-fit rounded-full ${
+                  status == 3 ? "scale-125 duration-700" : "scale-100 duration-700"
+                }`}
+              >
+                3
+              </h1>
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+            </div>
+            <h1 className="text-xl font-semibold pt-5 flex justify-center">Add new Project</h1>
+            <h1
+              className={`w-72 bg-white shadow-2xl p-5 mt-5 rounded-xl text-14 transition-opacity duration-700 ${
+                status == 3 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              The next step is to add a new project. This allows you to categorize and manage your
+              tasks under specific projects, making it easier to track progress and stay organized.
+              Whether you're working on a personal project or collaborating with a team, TaskHive
+              provides the tools you need to keep everything in one place.
+            </h1>
+          </div>
+          <div className="">
+            <div className="flex">
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+
+              <h1
+                onClick={() => setStatus(4)}
+                className={`text-center mx-auto bg-blue-600 px-[25px] py-[14px] cursor-pointer text-4xl text-white w-fit rounded-full ${
+                  status == 4 ? "scale-125 duration-700" : "scale-100 duration-700"
+                }`}
+              >
+                4
+              </h1>
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+            </div>
+            <h1 className="text-xl font-semibold pt-5 flex justify-center">Add Tasks</h1>
+            <h1
+              className={`w-72 bg-white shadow-2xl p-5 mt-5 rounded-xl text-14 transition-opacity duration-700 ${
+                status == 4 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              Once your team is set up, you can start adding tasks to your projects. TaskHive's
+              intuitive controls make it easy to create, edit, and delete tasks as needed. You can
+              also set priorities, and add due dates ensuring that all relevant information is
+              readily available. This helps you stay organized and focused on what needs to be done.
+            </h1>
+          </div>
+          <div className="">
+            <div className="flex">
+              <div class="w-20 border-t-2 h-full mt-9 border-dashed border-gray-300"></div>
+
+              <h1
+                onClick={() => setStatus(5)}
+                className={`text-center mx-auto bg-blue-600 px-[25px] py-[14px] cursor-pointer text-4xl text-white w-fit rounded-full ${
+                  status == 5 ? "scale-125 duration-700" : "scale-100 duration-700"
+                }`}
+              >
+                5
+              </h1>
+            </div>
+            <h1 className="text-xl font-semibold pt-5 flex justify-center">Start Rolling</h1>
+            <h1
+              className={`w-72 bg-white shadow-2xl p-5 mt-5 rounded-xl text-14 transition-opacity duration-700 ${
+                status == 5 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              With your account, team members, projects, and tasks all set up, you're ready to start
+              rolling. TaskHive's features, such as notifications, help you stay on track and meet
+              your deadlines. By using TaskHive, you can manage your tasks efficiently, boost
+              productivity, and achieve your goals with ease.
+            </h1>
+          </div>
+        </div>
       </div>
       <div className="flex flex-col items-center sm:w-80% sm:mx-auto 3xl:w-100%">
         <h1

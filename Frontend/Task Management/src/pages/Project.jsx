@@ -89,7 +89,7 @@ const Project = () => {
               </button>
             </div>
           </div>
-          <div className="grid 3xl:grid-cols-5 4xl:grid-cols-5 2xl:grid-cols-4 xl:grid-cols-4 xl:gap-x-3 sm:grid-cols-2 3xl:gap-x-3 2xl:gap-x-5 4xl:gap-x-4 lg:grid-cols-4 lg:gap-x-2 md:grid-cols-4 md:gap-x-3 sm:gap-x-5 gap-y-5 pt-5 3xl:px-3  sm:px-2">
+          <div className="grid 3xl:grid-cols-5 4xl:grid-cols-5 2xl:grid-cols-4 xl:grid-cols-4 xl:gap-x-3 sm:grid-cols-3 3xl:gap-x-3 2xl:gap-x-5 4xl:gap-x-4 lg:grid-cols-4 lg:gap-x-2 md:grid-cols-4 md:gap-x-3 sm:gap-x-1 gap-y-5 pt-5 3xl:px-3  sm:px-0">
             {projects.length ? (
               projects.map((project) => (
                 <div key={project.id}>

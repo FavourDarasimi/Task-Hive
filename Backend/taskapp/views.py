@@ -622,7 +622,7 @@ class MarkAsReadView(APIView):
             serializer.validated_data['read'] = True
             serializer.save()
             response = {
-            'Read':'Notification Read'
+            'Message':'Notification Read'
             }
             return Response(data=response,status=status.HTTP_200_OK, )   
         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
@@ -633,7 +633,7 @@ class MarkAllAsReadView(APIView):
         for notification in notifications:
             notification.read = True
             notification.save()
-            response = {
+        response = {
             'Read':'All Notification Read'
         }
         return Response(data=response,status=status.HTTP_200_OK)

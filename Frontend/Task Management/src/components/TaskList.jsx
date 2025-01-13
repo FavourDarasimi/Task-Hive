@@ -20,7 +20,7 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
     <div
       className={`${
         darkMode == "dark" ? "bg-myblack2" : "bg-white"
-      } 3xl:p-4 2xl:p-4 sm:p-2 flex flex-col  rounded-2xl `}
+      } 3xl:p-4 2xl:p-4 sm:p-[10px] flex flex-col  rounded-2xl `}
     >
       {showEdit ? <EditTask task={task} setShowEdit={setShowEdit} /> : ""}
 
@@ -39,16 +39,17 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
             {task.title}
           </h1>
         </div>
-        <div className="flex">
+        <div className="flex items-center">
           {task.is_due ? (
             <MdError className="text-red-600 3xl:w-5 3xl:h-5 2xl:w-[18px] 2xl:h-[18px] xl:w-[17px] xl:h-[17px] lg:w-[16px] lg:h-[16px] md:h-[15px] md:w-[15px] sm:w-[13px] sm:h-[13px]" />
           ) : (
             ""
           )}
           <div className="">
-            <button onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}>
-              <HiOutlineDotsVertical className="4xl:w-5 4xl:h-5 3xl:w-5 3xl:h-5 2xl:w-[17px] 2xl:h-[17px] xl:w-4 xl:h-4 lg:w-[15px] lg:h-[15px] md:w-[13px] md:h-[13px" />
-            </button>
+            <HiOutlineDotsVertical
+              onClick={() => (showMenu == task.id ? setShowMenu() : setShowMenu(task.id))}
+              className="4xl:w-5 4xl:h-5 3xl:w-5 3xl:h-5 2xl:w-[17px] 2xl:h-[17px] xl:w-4 xl:h-4 lg:w-[15px] lg:h-[15px] md:w-[13px] md:h-[13px] sm:w-[10px] sm:h-[10px] "
+            />
 
             <div
               className={`${
@@ -58,18 +59,22 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
               }`}
             >
               <div
-                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
+                className="flex gap-x-1 items-center 3xl:pl-2 2xl:pl-2 xl:pl-2 lg:pl-2 md:pl-[6px] py-1 3xl:pr-8 2xl:pr-7 xl:pr-6 lg:pr-5 md:pr-[18px] sm:pr-4 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
                 onClick={() => setShowEdit(task.id)}
               >
-                <MdEdit />
-                <h1 className="">Edit</h1>
+                <MdEdit className="3xl:w-4 3xl:h-4 2xl:w-4 2xl:h-4 xl:w-[15px] xl:h-[15px] lg:w-[14px] lg:h-[14px] md:w-[13px] md:h-[13px] sm:w-[11px] sm:h-[11px]" />
+                <h1 className="3xl:text-16 2xl:text-16 xl:text-15 lg:text-14 md:text-13 sm:text-11">
+                  Edit
+                </h1>
               </div>
               <div
-                className="flex gap-x-1 items-center pl-2 py-1 pr-8 cursor-pointer hover:bg-red-600 hover:rounded-lg  hover:text-white"
+                className="flex gap-x-1 items-center 3xl:pl-2 2xl:pl-2 xl:pl-2 lg:pl-2 md:pl-[6px] py-1 3xl:pr-8 2xl:pr-7 xl:pr-6 lg:pr-5 md:pr-[18px] sm:pr-4 cursor-pointer hover:bg-blue-600 hover:rounded-lg  hover:text-white"
                 onClick={() => delTask(task.id)}
               >
-                <MdDelete />
-                <h1 className="">Delete</h1>
+                <MdDelete className="3xl:w-4 3xl:h-4 2xl:w-4 2xl:h-4 xl:w-[15px] xl:h-[15px] lg:w-[14px] lg:h-[14px] md:w-[13px] md:h-[13px] sm:w-[11px] sm:h-[11px]" />
+                <h1 className="3xl:text-16 2xl:text-16 xl:text-15 lg:text-14 md:text-13 sm:text-11">
+                  Delete
+                </h1>
               </div>
             </div>
           </div>
@@ -86,7 +91,7 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
       >
         {task.priority}
       </h1>
-      <div className="flex items-center 3xl:gap-x-2 2xl:gap-x-2 sm:gap-x-[2px]  3xl:py-4 sm:py-2">
+      <div className="flex items-center 3xl:gap-x-2 2xl:gap-x-2 sm:gap-x-[2px]  3xl:py-4 sm:py-[2px]">
         <h1 className="font-semibold 4xl:text-17 3xl:text-15 2xl:text-14 xl:text-13 lg:text-12 md:text-12 sm:text-10">
           Deadline:
         </h1>
@@ -94,7 +99,7 @@ const TaskList = ({ task, showEdit, setShowEdit, showMenu, setShowMenu }) => {
           {getDate(task.due_date)}
         </h1>
       </div>
-      <div className="flex 3xl:text-16 sm:text-13 justify-between items-center 3xl:pb-2 sm:pb-1">
+      <div className="flex 3xl:text-16 sm:text-13 justify-between items-center ">
         <div className="flex -space-x-2 ">
           {task.assigned_members.map((member, index) =>
             index >= 3 ? (
